@@ -29,12 +29,12 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.6rem 3rem;
-      background: rgba(142,166,191,.96); backdrop-filter: blur(14px);
+      background: rgba(248,247,243,.94); backdrop-filter: blur(14px);
     }
-    .nav-logo { font-weight: 900; font-size: 1.1rem; letter-spacing: -.04em; text-decoration: none; color: #fff; }
+    .nav-logo { font-weight: 900; font-size: 1.1rem; letter-spacing: -.04em; text-decoration: none; color: var(--ink); }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { font-size: .75rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,.6); transition: color .2s; }
-    .nav-links a:hover { color: #fff; }
+    .nav-links a { font-size: .75rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: rgba(12,12,10,.45); transition: color .2s; }
+    .nav-links a:hover { color: var(--ink); }
 
     /* SEPARATORE */
     .gsep { height: 3px; background: linear-gradient(90deg, var(--o) 0%, var(--p) 25%, var(--lb) 50%, var(--st) 75%, var(--db) 100%); }
@@ -96,7 +96,7 @@
        ELEM: Sezione sfondo #0C0C0A, griglia 2x2.
        Ogni card = Container con bordo sinistro colorato.
        NESSUN custom CSS necessario, solo layout Elementor.  */
-    .metodo { background: var(--st); padding: 7rem 3rem; }
+    .metodo { background: #fff; padding: 7rem 3rem; }
     .section-label {
       font-size: .7rem; font-weight: 500; letter-spacing: .14em;
       text-transform: uppercase; display: block; margin-bottom: 3rem;
@@ -106,7 +106,7 @@
       display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
     }
     .card {
-      background: rgba(255,255,255,.35);
+      background: var(--cream);
       border-left: 3px solid;
       padding: 2.5rem 2rem;
       border-radius: 2px;
@@ -167,7 +167,7 @@
     /* ── CTA CONTATTI ────────────────────────────────
        ELEM: Sezione sfondo #0C0C0A, testo centrato.
        Bottone con sfondo gradient.                         */
-    .cta { background: var(--st); color: var(--ink); padding: 7rem 3rem; text-align: center; }
+    .cta { background: #fff; color: var(--ink); padding: 7rem 3rem; text-align: center; }
     .cta-pre { font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(12,12,10,.45); margin-bottom: 1.5rem; }
     .cta-title { font-size: clamp(2.5rem, 6vw, 7rem); font-weight: 900; letter-spacing: -.04em; color: var(--ink); line-height: .9; margin-bottom: 3rem; }
     .cta-title em { font-family: 'Great Vibes', cursive; font-style: normal; font-size: .85em; color: var(--db); }
@@ -183,7 +183,7 @@
 
     /* ── FOOTER ──────────────────────────────────────
        ELEM: Footer template, sfondo #0C0C0A.            */
-    footer { background: var(--st); color: var(--ink); padding: 0 3rem 3rem; }
+    footer { background: var(--cream); color: var(--ink); padding: 0 3rem 3rem; }
     .footer-border { height: 3px; background: linear-gradient(90deg, var(--o), var(--p), var(--lb), var(--st), var(--db)); margin-bottom: 3rem; }
     .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2rem; align-items: end; padding-bottom: 3rem; }
     .footer-logo { font-size: 3.5rem; font-weight: 900; letter-spacing: -.05em; color: var(--ink); }
