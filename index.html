@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goodcom — Comunicazione che connette</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;700;900&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    /*
+     * ─────────────────────────────────────────────────────────────
+     *  ELEMENTOR: tutto ciò che è in commento "ELEM:" lo replichi
+     *  con le impostazioni native del builder.
+     *  Il resto è CSS puro da incollare in Elementor > CSS Globale.
+     * ─────────────────────────────────────────────────────────────
+     */
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --o:     #FF6403;
+      --p:     #F5DAE9;
+      --lb:    #BCCEFB;
+      --st:    #8EA6BF;
+      --db:    #1100A7;
+      --ink:   #0C0C0A;
+      --cream: #F8F7F3;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Hanken Grotesk', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ────────────────────────────────────────────────────
+       ELEM: Header template, sfondo trasparente, sticky on scroll.
+       Imposta il menu come "trasparente" e il colore testo bianco.  */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.8rem 3rem;
+      transition: background .3s, padding .3s;
+    }
+    nav.scrolled {
+      background: rgba(12,12,10,.9);
+      backdrop-filter: blur(14px);
+      padding: 1.2rem 3rem;
+    }
+    .nav-logo {
+      font-weight: 900; font-size: 1.1rem; letter-spacing: -.04em;
+      text-decoration: none; color: #fff;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: .75rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none; color: #fff;
+      opacity: .7; transition: opacity .25s;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    /* ── SEPARATORE GRADIENTE ────────────────────────────────────
+       ELEM: Divisore sezione, altezza 3px, colore gradient.          */
+    .gsep {
+      height: 3px;
+      background: linear-gradient(90deg,
+        var(--o) 0%, var(--p) 25%, var(--lb) 50%, var(--st) 75%, var(--db) 100%);
+    }
+
+    /* ── HERO ────────────────────────────────────────────────────
+       ELEM: Sezione full-height, sfondo gradient animato.
+       In Elementor: Advanced > Custom CSS → incolla @keyframes + background.
+       Gradient che scorre = puro CSS, niente JS.                      */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 3rem 5.5rem;
+      position: relative; overflow: hidden;
+
+      /* Gradient animato che scorre — simula il "colore che si mescola" */
+      background: linear-gradient(-45deg,
+        var(--ink) 0%,
+        #1a003a   20%,
+        var(--db)  40%,
+        #6B003A   55%,
+        var(--o)   70%,
+        #3B00A0   85%,
+        var(--ink) 100%
+      );
+      background-size: 300% 300%;
+      animation: gradientFlow 12s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Vignetta in basso per far respirare il testo */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(12,12,10,.6) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Headline — stile nographism: testo bianco gigante
+       ELEM: Titolo widget, font Hanken Grotesk 900, colore bianco,
+       dimensione clamp(4.5rem,12.5vw,15rem), line-height .88          */
+    .hero-hl {
+      position: relative; z-index: 1;
+      font-size: clamp(4.5rem, 12.5vw, 15rem);
+      font-weight: 900; line-height: .88;
+      letter-spacing: -.04em; color: #fff;
+    }
+    .hero-hl .line { display: block; overflow: hidden; }
+
+    /* Hover solid → outlined (nographism effect, puro CSS)
+       ELEM: Advanced > Custom CSS sul widget testo                     */
+    .w {
+      display: inline-block;
+      transition: -webkit-text-stroke .3s, -webkit-text-fill-color .3s;
+    }
+    .w:hover {
+      -webkit-text-stroke: 2px #fff;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Parola in corsivo script (Great Vibes / Michael Signature)
+       ELEM: span con Custom CSS class "script-word" + CSS globale       */
+    .script-word {
+      font-family: 'Great Vibes', cursive;
+      font-weight: 400; font-size: .78em;
+      color: var(--o);
+      display: inline-block; position: relative; top: .08em;
+    }
+
+    .hero-tag {
+      position: relative; z-index: 1;
+      font-size: .78rem; font-weight: 400; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.45);
+      margin-top: 3rem;
+    }
+
+    /* Animazioni di ingresso — puro CSS
+       ELEM: Elementor ha le sue animazioni di ingresso (Entrance Animation)
+       basta usare "Fade In Up" sui widget                              */
+    .hero-hl .line span { animation: slideUp .85s cubic-bezier(.16,1,.3,1) both; }
+    .hero-hl .line:nth-child(1) span { animation-delay: .05s; }
+    .hero-hl .line:nth-child(2) span { animation-delay: .17s; }
+    .hero-hl .line:nth-child(3) span { animation-delay: .29s; }
+    .hero-hl .line:nth-child(4) span { animation-delay: .41s; }
+    .hero-tag { animation: fadeIn .8s ease .6s both; }
+
+    @keyframes slideUp {
+      from { opacity:0; transform: translateY(60px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity:0; } to { opacity:1; }
+    }
+
+    /* Indicatore scroll */
+    .scroll-cue {
+      position: absolute; bottom: 2.5rem; right: 3rem; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      opacity: .35; animation: fadeIn 1s ease 1s both;
+    }
+    .scroll-cue span { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: #fff; }
+    .scroll-cue-line { width: 1px; height: 44px; background: #fff; animation: scrollLine 1.8s ease-in-out infinite; }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── METODO: 4 PANNELLI COLORATI ─────────────────────────────
+       ELEM: 4 sezioni separate, ognuna con il suo colore background.
+       Layout 2 colonne (Elementor Flexbox Container: 40% / 60%).
+       Colori: pink #F5DAE9 / lightblue #BCCEFB / orange #FF6403 / deepblue #1100A7
+       Altezza: min 60vh (Advanced > Min Height: 60vh).                 */
+    .panel {
+      min-height: 65vh;
+      display: flex; align-items: flex-end;
+      gap: 3rem; padding: 5rem 3rem;
+      position: relative; overflow: hidden;
+    }
+    .panel-left  { flex: 1; }
+    .panel-right { flex: 1.6; }
+    .panel.rev .panel-left  { order: 2; }
+    .panel.rev .panel-right { order: 1; flex: 1; }
+    .panel.rev .panel-left  { flex: 1.6; text-align: right; }
+
+    /* Numero watermark — elemento HTML semplice
+       ELEM: Heading widget con numero, font size 35vw,
+       opacity 0.06, position absolute bottom-left, pointer-events none */
+    .panel-num {
+      position: absolute;
+      font-size: 35vw; font-weight: 900; line-height: 1;
+      opacity: .06; pointer-events: none; user-select: none;
+      bottom: -.15em; right: -.03em;
+      letter-spacing: -.05em; color: currentColor;
+    }
+    .panel.rev .panel-num { right: auto; left: -.03em; }
+
+    .panel-1 { background: var(--p); color: var(--ink); }
+    .panel-2 { background: var(--lb); color: var(--ink); }
+    .panel-3 { background: var(--o); color: var(--ink); }
+    .panel-4 { background: var(--db); color: #fff; }
+
+    .p-meta {
+      font-size: .7rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; opacity: .45; margin-bottom: .6rem;
+      display: block;
+    }
+    .p-title {
+      font-size: clamp(2.8rem, 6.5vw, 8.5rem);
+      font-weight: 900; letter-spacing: -.04em; line-height: .92;
+    }
+    .p-desc {
+      font-size: 1rem; font-weight: 300; line-height: 1.75;
+      opacity: .62; max-width: 360px;
+    }
+    .panel-4 .p-meta { color: rgba(255,255,255,.45); opacity: 1; }
+    .panel-4 .p-desc { color: rgba(255,255,255,.6); opacity: 1; }
+
+    /* ── MANIFESTO ─────────────────────────────────────────────
+       ELEM: Sezione sfondo #F8F7F3, padding 9rem 3rem.
+       Titolo con font Hanken Grotesk 900, clamp(2rem,4.5vw,6rem).
+       Per le parole gradient: Advanced > Custom CSS "gw" class.       */
+    .manifesto { background: var(--cream); padding: 9rem 3rem; }
+    .section-label {
+      font-size: .7rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; opacity: .3; display: block;
+      margin-bottom: 3.5rem;
+    }
+    .manifesto-body {
+      font-size: clamp(2rem, 4.5vw, 6rem);
+      font-weight: 700; line-height: 1.05; letter-spacing: -.035em;
+    }
+    .manifesto-body p { margin-bottom: 1rem; }
+    .manifesto-body p:last-child { margin-bottom: 0; }
+
+    /* Gradient text — Elementor Pro lo fa nativamente con "Text Gradient"
+       In Elementor free: Custom CSS .gw { background: linear-gradient ... } */
+    .gw {
+      background: linear-gradient(90deg, var(--o), var(--db));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── STATEMENT / FILOSOFIA ──────────────────────────────────
+       ELEM: Sezione, sfondo gradient direttamente in Background > Gradient.
+       Imposta i 5 colori brand in sequenza a 140deg.
+       Testo bianco, font weight 300, clamp(1.8rem,4vw,5rem).
+       Parole em: Great Vibes, font size 1.3em, peso 400.              */
+    .statement { padding: 10rem 3rem; position: relative; overflow: hidden; }
+    .statement-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(140deg,
+        var(--p) 0%, var(--lb) 28%, var(--o) 52%, var(--st) 72%, var(--db) 100%);
+    }
+    .statement-text {
+      position: relative; z-index: 1;
+      font-size: clamp(1.8rem, 4vw, 5rem);
+      font-weight: 300; line-height: 1.45; color: #fff;
+      max-width: 920px; text-shadow: 0 2px 24px rgba(0,0,0,.18);
+    }
+    .statement-text em {
+      font-family: 'Great Vibes', cursive;
+      font-style: normal; font-size: 1.3em; font-weight: 400;
+    }
+
+    /* ── SETTORI ─────────────────────────────────────────────
+       ELEM: Lista di righe ripetute.
+       Ogni riga = Container flex (numero + nome + freccia).
+       Hover flood gradient: Advanced > Custom CSS → incolla .settore-row::before
+       Funziona al 100% come CSS puro, zero JS.                        */
+    .settori { background: var(--cream); padding: 8rem 3rem 1rem; }
+
+    .settore-row {
+      display: flex; align-items: center; gap: 2rem;
+      padding: 1.6rem 0;
+      border-top: 1px solid rgba(12,12,10,.1);
+      position: relative; overflow: hidden;
+      transition: color .3s;
+    }
+    .settore-row:last-child { border-bottom: 1px solid rgba(12,12,10,.1); }
+
+    /* Flood gradient da sinistra — puro CSS */
+    .settore-row::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, var(--o) 0%, var(--db) 100%);
+      transform: translateX(-102%);
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+      z-index: 0;
+    }
+    .settore-row:hover::before { transform: translateX(0); }
+    .settore-row:hover { color: #fff; }
+    .settore-row > * { position: relative; z-index: 1; }
+
+    .s-num  { font-size: .68rem; font-weight: 500; letter-spacing: .08em; opacity: .35; min-width: 3rem; transition: opacity .3s; }
+    .s-name { font-size: clamp(1.2rem, 2.5vw, 2.8rem); font-weight: 700; letter-spacing: -.02em; flex: 1; }
+    .s-arrow { font-size: 1.1rem; opacity: 0; transform: translateX(-10px); transition: opacity .3s, transform .4s; }
+    .settore-row:hover .s-num { opacity: .6; }
+    .settore-row:hover .s-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ── GALLERY / ATELIER ──────────────────────────────────────
+       ELEM: Sezione sfondo #1100A7. Gallery widget o Grid container.
+       Ogni cella = Container con sfondo rgba(255,255,255,.06), border-radius 4px.
+       Hover gradient overlay: Advanced > Custom CSS → .gi::after         */
+    .gallery { background: var(--db); padding: 8rem 3rem; }
+    .gallery .section-label { color: rgba(255,255,255,.3); opacity: 1; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 200px;
+      gap: .75rem; margin-top: 2rem;
+    }
+    .gi {
+      position: relative; overflow: hidden; border-radius: 4px;
+      background: rgba(255,255,255,.06);
+      display: flex; align-items: flex-end; padding: 1.2rem;
+    }
+    .gi::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--o), transparent 55%, var(--lb));
+      opacity: 0; transition: opacity .4s;
+    }
+    .gi:hover::after { opacity: .4; }
+    .gi-label {
+      position: relative; z-index: 1;
+      font-size: .68rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.3); transition: color .3s;
+    }
+    .gi:hover .gi-label { color: rgba(255,255,255,.9); }
+    .gi.c5 { grid-column: span 5; }
+    .gi.c4 { grid-column: span 4; }
+    .gi.c3 { grid-column: span 3; }
+    .gi.c6 { grid-column: span 6; }
+    .gi.r2 { grid-row: span 2; }
+
+    /* ── FOOTER ──────────────────────────────────────────────────
+       ELEM: Footer template, sfondo #0C0C0A.
+       La riga gradient in cima: divisore sezione da 3px, gradient.    */
+    footer { background: var(--ink); color: #fff; padding: 5rem 3rem 3rem; }
+    .footer-border {
+      height: 3px; margin-bottom: 5rem;
+      background: linear-gradient(90deg, var(--o), var(--p), var(--lb), var(--st), var(--db));
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 2rem; align-items: end;
+    }
+    .footer-logo { font-size: 4rem; font-weight: 900; letter-spacing: -.05em; }
+    .footer-col { display: flex; flex-direction: column; gap: .5rem; }
+    .footer-col .col-lbl {
+      font-size: .65rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.2); margin-bottom: .3rem;
+    }
+    .footer-col a {
+      font-size: .82rem; color: rgba(255,255,255,.4);
+      text-decoration: none; font-weight: 300; line-height: 1.9; transition: color .25s;
+    }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom {
+      display: flex; justify-content: space-between;
+      margin-top: 4rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+      font-size: .7rem; color: rgba(255,255,255,.2);
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav, .hero, .manifesto, .settori, .gallery, footer, .statement { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero { padding-bottom: 4rem; }
+      .panel { flex-direction: column; min-height: auto; padding: 4rem 1.5rem; }
+      .panel.rev .panel-left, .panel.rev .panel-right { order: unset; flex: 1; text-align: left; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gi { grid-column: span 1 !important; grid-row: span 1 !important; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: .4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV — ELEM: Header Template, sticky, transparent → dark on scroll -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">goodcom</a>
+    <ul class="nav-links">
+      <li><a href="#metodo">Metodo</a></li>
+      <li><a href="#settori">Settori</a></li>
+      <li><a href="#atelier">Atelier</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+    </ul>
+  </nav>
+
+  <!-- ──────────────────────────────────────────────────────────
+       HERO
+       ELEM: Sezione, min-height 100vh, sfondo gradient animato.
+       Custom CSS → incolla .hero { background + animation } + @keyframes gradientFlow
+       Testo: Heading, Hanken Grotesk 900, colore #fff
+       Classe .w sulle singole parole per l'effetto outlined al hover   -->
+  <section class="hero">
+    <h1 class="hero-hl">
+      <span class="line"><span class="w">Facciamo</span></span>
+      <span class="line"><span class="w">incontrare</span></span>
+      <span class="line"><span class="w">idee &amp;</span><span class="script-word"> persone</span></span>
+      <span class="line"><span class="w">davvero.</span></span>
+    </h1>
+    <p class="hero-tag">Assessment &nbsp;·&nbsp; Narrazione Strategica &nbsp;·&nbsp; Coinvolgimento &nbsp;·&nbsp; Attivazione</p>
+    <div class="scroll-cue" aria-hidden="true">
+      <div class="scroll-cue-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- Separatore 5 colori — ELEM: Divisore sezione, gradient, 3px -->
+  <div class="gsep"></div>
+
+  <!-- ──────────────────────────────────────────────────────────
+       METODO
+       ELEM: 4 sezioni separate, ognuna con sfondo brand color.
+       Layout: Container Flex, align-items flex-end.
+       Colori: 01=#F5DAE9 / 02=#BCCEFB / 03=#FF6403 / 04=#1100A7   -->
+  <div id="metodo">
+
+    <!-- Panel 01 — sfondo #F5DAE9 -->
+    <div class="panel panel-1">
+      <span class="panel-num" aria-hidden="true">01</span>
+      <div class="panel-left">
+        <span class="p-meta">01 · Il nostro metodo</span>
+        <h2 class="p-title">Assess&shy;ment</h2>
+      </div>
+      <div class="panel-right">
+        <p class="p-desc">Analizziamo contesto, processi e opportunità. Valutiamo le disclosure e costruiamo la base strategica più vantaggiosa.</p>
+      </div>
+    </div>
+
+    <!-- Panel 02 — sfondo #BCCEFB, layout invertito -->
+    <div class="panel panel-2 rev">
+      <span class="panel-num" aria-hidden="true">02</span>
+      <div class="panel-left">
+        <span class="p-meta">02 · Il nostro metodo</span>
+        <h2 class="p-title">Narra&shy;zione Strate&shy;gica</h2>
+      </div>
+      <div class="panel-right">
+        <p class="p-desc">Traduciamo dati e valori in storie che creano identità forte e differenziazione duratura nel tempo.</p>
+      </div>
+    </div>
+
+    <!-- Panel 03 — sfondo #FF6403 -->
+    <div class="panel panel-3">
+      <span class="panel-num" aria-hidden="true">03</span>
+      <div class="panel-left">
+        <span class="p-meta">03 · Il nostro metodo</span>
+        <h2 class="p-title">Coin&shy;volgi&shy;mento</h2>
+      </div>
+      <div class="panel-right">
+        <p class="p-desc">Costruiamo relazioni autentiche con comunità, stakeholder e pubblici chiave attraverso strumenti di partecipazione reale.</p>
+      </div>
+    </div>
+
+    <!-- Panel 04 — sfondo #1100A7, testo bianco -->
+    <div class="panel panel-4 rev">
+      <span class="panel-num" aria-hidden="true">04</span>
+      <div class="panel-left">
+        <span class="p-meta">04 · Il nostro metodo</span>
+        <h2 class="p-title">Attiva&shy;zione</h2>
+      </div>
+      <div class="panel-right">
+        <p class="p-desc">Portiamo in vita campagne, attivazioni ed eventi con strumenti che funzionano a lungo termine.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ──────────────────────────────────────────────────────────
+       MANIFESTO
+       ELEM: Sezione, sfondo #F8F7F3, padding 9rem.
+       Testo: Heading Hanken Grotesk 900, clamp(2rem,4.5vw,6rem).
+       Parole gradient: span con classe .gw + CSS globale .gw { ... }  -->
+  <section class="manifesto">
+    <span class="section-label">Come lavoriamo</span>
+    <div class="manifesto-body">
+      <p>Integriamo <span class="gw">diversi ambiti</span><br>di competenza.</p>
+      <p>Ottimizziamo <span class="gw">costi e tempi</span><br>con le soluzioni più vantaggiose.</p>
+      <p>Valorizziamo <span class="gw">ogni risultato</span><br>rispetto alle finalità.</p>
+      <p>Forniamo strumenti<br>che <span class="gw">durano nel tempo.</span></p>
+    </div>
+  </section>
+
+  <div class="gsep"></div>
+
+  <!-- ──────────────────────────────────────────────────────────
+       STATEMENT / FILOSOFIA
+       ELEM: Sezione, sfondo gradient (5 colori in sequenza a 140deg).
+       In Elementor: Background Type → Gradient, aggiungi tutti i color stops.
+       Testo bianco, peso 300. Parole em: Great Vibes 1.3em.           -->
+  <section class="statement">
+    <div class="statement-bg"></div>
+    <p class="statement-text">
+      Il colore che si mescola non è solo grafica —<br>
+      è una rappresentazione visiva degli <em>incontri umani</em>,<br>
+      della <em>co-creazione</em>, delle idee che si fondono.<br><br>
+      Il mix di cose sempre diverse,<br>
+      ma sempre con un <em>obiettivo preciso.</em>
+    </p>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────
+       SETTORI
+       ELEM: Lista di Container flex ripetuti (Repeater o singoli).
+       Ogni riga: numero (opacity .35) + nome (flex:1) + freccia.
+       CSS flood hover: incolla .settore-row::before in CSS Globale.   -->
+  <section class="settori" id="settori">
+    <span class="section-label">Settori di esperienza</span>
+    <div class="settore-row"><span class="s-num">01</span><span class="s-name">Economia Circolare</span><span class="s-arrow">→</span></div>
+    <div class="settore-row"><span class="s-num">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arrow">→</span></div>
+    <div class="settore-row"><span class="s-num">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arrow">→</span></div>
+    <div class="settore-row"><span class="s-num">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arrow">→</span></div>
+    <div class="settore-row"><span class="s-num">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arrow">→</span></div>
+    <div class="settore-row"><span class="s-num">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arrow">→</span></div>
+    <div class="settore-row"><span class="s-num">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arrow">→</span></div>
+  </section>
+
+  <div class="gsep"></div>
+
+  <!-- ──────────────────────────────────────────────────────────
+       GALLERY / ATELIER
+       ELEM: Sezione sfondo #1100A7. Grid di Container 12 colonne.
+       Ogni cella: sfondo rgba(255,255,255,.06), border-radius 4px.
+       Gradient hover: Custom CSS .gi::after (incolla dal CSS qui sopra). -->
+  <section class="gallery" id="atelier">
+    <span class="section-label">Atelier — Lavori selezionati</span>
+    <div class="gallery-grid">
+      <div class="gi c5 r2"><span class="gi-label">Campagna 01</span></div>
+      <div class="gi c4"><span class="gi-label">Evento 02</span></div>
+      <div class="gi c3"><span class="gi-label">03</span></div>
+      <div class="gi c4"><span class="gi-label">Progetto 04</span></div>
+      <div class="gi c3"><span class="gi-label">05</span></div>
+      <div class="gi c6"><span class="gi-label">Attivazione 06</span></div>
+      <div class="gi c3"><span class="gi-label">07</span></div>
+      <div class="gi c3"><span class="gi-label">08</span></div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────
+       FOOTER
+       ELEM: Footer template, sfondo #0C0C0A.
+       Il bordo gradient in cima: Divisore sezione da 3px, gradient.   -->
+  <footer id="contatti">
+    <div class="footer-border"></div>
+    <div class="footer-grid">
+      <div class="footer-logo">goodcom</div>
+      <div class="footer-col">
+        <span class="col-lbl">Navigazione</span>
+        <a href="#metodo">Metodo</a>
+        <a href="#settori">Settori</a>
+        <a href="#atelier">Atelier</a>
+      </div>
+      <div class="footer-col">
+        <span class="col-lbl">Contatti</span>
+        <a href="mailto:info@goodcom.it">info@goodcom.it</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Goodcom — Tutti i diritti riservati</span>
+      <span>P.IVA 00000000000</span>
+    </div>
+  </footer>
+
+  <!-- ── JS MINIMO ──────────────────────────────────────────────
+       Solo nav che diventa scuro allo scroll.
+       ELEM: Elementor ha questa funzione nativa in Header Settings > Sticky.
+       Puoi rimuovere questo script del tutto se usi Elementor sticky header.  -->
+  <script>
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function () {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

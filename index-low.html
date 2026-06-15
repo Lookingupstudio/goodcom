@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goodcom — Comunicazione che connette</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;700;900&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --o:     #FF6403;
+      --p:     #F5DAE9;
+      --lb:    #BCCEFB;
+      --st:    #8EA6BF;
+      --db:    #1100A7;
+      --ink:   #0C0C0A;
+      --cream: #F8F7F3;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Hanken Grotesk', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.6rem 3rem;
+      background: rgba(12,12,10,.88); backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-weight: 900; font-size: 1.1rem; letter-spacing: -.04em; text-decoration: none; color: #fff; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: .75rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,.6); transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+
+    /* SEPARATORE */
+    .gsep { height: 3px; background: linear-gradient(90deg, var(--o) 0%, var(--p) 25%, var(--lb) 50%, var(--st) 75%, var(--db) 100%); }
+
+    /* ── HERO ────────────────────────────────────────── */
+    /* Gradient STATICO — nessuna animazione, zero JS
+       ELEM: Sezione full-height, sfondo gradient 140deg
+       Stops: #0C0C0A 0% → #1100A7 45% → #FF6403 100%        */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 3rem 5rem;
+      background: linear-gradient(140deg, var(--ink) 0%, var(--db) 55%, #3D1100 100%);
+      position: relative;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(12,12,10,.5) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-hl {
+      position: relative; z-index: 1;
+      font-size: clamp(3.8rem, 10vw, 12rem);
+      font-weight: 900; line-height: .9; letter-spacing: -.04em; color: #fff;
+    }
+    .hero-hl .line { display: block; }
+    .script-word {
+      font-family: 'Great Vibes', cursive; font-size: .8em;
+      color: var(--o); display: inline-block; position: relative; top: .06em;
+    }
+    .hero-tag {
+      position: relative; z-index: 1;
+      font-size: .78rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin-top: 2.5rem;
+    }
+
+    /* ── INTRO 2 COLONNE ──────────────────────────────
+       ELEM: Sezione cream, 2 colonne 50/50.
+       Colonna sinistra: testo grande. Destra: descrizione.  */
+    .intro {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; padding: 7rem 3rem; align-items: center;
+      background: var(--cream);
+    }
+    .intro-title {
+      font-size: clamp(2.2rem, 4vw, 5rem);
+      font-weight: 900; letter-spacing: -.04em; line-height: .95;
+    }
+    .intro-title span {
+      display: block;
+      background: linear-gradient(90deg, var(--o), var(--db));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .intro-text { font-size: 1rem; font-weight: 300; line-height: 1.8; opacity: .7; }
+    .intro-text p + p { margin-top: 1rem; }
+
+    /* ── METODO: 4 CARD ──────────────────────────────
+       ELEM: Sezione sfondo #0C0C0A, griglia 2x2.
+       Ogni card = Container con bordo sinistro colorato.
+       NESSUN custom CSS necessario, solo layout Elementor.  */
+    .metodo { background: var(--ink); padding: 7rem 3rem; }
+    .section-label {
+      font-size: .7rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; display: block; margin-bottom: 3rem;
+    }
+    .metodo .section-label { color: rgba(255,255,255,.3); }
+    .cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .card {
+      background: rgba(255,255,255,.04);
+      border-left: 3px solid;
+      padding: 2.5rem 2rem;
+      border-radius: 2px;
+    }
+    .card-1 { border-color: var(--p); }
+    .card-2 { border-color: var(--lb); }
+    .card-3 { border-color: var(--o); }
+    .card-4 { border-color: var(--db); }
+
+    .card-num { font-size: .65rem; font-weight: 600; letter-spacing: .1em; opacity: .35; color: #fff; margin-bottom: 1rem; display: block; }
+    .card-title { font-size: clamp(1.4rem, 2.5vw, 2.2rem); font-weight: 700; color: #fff; letter-spacing: -.03em; margin-bottom: .8rem; }
+    .card-desc { font-size: .9rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,.5); }
+
+    /* ── GRADIENT STATEMENT ──────────────────────────
+       ELEM: Sezione, sfondo gradient 5 colori a 140deg.
+       Testo bianco, peso 300, Great Vibes per le em.        */
+    .statement {
+      padding: 8rem 3rem; position: relative; overflow: hidden;
+    }
+    .statement-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(140deg, var(--p) 0%, var(--lb) 30%, var(--o) 55%, var(--st) 75%, var(--db) 100%);
+    }
+    .statement-text {
+      position: relative; z-index: 1;
+      font-size: clamp(1.6rem, 3.5vw, 4rem);
+      font-weight: 300; line-height: 1.45; color: #fff;
+      max-width: 820px; text-shadow: 0 2px 20px rgba(0,0,0,.15);
+    }
+    .statement-text em {
+      font-family: 'Great Vibes', cursive; font-style: normal;
+      font-size: 1.3em; font-weight: 400;
+    }
+
+    /* ── SETTORI: TAG GRID ───────────────────────────
+       ELEM: Sezione cream, flex wrap di Button widget.
+       Ogni settore = bottone con border, bg trasparente.
+       Al hover: sfondo gradiente. Zero custom CSS.          */
+    .settori { padding: 7rem 3rem; background: var(--cream); }
+    .settori .section-label { color: rgba(12,12,10,.3); }
+    .tags { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .tag {
+      display: inline-flex; align-items: center; gap: .6rem;
+      padding: .9rem 1.6rem;
+      border: 1.5px solid rgba(12,12,10,.15);
+      border-radius: 100px;
+      font-size: clamp(.85rem, 1.5vw, 1rem);
+      font-weight: 500; letter-spacing: -.01em;
+      cursor: default;
+      transition: background .3s, color .3s, border-color .3s;
+    }
+    .tag:hover {
+      background: linear-gradient(90deg, var(--o), var(--db));
+      color: #fff; border-color: transparent;
+    }
+    .tag-num { font-size: .6rem; opacity: .4; font-weight: 700; letter-spacing: .06em; }
+
+    /* ── CTA CONTATTI ────────────────────────────────
+       ELEM: Sezione sfondo #0C0C0A, testo centrato.
+       Bottone con sfondo gradient.                         */
+    .cta { background: var(--ink); padding: 7rem 3rem; text-align: center; }
+    .cta-pre { font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 1.5rem; }
+    .cta-title { font-size: clamp(2.5rem, 6vw, 7rem); font-weight: 900; letter-spacing: -.04em; color: #fff; line-height: .9; margin-bottom: 3rem; }
+    .cta-title em { font-family: 'Great Vibes', cursive; font-style: normal; font-size: .85em; color: var(--o); }
+    .cta-btn {
+      display: inline-block; padding: 1.1rem 3rem;
+      background: linear-gradient(90deg, var(--o), var(--db));
+      color: #fff; font-family: 'Hanken Grotesk', sans-serif;
+      font-size: .85rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      text-decoration: none; border-radius: 4px;
+      transition: opacity .25s, transform .25s;
+    }
+    .cta-btn:hover { opacity: .85; transform: translateY(-2px); }
+
+    /* ── FOOTER ──────────────────────────────────────
+       ELEM: Footer template, sfondo #0C0C0A.            */
+    footer { background: var(--ink); color: #fff; padding: 0 3rem 3rem; }
+    .footer-border { height: 3px; background: linear-gradient(90deg, var(--o), var(--p), var(--lb), var(--st), var(--db)); margin-bottom: 3rem; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2rem; align-items: end; padding-bottom: 3rem; }
+    .footer-logo { font-size: 3.5rem; font-weight: 900; letter-spacing: -.05em; }
+    .footer-col { display: flex; flex-direction: column; gap: .5rem; }
+    .footer-col .lbl { font-size: .65rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.2); margin-bottom: .3rem; }
+    .footer-col a { font-size: .82rem; color: rgba(255,255,255,.4); text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s; }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: .7rem; color: rgba(255,255,255,.2); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav, .hero, .intro, .metodo, .statement, .settori, .cta, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero { padding-bottom: 3.5rem; }
+      .intro { grid-template-columns: 1fr; gap: 2rem; }
+      .cards { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: .3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">goodcom</a>
+    <ul class="nav-links">
+      <li><a href="#metodo">Metodo</a></li>
+      <li><a href="#settori">Settori</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO — gradient statico, grande testo, zero JS -->
+  <section class="hero">
+    <h1 class="hero-hl">
+      <span class="line">Facciamo</span>
+      <span class="line">incontrare</span>
+      <span class="line">idee &amp;<span class="script-word"> persone</span></span>
+    </h1>
+    <p class="hero-tag">Assessment · Narrazione Strategica · Coinvolgimento · Attivazione</p>
+  </section>
+
+  <div class="gsep"></div>
+
+  <!-- INTRO 2 COLONNE -->
+  <section class="intro">
+    <h2 class="intro-title">
+      Comunichiamo<br>
+      <span>il valore</span><br>
+      che connette.
+    </h2>
+    <div class="intro-text">
+      <p>Integriamo diversi ambiti di competenza per ottimizzare costi, tempi e processi, fornendo le soluzioni più vantaggiose.</p>
+      <p>Abbiamo tutti gli strumenti per valorizzare i risultati rispetto alle diverse finalità: campagne di comunicazione, progetti di attivazione, eventi.</p>
+      <p>Forniamo strumenti che funzionano a lungo termine.</p>
+    </div>
+  </section>
+
+  <!-- METODO — 4 card su sfondo scuro -->
+  <section class="metodo" id="metodo">
+    <span class="section-label">Il nostro metodo</span>
+    <div class="cards">
+      <div class="card card-1">
+        <span class="card-num">01</span>
+        <h3 class="card-title">Assessment</h3>
+        <p class="card-desc">Analizziamo contesto, processi e opportunità per costruire la base strategica più solida.</p>
+      </div>
+      <div class="card card-2">
+        <span class="card-num">02</span>
+        <h3 class="card-title">Narrazione Strategica</h3>
+        <p class="card-desc">Traduciamo dati e valori in storie che creano identità e differenziazione duratura.</p>
+      </div>
+      <div class="card card-3">
+        <span class="card-num">03</span>
+        <h3 class="card-title">Coinvolgimento</h3>
+        <p class="card-desc">Costruiamo relazioni autentiche con comunità, stakeholder e pubblici chiave.</p>
+      </div>
+      <div class="card card-4">
+        <span class="card-num">04</span>
+        <h3 class="card-title">Attivazione</h3>
+        <p class="card-desc">Campagne, eventi e attivazioni con strumenti che funzionano nel lungo periodo.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="gsep"></div>
+
+  <!-- STATEMENT GRADIENT -->
+  <section class="statement">
+    <div class="statement-bg"></div>
+    <p class="statement-text">
+      Il colore che si mescola non è solo grafica —<br>
+      è una rappresentazione visiva degli <em>incontri umani</em>,<br>
+      della <em>co-creazione</em>, delle idee che si fondono.
+    </p>
+  </section>
+
+  <!-- SETTORI — tag pill con hover gradient -->
+  <section class="settori" id="settori">
+    <span class="section-label">Settori di esperienza</span>
+    <div class="tags">
+      <div class="tag"><span class="tag-num">01</span> Economia Circolare</div>
+      <div class="tag"><span class="tag-num">02</span> Terzo Settore Non Profit</div>
+      <div class="tag"><span class="tag-num">03</span> Innovazione Sociale</div>
+      <div class="tag"><span class="tag-num">04</span> Consorzi e Reti d'Impresa</div>
+      <div class="tag"><span class="tag-num">05</span> Ingegneria e Industria</div>
+      <div class="tag"><span class="tag-num">06</span> Turismo e Horeca</div>
+      <div class="tag"><span class="tag-num">07</span> Filiera Moda &amp; Calzaturiero</div>
+    </div>
+  </section>
+
+  <div class="gsep"></div>
+
+  <!-- CTA CONTATTI -->
+  <section class="cta" id="contatti">
+    <p class="cta-pre">Iniziamo a lavorare insieme</p>
+    <h2 class="cta-title">Parliamo<br>del tuo <em>progetto.</em></h2>
+    <a href="mailto:info@goodcom.it" class="cta-btn">Scrivici →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-border"></div>
+    <div class="footer-grid">
+      <div class="footer-logo">goodcom</div>
+      <div class="footer-col">
+        <span class="lbl">Navigazione</span>
+        <a href="#metodo">Metodo</a>
+        <a href="#settori">Settori</a>
+        <a href="#contatti">Contatti</a>
+      </div>
+      <div class="footer-col">
+        <span class="lbl">Contatti</span>
+        <a href="mailto:info@goodcom.it">info@goodcom.it</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Goodcom — Tutti i diritti riservati</span>
+      <span>P.IVA 00000000000</span>
+    </div>
+  </footer>
+
+</body>
+</html>
