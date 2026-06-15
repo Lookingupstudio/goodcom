@@ -16,18 +16,19 @@
       --lb:    #BCCEFB;
       --st:    #8EA6BF;
       --db:    #1100A7;
+      --ink:   #0C0C0A;
       --cream: #F8F7F3;
     }
 
     html { scroll-behavior: smooth; }
-    body { font-family: 'Hanken Grotesk', sans-serif; background: var(--cream); color: var(--db); overflow-x: hidden; }
+    body { font-family: 'Hanken Grotesk', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
 
     /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.6rem 3rem;
-      background: rgba(17,0,167,.92); backdrop-filter: blur(12px);
+      background: rgba(12,12,10,.88); backdrop-filter: blur(12px);
     }
     .nav-logo { font-weight: 900; font-size: 1.1rem; letter-spacing: -.04em; text-decoration: none; color: #fff; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
@@ -40,17 +41,17 @@
     /* ── HERO ────────────────────────────────────────── */
     /* Gradient STATICO — nessuna animazione, zero JS
        ELEM: Sezione full-height, sfondo gradient 140deg
-       Stops: #1100A7 0% → #8EA6BF 50% → #FF6403 100%        */
+       Stops: #0C0C0A 0% → #1100A7 45% → #FF6403 100%        */
     .hero {
       min-height: 100vh;
       display: flex; flex-direction: column; justify-content: flex-end;
       padding: 0 3rem 5rem;
-      background: linear-gradient(140deg, var(--db) 0%, var(--st) 50%, var(--o) 100%);
+      background: linear-gradient(140deg, var(--ink) 0%, var(--db) 55%, #3D1100 100%);
       position: relative;
     }
     .hero::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(17,0,167,.45) 0%, transparent 55%);
+      background: linear-gradient(to top, rgba(12,12,10,.5) 0%, transparent 55%);
       pointer-events: none;
     }
 
@@ -91,10 +92,10 @@
     .intro-text p + p { margin-top: 1rem; }
 
     /* ── METODO: 4 CARD ──────────────────────────────
-       ELEM: Sezione sfondo #1100A7, griglia 2x2.
+       ELEM: Sezione sfondo #0C0C0A, griglia 2x2.
        Ogni card = Container con bordo sinistro colorato.
        NESSUN custom CSS necessario, solo layout Elementor.  */
-    .metodo { background: var(--db); padding: 7rem 3rem; }
+    .metodo { background: var(--ink); padding: 7rem 3rem; }
     .section-label {
       font-size: .7rem; font-weight: 500; letter-spacing: .14em;
       text-transform: uppercase; display: block; margin-bottom: 3rem;
@@ -144,12 +145,12 @@
        Ogni settore = bottone con border, bg trasparente.
        Al hover: sfondo gradiente. Zero custom CSS.          */
     .settori { padding: 7rem 3rem; background: var(--cream); }
-    .settori .section-label { color: rgba(17,0,167,.4); }
+    .settori .section-label { color: rgba(12,12,10,.3); }
     .tags { display: flex; flex-wrap: wrap; gap: .75rem; }
     .tag {
       display: inline-flex; align-items: center; gap: .6rem;
       padding: .9rem 1.6rem;
-      border: 1.5px solid rgba(17,0,167,.2);
+      border: 1.5px solid rgba(12,12,10,.15);
       border-radius: 100px;
       font-size: clamp(.85rem, 1.5vw, 1rem);
       font-weight: 500; letter-spacing: -.01em;
@@ -163,9 +164,9 @@
     .tag-num { font-size: .6rem; opacity: .4; font-weight: 700; letter-spacing: .06em; }
 
     /* ── CTA CONTATTI ────────────────────────────────
-       ELEM: Sezione sfondo #1100A7, testo centrato.
+       ELEM: Sezione sfondo #0C0C0A, testo centrato.
        Bottone con sfondo gradient.                         */
-    .cta { background: var(--db); padding: 7rem 3rem; text-align: center; }
+    .cta { background: var(--ink); padding: 7rem 3rem; text-align: center; }
     .cta-pre { font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 1.5rem; }
     .cta-title { font-size: clamp(2.5rem, 6vw, 7rem); font-weight: 900; letter-spacing: -.04em; color: #fff; line-height: .9; margin-bottom: 3rem; }
     .cta-title em { font-family: 'Great Vibes', cursive; font-style: normal; font-size: .85em; color: var(--o); }
@@ -180,8 +181,8 @@
     .cta-btn:hover { opacity: .85; transform: translateY(-2px); }
 
     /* ── FOOTER ──────────────────────────────────────
-       ELEM: Footer template, sfondo #1100A7.            */
-    footer { background: var(--db); color: #fff; padding: 0 3rem 3rem; }
+       ELEM: Footer template, sfondo #0C0C0A.            */
+    footer { background: var(--ink); color: #fff; padding: 0 3rem 3rem; }
     .footer-border { height: 3px; background: linear-gradient(90deg, var(--o), var(--p), var(--lb), var(--st), var(--db)); margin-bottom: 3rem; }
     .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2rem; align-items: end; padding-bottom: 3rem; }
     .footer-logo { font-size: 3.5rem; font-weight: 900; letter-spacing: -.05em; }
