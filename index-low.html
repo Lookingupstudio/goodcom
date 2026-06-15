@@ -20,19 +20,55 @@
       --cream: #F8F7F3;
     }
 
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Hanken Grotesk', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+    html { scroll-behavior: smooth; cursor: none; }
+    body { font-family: 'Hanken Grotesk', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; cursor: none; }
 
-    /* NAV */
+    /* ── CURSORE A SFERA ─────────────────────────── */
+    #c-ball {
+      position: fixed; width: 14px; height: 14px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 32%,
+        rgba(255,255,255,.95) 0%,
+        var(--o) 45%,
+        #7A2E00 100%);
+      box-shadow: 0 3px 12px rgba(255,100,3,.45), inset 0 -2px 4px rgba(0,0,0,.25);
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s;
+    }
+    #c-ring {
+      position: fixed; width: 44px; height: 44px;
+      border: 1.5px solid rgba(255,100,3,.45); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: width .4s cubic-bezier(.16,1,.3,1), height .4s cubic-bezier(.16,1,.3,1), border-color .3s;
+    }
+    body.ch #c-ball { width: 20px; height: 20px; }
+    body.ch #c-ring { width: 64px; height: 64px; border-color: var(--o); }
+
+    /* ── NAV GLASS ───────────────────────────────── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       display: flex; justify-content: space-between; align-items: center;
-      padding: 1.6rem 3rem;
-      background: rgba(12,12,10,.88); backdrop-filter: blur(12px);
+      padding: 1.8rem 3rem;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      transition: background .35s, border-color .35s, padding .3s;
     }
-    .nav-logo { font-weight: 900; font-size: 1.1rem; letter-spacing: -.04em; text-decoration: none; color: #fff; }
+    /* Quando si scrolla fuori dall'hero → glass chiaro */
+    nav.scrolled {
+      background: rgba(248,247,243,.92);
+      border-bottom-color: rgba(12,12,10,.08);
+      padding: 1.2rem 3rem;
+    }
+    nav.scrolled .nav-logo { color: var(--ink); }
+    nav.scrolled .nav-links a { color: rgba(12,12,10,.45); }
+    nav.scrolled .nav-links a:hover { color: var(--ink); }
+
+    .nav-logo { font-weight: 900; font-size: 1.1rem; letter-spacing: -.04em; text-decoration: none; color: #fff; transition: color .35s; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { font-size: .75rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,.6); transition: color .2s; }
+    .nav-links a { font-size: .75rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,.7); transition: color .2s; }
     .nav-links a:hover { color: #fff; }
 
     /* SEPARATORE */
@@ -95,29 +131,25 @@
        ELEM: Sezione sfondo #0C0C0A, griglia 2x2.
        Ogni card = Container con bordo sinistro colorato.
        NESSUN custom CSS necessario, solo layout Elementor.  */
-    .metodo { background: var(--ink); padding: 7rem 3rem; }
+    .metodo { background: #fff; padding: 7rem 3rem; }
     .section-label {
       font-size: .7rem; font-weight: 500; letter-spacing: .14em;
-      text-transform: uppercase; display: block; margin-bottom: 3rem;
+      text-transform: uppercase; display: block; margin-bottom: 3rem; opacity: .35;
     }
-    .metodo .section-label { color: rgba(255,255,255,.3); }
-    .cards {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
-    }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .card {
-      background: rgba(255,255,255,.04);
+      background: var(--cream);
       border-left: 3px solid;
-      padding: 2.5rem 2rem;
-      border-radius: 2px;
+      padding: 2.5rem 2rem; border-radius: 2px;
     }
     .card-1 { border-color: var(--p); }
     .card-2 { border-color: var(--lb); }
     .card-3 { border-color: var(--o); }
     .card-4 { border-color: var(--db); }
 
-    .card-num { font-size: .65rem; font-weight: 600; letter-spacing: .1em; opacity: .35; color: #fff; margin-bottom: 1rem; display: block; }
-    .card-title { font-size: clamp(1.4rem, 2.5vw, 2.2rem); font-weight: 700; color: #fff; letter-spacing: -.03em; margin-bottom: .8rem; }
-    .card-desc { font-size: .9rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,.5); }
+    .card-num { font-size: .65rem; font-weight: 600; letter-spacing: .1em; opacity: .35; color: var(--ink); margin-bottom: 1rem; display: block; }
+    .card-title { font-size: clamp(1.4rem, 2.5vw, 2.2rem); font-weight: 700; color: var(--ink); letter-spacing: -.03em; margin-bottom: .8rem; }
+    .card-desc { font-size: .9rem; font-weight: 300; line-height: 1.7; color: rgba(12,12,10,.55); }
 
     /* ── GRADIENT STATEMENT ──────────────────────────
        ELEM: Sezione, sfondo gradient 5 colori a 140deg.
@@ -166,9 +198,9 @@
     /* ── CTA CONTATTI ────────────────────────────────
        ELEM: Sezione sfondo #0C0C0A, testo centrato.
        Bottone con sfondo gradient.                         */
-    .cta { background: var(--ink); padding: 7rem 3rem; text-align: center; }
-    .cta-pre { font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 1.5rem; }
-    .cta-title { font-size: clamp(2.5rem, 6vw, 7rem); font-weight: 900; letter-spacing: -.04em; color: #fff; line-height: .9; margin-bottom: 3rem; }
+    .cta { background: var(--p); color: var(--ink); padding: 7rem 3rem; text-align: center; }
+    .cta-pre { font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(12,12,10,.4); margin-bottom: 1.5rem; }
+    .cta-title { font-size: clamp(2.5rem, 6vw, 7rem); font-weight: 900; letter-spacing: -.04em; color: var(--ink); line-height: .9; margin-bottom: 3rem; }
     .cta-title em { font-family: 'Great Vibes', cursive; font-style: normal; font-size: .85em; color: var(--o); }
     .cta-btn {
       display: inline-block; padding: 1.1rem 3rem;
@@ -182,15 +214,15 @@
 
     /* ── FOOTER ──────────────────────────────────────
        ELEM: Footer template, sfondo #0C0C0A.            */
-    footer { background: var(--ink); color: #fff; padding: 0 3rem 3rem; }
+    footer { background: var(--cream); color: var(--ink); padding: 0 3rem 3rem; }
     .footer-border { height: 3px; background: linear-gradient(90deg, var(--o), var(--p), var(--lb), var(--st), var(--db)); margin-bottom: 3rem; }
     .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2rem; align-items: end; padding-bottom: 3rem; }
-    .footer-logo { font-size: 3.5rem; font-weight: 900; letter-spacing: -.05em; }
+    .footer-logo { font-size: 3.5rem; font-weight: 900; letter-spacing: -.05em; color: var(--ink); }
     .footer-col { display: flex; flex-direction: column; gap: .5rem; }
-    .footer-col .lbl { font-size: .65rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.2); margin-bottom: .3rem; }
-    .footer-col a { font-size: .82rem; color: rgba(255,255,255,.4); text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s; }
-    .footer-col a:hover { color: #fff; }
-    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: .7rem; color: rgba(255,255,255,.2); }
+    .footer-col .lbl { font-size: .65rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: rgba(12,12,10,.3); margin-bottom: .3rem; }
+    .footer-col a { font-size: .82rem; color: rgba(12,12,10,.5); text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { border-top: 1px solid rgba(12,12,10,.1); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: .7rem; color: rgba(12,12,10,.3); }
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
@@ -205,8 +237,12 @@
 </head>
 <body>
 
+  <!-- Cursore a sfera -->
+  <div id="c-ball"></div>
+  <div id="c-ring"></div>
+
   <!-- NAV -->
-  <nav>
+  <nav id="nav">
     <a href="#" class="nav-logo">goodcom</a>
     <ul class="nav-links">
       <li><a href="#metodo">Metodo</a></li>
@@ -327,5 +363,31 @@
     </div>
   </footer>
 
+  <script>
+    /* Cursore a sfera */
+    const ball = document.getElementById('c-ball');
+    const ring = document.getElementById('c-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      ball.style.left = mx + 'px'; ball.style.top = my + 'px';
+    });
+    (function raf() {
+      rx += (mx - rx) * .1; ry += (my - ry) * .1;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(raf);
+    })();
+    document.querySelectorAll('a, .tag, .card, .cta-btn').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+    });
+
+    /* Nav glass: trasparente sull'hero, chiaro dopo */
+    const nav = document.getElementById('nav');
+    const heroH = document.querySelector('.hero').offsetHeight;
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > heroH * .75);
+    }, { passive: true });
+  </script>
 </body>
 </html>
