@@ -195,8 +195,44 @@
     }
     .tag-num { font-size: .6rem; opacity: .4; font-weight: 700; letter-spacing: .06em; }
 
+    /* ── GALLERY / ATELIER ──────────────────────────
+       ELEM: Sezione sfondo #1100A7. Grid 12 colonne.
+       Celle: sfondo rgba(255,255,255,.06), border-radius 4px.
+       Gradient overlay al hover: CSS puro (.gi::after).    */
+    .gallery { background: var(--db); padding: 8rem 3rem; }
+    .gallery .section-label { color: rgba(255,255,255,.3); opacity: 1; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 200px;
+      gap: .75rem; margin-top: 2rem;
+    }
+    .gi {
+      position: relative; overflow: hidden; border-radius: 4px;
+      background: rgba(255,255,255,.06); cursor: none;
+      display: flex; align-items: flex-end; padding: 1.2rem;
+    }
+    .gi::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--o), transparent 55%, var(--lb));
+      opacity: 0; transition: opacity .4s;
+    }
+    .gi:hover::after { opacity: .4; }
+    .gi-label {
+      position: relative; z-index: 1;
+      font-size: .7rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.3); transition: color .3s;
+    }
+    .gi:hover .gi-label { color: rgba(255,255,255,.9); }
+    .gi.c5 { grid-column: span 5; }
+    .gi.c4 { grid-column: span 4; }
+    .gi.c3 { grid-column: span 3; }
+    .gi.c6 { grid-column: span 6; }
+    .gi.r2 { grid-row: span 2; }
+
     /* ── CTA CONTATTI ────────────────────────────────
-       ELEM: Sezione sfondo #0C0C0A, testo centrato.
+       ELEM: Sezione sfondo var(--p), testo centrato.
        Bottone con sfondo gradient.                         */
     .cta { background: var(--p); color: var(--ink); padding: 7rem 3rem; text-align: center; }
     .cta-pre { font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(12,12,10,.4); margin-bottom: 1.5rem; }
@@ -226,7 +262,9 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      nav, .hero, .intro, .metodo, .statement, .settori, .cta, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      nav, .hero, .intro, .metodo, .statement, .settori, .gallery, .cta, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gi { grid-column: span 1 !important; grid-row: span 1 !important; }
       .hero { padding-bottom: 3.5rem; }
       .intro { grid-template-columns: 1fr; gap: 2rem; }
       .cards { grid-template-columns: 1fr; }
@@ -247,6 +285,7 @@
     <ul class="nav-links">
       <li><a href="#metodo">Metodo</a></li>
       <li><a href="#settori">Settori</a></li>
+      <li><a href="#atelier">Atelier</a></li>
       <li><a href="#contatti">Contatti</a></li>
     </ul>
   </nav>
@@ -327,6 +366,23 @@
       <div class="tag"><span class="tag-num">05</span> Ingegneria e Industria</div>
       <div class="tag"><span class="tag-num">06</span> Turismo e Horeca</div>
       <div class="tag"><span class="tag-num">07</span> Filiera Moda &amp; Calzaturiero</div>
+    </div>
+  </section>
+
+  <div class="gsep"></div>
+
+  <!-- GALLERY / ATELIER -->
+  <section class="gallery" id="atelier">
+    <span class="section-label">Atelier — Lavori selezionati</span>
+    <div class="gallery-grid">
+      <div class="gi c5 r2"><span class="gi-label">Campagna 01</span></div>
+      <div class="gi c4"><span class="gi-label">Evento 02</span></div>
+      <div class="gi c3"><span class="gi-label">03</span></div>
+      <div class="gi c4"><span class="gi-label">Progetto 04</span></div>
+      <div class="gi c3"><span class="gi-label">05</span></div>
+      <div class="gi c6"><span class="gi-label">Attivazione 06</span></div>
+      <div class="gi c3"><span class="gi-label">07</span></div>
+      <div class="gi c3"><span class="gi-label">08</span></div>
     </div>
   </section>
 
