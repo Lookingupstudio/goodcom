@@ -91,43 +91,33 @@
     .intro-text { font-size: 1rem; font-weight: 300; line-height: 1.8; opacity: .7; }
     .intro-text p + p { margin-top: 1rem; }
 
-    /* ── METODO: 4 PANNELLI COLORATI ─────────────────
-       ELEM: 4 sezioni separate, ognuna col suo colore.
-       Grid 2 colonne (1fr / 1.5fr), align-items: end.
-       Colori: #F5DAE9 / #BCCEFB / #FF6403 / #1100A7    */
+    /* ── METODO: 4 CARD ──────────────────────────────
+       ELEM: Sezione sfondo #0C0C0A, griglia 2x2.
+       Ogni card = Container con bordo sinistro colorato.
+       NESSUN custom CSS necessario, solo layout Elementor.  */
+    .metodo { background: var(--ink); padding: 7rem 3rem; }
     .section-label {
       font-size: .7rem; font-weight: 500; letter-spacing: .14em;
       text-transform: uppercase; display: block; margin-bottom: 3rem;
-      opacity: .4;
     }
-    .panel {
-      min-height: 52vh;
-      display: grid; grid-template-columns: 1fr 1.5fr;
-      align-items: end; gap: 2rem;
-      padding: 4rem 3rem;
-      position: relative; overflow: hidden;
+    .metodo .section-label { color: rgba(255,255,255,.3); }
+    .cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
     }
-    .panel.rev { grid-template-columns: 1.5fr 1fr; }
-    .panel.rev .p-right { order: -1; }
-
-    /* numero watermark — ELEM: Heading widget, font-size 30vw, opacity .06 */
-    .panel-num {
-      position: absolute; font-size: 30vw; font-weight: 900; line-height: 1;
-      opacity: .06; pointer-events: none; user-select: none;
-      bottom: -.15em; right: -.03em;
-      letter-spacing: -.05em; color: currentColor;
+    .card {
+      background: rgba(255,255,255,.04);
+      border-left: 3px solid;
+      padding: 2.5rem 2rem;
+      border-radius: 2px;
     }
-    .panel.rev .panel-num { right: auto; left: -.03em; }
+    .card-1 { border-color: var(--p); }
+    .card-2 { border-color: var(--lb); }
+    .card-3 { border-color: var(--o); }
+    .card-4 { border-color: var(--db); }
 
-    .panel-1 { background: var(--p);  color: var(--ink); }
-    .panel-2 { background: var(--lb); color: var(--ink); }
-    .panel-3 { background: var(--o);  color: var(--ink); }
-    .panel-4 { background: var(--db); color: #fff; }
-
-    .p-meta  { font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; opacity: .45; display: block; margin-bottom: .5rem; }
-    .p-title { font-size: clamp(2.2rem, 5vw, 6rem); font-weight: 900; letter-spacing: -.04em; line-height: .92; }
-    .p-desc  { font-size: .95rem; font-weight: 300; line-height: 1.75; opacity: .62; max-width: 340px; }
-    .panel-4 .p-desc { color: rgba(255,255,255,.6); opacity: 1; }
+    .card-num { font-size: .65rem; font-weight: 600; letter-spacing: .1em; opacity: .35; color: #fff; margin-bottom: 1rem; display: block; }
+    .card-title { font-size: clamp(1.4rem, 2.5vw, 2.2rem); font-weight: 700; color: #fff; letter-spacing: -.03em; margin-bottom: .8rem; }
+    .card-desc { font-size: .9rem; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,.5); }
 
     /* ── GRADIENT STATEMENT ──────────────────────────
        ELEM: Sezione, sfondo gradient 5 colori a 140deg.
@@ -174,11 +164,11 @@
     .tag-num { font-size: .6rem; opacity: .4; font-weight: 700; letter-spacing: .06em; }
 
     /* ── CTA CONTATTI ────────────────────────────────
-       ELEM: Sezione sfondo var(--p) #F5DAE9, testo centrato.
-       Testo scuro, bottone con sfondo gradient.            */
-    .cta { background: var(--p); color: var(--ink); padding: 7rem 3rem; text-align: center; }
-    .cta-pre { font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(12,12,10,.4); margin-bottom: 1.5rem; }
-    .cta-title { font-size: clamp(2.5rem, 6vw, 7rem); font-weight: 900; letter-spacing: -.04em; color: var(--ink); line-height: .9; margin-bottom: 3rem; }
+       ELEM: Sezione sfondo #0C0C0A, testo centrato.
+       Bottone con sfondo gradient.                         */
+    .cta { background: var(--ink); padding: 7rem 3rem; text-align: center; }
+    .cta-pre { font-size: .72rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 1.5rem; }
+    .cta-title { font-size: clamp(2.5rem, 6vw, 7rem); font-weight: 900; letter-spacing: -.04em; color: #fff; line-height: .9; margin-bottom: 3rem; }
     .cta-title em { font-family: 'Great Vibes', cursive; font-style: normal; font-size: .85em; color: var(--o); }
     .cta-btn {
       display: inline-block; padding: 1.1rem 3rem;
@@ -204,11 +194,10 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      nav, .hero, .intro, .statement, .settori, .cta, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      nav, .hero, .intro, .metodo, .statement, .settori, .cta, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
       .hero { padding-bottom: 3.5rem; }
       .intro { grid-template-columns: 1fr; gap: 2rem; }
-      .panel { grid-template-columns: 1fr; min-height: auto; padding: 3.5rem 1.5rem; }
-      .panel.rev .p-right { order: unset; }
+      .cards { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: .3rem; }
     }
@@ -252,54 +241,32 @@
     </div>
   </section>
 
-  <!-- METODO — 4 pannelli colorati, uno per step -->
-  <div id="metodo">
-
-    <div class="panel panel-1">
-      <span class="panel-num" aria-hidden="true">01</span>
-      <div class="p-left">
-        <span class="p-meta">01 · Il nostro metodo</span>
-        <h3 class="p-title">Assess&shy;ment</h3>
+  <!-- METODO — 4 card su sfondo scuro -->
+  <section class="metodo" id="metodo">
+    <span class="section-label">Il nostro metodo</span>
+    <div class="cards">
+      <div class="card card-1">
+        <span class="card-num">01</span>
+        <h3 class="card-title">Assessment</h3>
+        <p class="card-desc">Analizziamo contesto, processi e opportunità per costruire la base strategica più solida.</p>
       </div>
-      <div class="p-right">
-        <p class="p-desc">Analizziamo contesto, processi e opportunità per costruire la base strategica più solida.</p>
+      <div class="card card-2">
+        <span class="card-num">02</span>
+        <h3 class="card-title">Narrazione Strategica</h3>
+        <p class="card-desc">Traduciamo dati e valori in storie che creano identità e differenziazione duratura.</p>
       </div>
-    </div>
-
-    <div class="panel panel-2 rev">
-      <span class="panel-num" aria-hidden="true">02</span>
-      <div class="p-left">
-        <span class="p-meta">02 · Il nostro metodo</span>
-        <h3 class="p-title">Narra&shy;zione Strate&shy;gica</h3>
+      <div class="card card-3">
+        <span class="card-num">03</span>
+        <h3 class="card-title">Coinvolgimento</h3>
+        <p class="card-desc">Costruiamo relazioni autentiche con comunità, stakeholder e pubblici chiave.</p>
       </div>
-      <div class="p-right">
-        <p class="p-desc">Traduciamo dati e valori in storie che creano identità e differenziazione duratura.</p>
-      </div>
-    </div>
-
-    <div class="panel panel-3">
-      <span class="panel-num" aria-hidden="true">03</span>
-      <div class="p-left">
-        <span class="p-meta">03 · Il nostro metodo</span>
-        <h3 class="p-title">Coin&shy;volgi&shy;mento</h3>
-      </div>
-      <div class="p-right">
-        <p class="p-desc">Costruiamo relazioni autentiche con comunità, stakeholder e pubblici chiave.</p>
+      <div class="card card-4">
+        <span class="card-num">04</span>
+        <h3 class="card-title">Attivazione</h3>
+        <p class="card-desc">Campagne, eventi e attivazioni con strumenti che funzionano nel lungo periodo.</p>
       </div>
     </div>
-
-    <div class="panel panel-4 rev">
-      <span class="panel-num" aria-hidden="true">04</span>
-      <div class="p-left">
-        <span class="p-meta" style="color:rgba(255,255,255,.4);">04 · Il nostro metodo</span>
-        <h3 class="p-title">Attiva&shy;zione</h3>
-      </div>
-      <div class="p-right">
-        <p class="p-desc">Campagne, eventi e attivazioni con strumenti che funzionano nel lungo periodo.</p>
-      </div>
-    </div>
-
-  </div>
+  </section>
 
   <div class="gsep"></div>
 
