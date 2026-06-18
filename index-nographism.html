@@ -168,30 +168,6 @@
     }
     .intro-body p + p { margin-top: 1rem; }
 
-    /* ── GRADIENT BAND ───────────────────────────────────────────
-       Unico momento di colore: gradiente palette originale,
-       ispirato a silent-house. Dà luce senza togliere pulizia.  */
-    .gradient-band {
-      padding: 8rem 2.5rem;
-      position: relative; overflow: hidden;
-    }
-    .gradient-band-bg {
-      position: absolute; inset: 0;
-      background: linear-gradient(140deg,
-        var(--p)  0%,
-        var(--lb) 28%,
-        var(--o)  52%,
-        var(--gray) 72%,
-        var(--db) 100%);
-    }
-    .gradient-band-text {
-      position: relative; z-index: 1;
-      font-size: clamp(1.8rem, 3.5vw, 4.5rem);
-      font-weight: 300; line-height: 1.45;
-      color: var(--white); max-width: 900px;
-      text-shadow: 0 2px 20px rgba(0,0,0,.15);
-    }
-    .gradient-band-text em { font-style: italic; font-weight: 500; }
 
     /* ── METODO ──────────────────────────────────────────────── */
     .metodo { background: var(--white); }
@@ -466,17 +442,6 @@
     </div>
   </div>
 
-  <!-- ── GRADIENT BAND ─────────────────────────────────────────────
-       Unico momento di colore nella pagina, ispirato a silent-house. -->
-  <div class="gradient-band">
-    <div class="gradient-band-bg"></div>
-    <p class="gradient-band-text">
-      Il colore che si mescola non è solo grafica.<br>
-      È la rappresentazione visiva degli <em>incontri umani</em>,<br>
-      della <em>co-creazione</em>, delle idee che si fondono.
-    </p>
-  </div>
-
   <!-- ── METODO ─────────────────────────────────────────────────── -->
   <section class="metodo" id="metodo">
     <div class="metodo-head">
@@ -605,7 +570,7 @@
     });
 
     /* Cursore bianco su sezioni scure */
-    document.querySelectorAll('footer, .marquee, .gradient-band').forEach(el => {
+    document.querySelectorAll('footer, .marquee').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cd'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cd'));
     });
