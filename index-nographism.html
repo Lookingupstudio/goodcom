@@ -63,30 +63,37 @@
     .t-body  { font-size: max(1.203vw,  1rem);     font-weight: 300; line-height: 1.7; }
     .t-label { font-size: max(.936vw,   .8rem);    font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
 
-    /* ── NAV ─────────────────────────────────────────────────── */
+    /* ── NAV — struttura nographism: logo | links | CTA ─────── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-      display: grid; grid-template-columns: 1fr auto;
+      display: grid; grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      padding: 1.1rem 2.5rem;
+      padding: 0 2.5rem;
+      height: 56px;
       background: var(--white);
       border-bottom: 1px solid var(--lgray);
     }
-    .nav-logo img { height: 32px; width: auto; display: block; }
-    .nav-r { display: flex; align-items: center; gap: 2.5rem; }
-    .nav-r a {
-      font-size: .72rem; font-weight: 500; letter-spacing: .06em;
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { height: 28px; width: auto; display: block; }
+    .nav-links-center {
+      display: flex; align-items: center; gap: 2rem;
+      justify-content: center;
+    }
+    .nav-links-center a {
+      font-size: .72rem; font-weight: 400; letter-spacing: .04em;
       text-transform: uppercase; text-decoration: none;
-      color: rgba(26,25,24,.45); transition: color .2s;
+      color: rgba(26,25,24,.5); transition: color .2s; white-space: nowrap;
     }
-    .nav-r a:hover { color: var(--black); }
+    .nav-links-center a:hover { color: var(--black); }
+    .nav-right { display: flex; justify-content: flex-end; }
     .nav-cta {
-      padding: .5rem 1.2rem;
-      border: 1.5px solid var(--black); border-radius: 100px;
-      color: var(--black) !important;
-      transition: background .2s, color .2s !important;
+      padding: .45rem 1.1rem;
+      border: 1px solid var(--black); border-radius: 100px;
+      font-size: .7rem; font-weight: 500; letter-spacing: .04em;
+      text-transform: uppercase; text-decoration: none; color: var(--black);
+      transition: background .2s, color .2s;
     }
-    .nav-cta:hover { background: var(--black); color: var(--white) !important; }
+    .nav-cta:hover { background: var(--black); color: var(--white); }
 
     /* ── HERO — testo intro + big scroll ─────────────────────── */
     .hero {
@@ -179,10 +186,7 @@
     }
     .big-scroll-track {
       display: flex; white-space: nowrap; align-items: center;
-      /* durata impostata via JS dopo clonazione */
-    }
-    .big-scroll-track.ready {
-      animation: bigscroll 14s linear infinite;
+      animation: bigscroll 20s linear infinite;
     }
     .big-scroll-item {
       font-size: max(22.286vw, 5.375rem);
@@ -196,11 +200,11 @@
       color: rgba(255,255,255,.25);
       flex-shrink: 0; line-height: .9;
     }
+    /* -25% = 1 copia su 4 totali → loop perfetto senza JS */
     @keyframes bigscroll {
       from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      to   { transform: translateX(-25%); }
     }
-    /* pausa hover */
     .big-scroll:hover .big-scroll-track { animation-play-state: paused; }
 
     /* ── SERVIZI: 2 colonne ──────────────────────────────────── */
@@ -443,10 +447,12 @@
   <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo"><img src="logo-black.png" alt="Goodcom"></a>
-    <div class="nav-r">
+    <div class="nav-links-center">
       <a href="#metodo">Metodo</a>
       <a href="#atelier">Atelier</a>
       <a href="#settori">Settori</a>
+    </div>
+    <div class="nav-right">
       <a href="#contatti" class="nav-cta">Contattaci →</a>
     </div>
   </nav>
@@ -469,23 +475,40 @@
       </div>
     </div>
 
-    <!-- BIG SCROLL — JS clona il contenuto per loop perfetto -->
+    <!-- BIG SCROLL — 4 copie pure HTML, -25% CSS = loop perfetto -->
     <div class="big-scroll">
-      <div class="big-scroll-track" id="scrollTrack">
-        <span class="big-scroll-item">Economia Circolare</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Terzo Settore</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Innovazione Sociale</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Turismo &amp; Horeca</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Industria</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Moda &amp; Calzaturiero</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Consorzi</span>
-        <span class="big-scroll-sep">·</span>
+      <div class="big-scroll-track">
+        <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Turismo &amp; Horeca</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
+
+        <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Turismo &amp; Horeca</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
+
+        <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Turismo &amp; Horeca</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
+
+        <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Turismo &amp; Horeca</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
       </div>
     </div>
 
@@ -626,13 +649,6 @@
   </footer>
 
   <script>
-    /* Loop marquee perfetto: clona il contenuto, anima su -50% */
-    const track = document.getElementById('scrollTrack');
-    if (track) {
-      track.innerHTML += track.innerHTML; // duplica
-      track.classList.add('ready');
-    }
-
     const dot = document.getElementById('c-dot');
     const ring = document.getElementById('c-ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
