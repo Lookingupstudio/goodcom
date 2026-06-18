@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Goodcom — Comunicazione strategica</title>
+  <title>Goodcom — Comunicazione Sostenibile</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -16,411 +16,338 @@
       --gray:  #8ea6bf;
       --lgray: #d9dfe3;
       --off:   #f5f4f0;
-      /* palette colori per i blob gradiente */
-      --o: #FF6403; --p: #F5DAE9; --lb: #BCCEFB; --db: #1100A7;
+      --o: #FF6403; --p: #F5DAE9; --lb: #BCCEFB; --st: #8EA6BF; --db: #1100A7;
     }
 
     html { scroll-behavior: smooth; cursor: none; }
-    body {
-      font-family: 'Hanken Grotesk', system-ui, sans-serif;
-      background: var(--white); color: var(--black);
-      overflow-x: hidden; cursor: none;
-    }
+    body { font-family: 'Hanken Grotesk', system-ui, sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; cursor: none; }
 
     /* ── CURSORE ─────────────────────────────────────────────── */
-    #cur-dot {
-      position: fixed; width: 6px; height: 6px;
-      background: var(--black); border-radius: 50%;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%); transition: background .2s;
-    }
-    #cur-ring {
-      position: fixed; width: 30px; height: 30px;
-      border: 1.5px solid var(--black); border-radius: 50%;
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%); opacity: .5;
-      transition: width .35s cubic-bezier(.16,1,.3,1), height .35s cubic-bezier(.16,1,.3,1), border-color .2s, opacity .2s;
-    }
+    #cur-dot { position: fixed; width: 6px; height: 6px; background: var(--black); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: background .2s; }
+    #cur-ring { position: fixed; width: 30px; height: 30px; border: 1.5px solid var(--black); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .5; transition: width .35s cubic-bezier(.16,1,.3,1), height .35s, border-color .2s, opacity .2s; }
     body.ch #cur-ring { width: 46px; height: 46px; opacity: .8; }
     body.cd #cur-dot  { background: var(--white); }
-    body.cd #cur-ring { border-color: rgba(255,255,255,.6); }
+    body.cd #cur-ring { border-color: rgba(255,255,255,.5); }
 
-    /* ── FLOATING CONTACT BUTTON (top-right fisso) ───────────── */
-    .btn-contact-fixed {
+    /* ── CONTACT FISSO ───────────────────────────────────────── */
+    .btn-fixed {
       position: fixed; top: 1.4rem; right: 2.5rem; z-index: 500;
-      padding: .5rem 1.2rem;
-      border: 1.5px solid var(--black); border-radius: 100px;
-      font-family: inherit; font-size: .72rem; font-weight: 500;
-      letter-spacing: .04em; text-transform: uppercase;
-      text-decoration: none; color: var(--black); background: var(--white);
-      transition: background .2s, color .2s;
+      padding: .5rem 1.2rem; border: 1.5px solid rgba(255,255,255,.5);
+      border-radius: 100px; font-family: inherit;
+      font-size: .72rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase;
+      text-decoration: none; color: var(--white); background: transparent;
+      transition: background .2s, border-color .2s;
     }
-    .btn-contact-fixed:hover { background: var(--black); color: var(--white); }
+    .btn-fixed:hover { background: rgba(255,255,255,.1); border-color: var(--white); }
+    .btn-fixed.dark { color: var(--black); border-color: rgba(26,25,24,.4); }
+    .btn-fixed.dark:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
-    /* ── LOGO FISSO TOP-LEFT (appare dopo scroll hero) ────────── */
-    #logo-fixed {
-      position: fixed; top: 1.2rem; left: 2.5rem; z-index: 400;
-      opacity: 0; transform: translateY(-6px);
-      transition: opacity .4s, transform .4s;
-      pointer-events: none;
-    }
+    /* ── LOGO FISSO ──────────────────────────────────────────── */
+    #logo-fixed { position: fixed; top: 1.2rem; left: 2.5rem; z-index: 400; opacity: 0; transform: translateY(-6px); transition: opacity .4s, transform .4s; pointer-events: none; }
     #logo-fixed.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    #logo-fixed img { height: 26px; width: auto; display: block; }
+    #logo-fixed img { height: 24px; width: auto; display: block; }
 
-    /* ── HERO ─────────────────────────────────────────────────── */
+    /* ── HERO SCURO CON GRADIENTE ─────────────────────────────
+       Sfondo nero + blob soft da tutti e 5 i colori palette    */
     .hero {
-      background: var(--white);
+      background: var(--black);
       padding: 3.5rem 2.5rem 3rem;
       min-height: 100vh;
       display: flex; flex-direction: column; justify-content: space-between;
       position: relative; overflow: hidden;
-      border-bottom: 1px solid var(--lgray);
+      border-bottom: 1px solid #2a2927;
     }
+    .hero-blob { position: absolute; border-radius: 50%; pointer-events: none; }
+    .blob-o  { width:550px;height:550px; background:var(--o);  filter:blur(140px); opacity:.14; top:-120px; right:-80px; animation: bd 13s ease-in-out infinite; }
+    .blob-p  { width:450px;height:450px; background:var(--p);  filter:blur(120px); opacity:.12; top:30%;   left:-60px;  animation: bd 17s ease-in-out infinite 2s reverse; }
+    .blob-lb { width:500px;height:500px; background:var(--lb); filter:blur(130px); opacity:.13; bottom:-80px; right:15%;  animation: bd 15s ease-in-out infinite 1s; }
+    .blob-db { width:400px;height:400px; background:var(--db); filter:blur(110px); opacity:.18; bottom:10%;  left:20%;   animation: bd 11s ease-in-out infinite 3s reverse; }
+    @keyframes bd { 0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-14px)} }
 
-    /* Blob gradiente sottile nell'hero */
-    .hero::before {
-      content: '';
-      position: absolute; width: 500px; height: 500px; border-radius: 50%;
-      background: var(--o); filter: blur(130px); opacity: .12;
-      top: -100px; right: -60px; pointer-events: none;
-      animation: blobDrift 14s ease-in-out infinite;
-    }
-    .hero::after {
-      content: '';
-      position: absolute; width: 400px; height: 400px; border-radius: 50%;
-      background: var(--lb); filter: blur(110px); opacity: .2;
-      bottom: -80px; left: -60px; pointer-events: none;
-      animation: blobDrift 18s ease-in-out infinite reverse;
-    }
-    @keyframes blobDrift {
-      0%,100% { transform: translate(0,0); }
-      50% { transform: translate(20px,-15px); }
-    }
+    .hero-logo { position: relative; z-index: 1; display: block; width: 100%; max-width: 860px; }
+    .hero-logo img { width: 100%; height: auto; display: block; filter: brightness(0) invert(1); }
 
-    /* Logo grande nell'hero — il logo è il protagonista */
-    .hero-logo {
-      position: relative; z-index: 1;
-      display: block;
-      width: 100%; max-width: 900px;
-    }
-    .hero-logo img { width: 100%; height: auto; display: block; }
-
-    /* Bottom dell'hero: tagline + CTA sinistra, nav destra */
     .hero-bottom {
       position: relative; z-index: 1;
       display: grid; grid-template-columns: 1fr auto;
-      align-items: end; gap: 3rem;
-      margin-top: 4rem;
+      align-items: end; gap: 3rem; margin-top: 4rem;
     }
-    .hero-tagline {
-      font-size: max(1.604vw, 1rem);
-      font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.65);
-      max-width: 520px; margin-bottom: 1.5rem;
-    }
+    .hero-tagline { font-size: max(1.604vw, 1rem); font-weight: 300; line-height: 1.65; color: rgba(255,255,255,.55); max-width: 520px; margin-bottom: 1.5rem; }
     .hero-cta {
       display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem 1.4rem;
-      background: var(--black); color: var(--white);
+      padding: .6rem 1.4rem; background: var(--white); color: var(--black);
       font-family: inherit; font-size: .75rem; font-weight: 600;
       letter-spacing: .05em; text-transform: uppercase;
-      text-decoration: none; border-radius: 100px;
-      transition: opacity .2s;
+      text-decoration: none; border-radius: 100px; transition: opacity .2s;
     }
-    .hero-cta:hover { opacity: .8; }
+    .hero-cta:hover { opacity: .85; }
 
-    /* Nav inline nell'hero (come nographism) */
     .hero-nav {
       display: flex; align-items: center; gap: 0;
-      background: var(--white); border-radius: 100px;
+      background: rgba(255,255,255,.08); border-radius: 100px;
       padding: .3rem .3rem .3rem .8rem;
-      border: 1px solid var(--lgray);
-      box-shadow: 0 1px 8px rgba(0,0,0,.06);
+      border: 1px solid rgba(255,255,255,.15);
     }
     .hero-nav a {
       font-size: .72rem; font-weight: 400; letter-spacing: .03em;
       text-transform: uppercase; text-decoration: none;
-      color: rgba(26,25,24,.5); padding: .4rem .8rem;
+      color: rgba(255,255,255,.5); padding: .4rem .8rem;
       transition: color .2s; white-space: nowrap;
     }
-    .hero-nav a:hover { color: var(--black); }
-    .hero-nav .nav-sep { width: 1px; height: 12px; background: var(--lgray); }
+    .hero-nav a:hover { color: var(--white); }
+    .hero-nav .ns { width: 1px; height: 12px; background: rgba(255,255,255,.2); }
+    .hero-nav .cta-nav { background: var(--white); color: var(--black) !important; border-radius: 100px; padding: .4rem 1rem; font-weight: 600; }
 
-    /* ── SERVIZI 2 COLONNE ────────────────────────────────────── */
-    .servizi {
+    /* ── 3 DOMANDE ───────────────────────────────────────────── */
+    .domande { border-bottom: 1px solid var(--lgray); }
+    .domanda {
+      padding: 4rem 2.5rem;
+      border-bottom: 1px solid var(--lgray);
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 3rem; align-items: end;
+      transition: background .25s;
+    }
+    .domanda:last-child { border-bottom: none; }
+    .domanda:hover { background: var(--off); }
+    .domanda-n { font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 1rem; }
+    .domanda-q { font-size: max(3.61vw, 1.8rem); font-weight: 700; letter-spacing: -.04em; line-height: 1.05; margin-bottom: 1rem; }
+    .domanda-a { font-size: max(1.203vw, .95rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); max-width: 600px; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: .5rem; flex-shrink: 0;
+      padding: .6rem 1.4rem; border: 1.5px solid var(--black); border-radius: 100px;
+      font-family: inherit; font-size: .72rem; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+      text-decoration: none; color: var(--black);
+      transition: background .2s, color .2s;
+    }
+    .btn-outline:hover { background: var(--black); color: var(--white); }
+
+    /* ── BRAND STATEMENT ─────────────────────────────────────── */
+    .statement {
       display: grid; grid-template-columns: 1fr 1fr;
       border-bottom: 1px solid var(--lgray);
-      position: relative; overflow: hidden;
     }
-    /* blob gradiente sulla sezione servizi */
-    .servizi::before {
-      content: '';
-      position: absolute; width: 600px; height: 600px; border-radius: 50%;
-      background: var(--p); filter: blur(120px); opacity: .4;
-      top: -100px; right: -100px; pointer-events: none; z-index: 0;
-    }
-    .servizi-col {
-      padding: 4rem 2.5rem; border-right: 1px solid var(--lgray);
-      position: relative; z-index: 1;
-    }
-    .servizi-col:last-child { border-right: none; }
-    .servizi-title {
-      font-size: max(6.417vw, 2.5rem);
-      font-weight: 700; letter-spacing: -.04em; margin-bottom: 2.5rem;
-    }
-    .servizi-list { list-style: none; }
-    .servizi-list li {
-      font-size: max(1.604vw, 1rem); font-weight: 400; line-height: 1;
-      padding: .85rem 0; border-bottom: 1px solid var(--lgray);
-      display: flex; justify-content: space-between; align-items: center;
-      transition: padding-left .2s;
-    }
-    .servizi-list li:first-child { border-top: 1px solid var(--lgray); }
-    .servizi-list li:hover { padding-left: .5rem; }
-    .servizi-list li span { font-size: .65rem; color: var(--gray); font-weight: 500; letter-spacing: .06em; }
-
-    /* ── INFINITE SCROLL ──────────────────────────────────────── */
-    .infinite-scroll {
-      overflow: hidden; background: var(--black);
-      padding: .35em 0;
-    }
-    .infinite-track {
-      display: flex; white-space: nowrap; align-items: center;
-      width: max-content;
-      animation: mq 35s linear infinite;
-      will-change: transform;
-    }
-    .infinite-item {
-      font-size: max(22.286vw, 5.375rem);
-      font-weight: 700; line-height: .9; letter-spacing: -.04em;
-      color: var(--white); padding: 0 .35em; flex-shrink: 0;
-    }
-    .infinite-sep {
-      font-size: max(22.286vw, 5.375rem);
-      color: rgba(255,255,255,.2); flex-shrink: 0; line-height: .9;
-    }
-    @keyframes mq {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    .infinite-scroll:hover .infinite-track { animation-play-state: paused; }
-
-    /* ── INTRO PORTFOLIO ──────────────────────────────────────── */
-    .portfolio-intro {
-      background: var(--black); color: var(--white);
-      padding: 4rem 2.5rem;
-      display: flex; justify-content: space-between; align-items: flex-end;
-      gap: 3rem;
-    }
-    .portfolio-intro p {
+    .statement-left { padding: 5rem 2.5rem; border-right: 1px solid var(--lgray); }
+    .statement-right { padding: 5rem 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; }
+    .statement-left p {
       font-size: max(4.813vw, 2rem);
       font-weight: 700; letter-spacing: -.04em; line-height: 1;
-      max-width: 700px;
     }
-    .portfolio-intro a {
-      flex-shrink: 0;
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem 1.4rem;
-      border: 1.5px solid rgba(255,255,255,.4); border-radius: 100px;
-      font-family: inherit; font-size: .72rem; font-weight: 500;
-      letter-spacing: .04em; text-transform: uppercase;
-      text-decoration: none; color: var(--white);
-      transition: border-color .2s, background .2s;
-    }
-    .portfolio-intro a:hover { background: rgba(255,255,255,.1); border-color: var(--white); }
-
-    /* ── WORKS GRID ───────────────────────────────────────────── */
-    .works-grid { display: grid; grid-template-columns: 1fr 1fr; }
-    .work {
-      padding: 2rem 2.5rem 3rem;
-      border-right: 1px solid var(--lgray);
-      border-bottom: 1px solid var(--lgray);
-      transition: background .25s;
-    }
-    .work:nth-child(even) { border-right: none; }
-    .work:hover { background: var(--off); }
-    .work-thumb {
-      width: 100%; aspect-ratio: 16/9;
-      background: var(--lgray); border-radius: 2px; margin-bottom: 1.5rem;
-    }
-    .work-tags {
-      font-size: .65rem; font-weight: 500; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--gray);
-      margin-bottom: .5rem; display: flex; gap: .5rem; flex-wrap: wrap;
-    }
-    .work-title {
-      font-size: max(2.139vw, 1.2rem);
-      font-weight: 700; letter-spacing: -.02em; line-height: 1.1; margin-bottom: .4rem;
-    }
-    .work-desc {
-      font-size: max(1.203vw, .88rem);
-      font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.55);
+    .statement-right p {
+      font-size: max(1.604vw, 1rem);
+      font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6);
     }
 
-    /* ── TESTIMONIALS ──────────────────────────────────────────── */
-    .testimonials {
+    /* ── INFINITE SCROLL ─────────────────────────────────────── */
+    .iscroll { overflow: hidden; padding: .35em 0; }
+    .iscroll-dark { background: var(--black); }
+    .iscroll-light { background: var(--off); border-top: 1px solid var(--lgray); border-bottom: 1px solid var(--lgray); }
+    .iscroll-track {
+      display: flex; white-space: nowrap; align-items: center;
+      width: max-content; will-change: transform;
+    }
+    .iscroll-track.fwd  { animation: mq 28s linear infinite; }
+    .iscroll-track.bwd  { animation: mq 32s linear infinite reverse; }
+    .iscroll-item-lg { font-size: max(22.286vw, 5.375rem); font-weight: 700; line-height: .9; letter-spacing: -.04em; padding: 0 .35em; flex-shrink: 0; }
+    .iscroll-item-sm { font-size: max(6.417vw, 2.5rem); font-weight: 700; line-height: .9; letter-spacing: -.04em; padding: 0 .5em; flex-shrink: 0; }
+    .iscroll-dark .iscroll-item-lg, .iscroll-dark .iscroll-item-sm { color: var(--white); }
+    .iscroll-light .iscroll-item-sm { color: var(--black); }
+    .iscroll-sep-lg { font-size: max(22.286vw, 5.375rem); line-height: .9; flex-shrink: 0; }
+    .iscroll-sep-sm { font-size: max(6.417vw, 2.5rem); line-height: .9; flex-shrink: 0; }
+    .iscroll-dark .iscroll-sep-lg, .iscroll-dark .iscroll-sep-sm { color: rgba(255,255,255,.2); }
+    .iscroll-light .iscroll-sep-sm { color: rgba(26,25,24,.2); }
+    @keyframes mq { from{transform:translateX(0)}to{transform:translateX(-50%)} }
+    .iscroll:hover .iscroll-track { animation-play-state: paused; }
+
+    /* ── COME LAVORIAMO ──────────────────────────────────────── */
+    .come { border-bottom: 1px solid var(--lgray); }
+    .come-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
+    }
+    .come-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 700; letter-spacing: -.04em; }
+    .come-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .come-col { padding: 3rem 2.5rem; border-right: 1px solid var(--lgray); border-bottom: 1px solid var(--lgray); }
+    .come-col:nth-child(even) { border-right: none; }
+    .come-col:last-child, .come-col:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+    .come-col h3 { font-size: max(2.139vw, 1.2rem); font-weight: 700; letter-spacing: -.03em; margin-bottom: .8rem; }
+    .come-col p { font-size: max(1.203vw, .9rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); }
+    .come-process {
+      padding: 3rem 2.5rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
       border-top: 1px solid var(--lgray);
-      padding: 4rem 2.5rem;
     }
-    .testimonials-head {
-      margin-bottom: 3rem;
-    }
-    .testimonials-head h2 {
-      font-size: max(6.417vw, 2.5rem);
-      font-weight: 700; letter-spacing: -.04em;
-    }
-    .testimonials-head p {
-      font-size: max(1.203vw, .9rem);
-      font-weight: 300; color: rgba(26,25,24,.5); margin-top: .4rem;
-    }
-    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .testimonial {
-      padding: 2rem; border: 1px solid var(--lgray); border-radius: 4px;
-    }
-    .testimonial-quote {
-      font-size: max(1.203vw, .95rem);
-      font-weight: 300; line-height: 1.7;
-      color: rgba(26,25,24,.75); margin-bottom: 1.5rem;
-      font-style: italic;
-    }
-    .testimonial-author { font-weight: 700; font-size: .88rem; }
-    .testimonial-role { font-size: .78rem; color: var(--gray); font-weight: 300; }
+    .process-step { font-size: max(1.604vw, .95rem); font-weight: 700; letter-spacing: -.02em; }
+    .process-arrow { color: var(--gray); font-size: 1.2rem; }
 
-    /* ── PROCESSO ──────────────────────────────────────────────── */
-    .processo {
-      background: var(--off); border-top: 1px solid var(--lgray);
+    /* ── MANIFESTO ───────────────────────────────────────────── */
+    .manifesto {
+      background: var(--black); color: var(--white);
       position: relative; overflow: hidden;
+      border-bottom: 1px solid #2a2927;
     }
-    .processo::before {
+    .manifesto::before {
       content: '';
       position: absolute; width: 600px; height: 600px; border-radius: 50%;
-      background: var(--lb); filter: blur(130px); opacity: .4;
-      bottom: -150px; left: -100px; pointer-events: none; z-index: 0;
+      background: var(--db); filter: blur(150px); opacity: .2;
+      top: -100px; right: -100px; pointer-events: none;
     }
-    .processo-header {
-      padding: 4rem 2.5rem 3rem;
-      border-bottom: 1px solid var(--lgray);
+    .manifesto::after {
+      content: '';
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: var(--o); filter: blur(130px); opacity: .12;
+      bottom: -80px; left: 10%; pointer-events: none;
+    }
+    .manifesto-head {
+      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid rgba(255,255,255,.1);
       position: relative; z-index: 1;
       display: flex; justify-content: space-between; align-items: flex-end;
     }
-    .processo-header h2 {
-      font-size: max(6.417vw, 2.5rem);
-      font-weight: 700; letter-spacing: -.04em; line-height: 1;
-      max-width: 600px;
-    }
-    .processo-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr);
+    .manifesto-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 700; letter-spacing: -.04em; }
+    .manifesto-list {
+      display: grid; grid-template-columns: repeat(4, 1fr);
       position: relative; z-index: 1;
     }
-    .passo {
-      padding: 2.5rem 1.8rem;
+    .manifesto-item {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid rgba(255,255,255,.1);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      transition: background .25s;
+    }
+    .manifesto-item:nth-child(4n) { border-right: none; }
+    .manifesto-item:hover { background: rgba(255,255,255,.05); }
+    .m-n { font-size: 2.5rem; font-weight: 700; letter-spacing: -.05em; color: rgba(255,255,255,.2); line-height: 1; margin-bottom: 1rem; display: block; transition: color .25s; }
+    .manifesto-item:hover .m-n { color: rgba(255,255,255,.5); }
+    .m-title { font-size: max(1.604vw, 1rem); font-weight: 700; letter-spacing: -.02em; line-height: 1.2; }
+    .btn-white {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .6rem 1.4rem; border: 1.5px solid rgba(255,255,255,.4); border-radius: 100px;
+      font-family: inherit; font-size: .72rem; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+      text-decoration: none; color: var(--white); transition: background .2s;
+    }
+    .btn-white:hover { background: rgba(255,255,255,.1); border-color: var(--white); }
+
+    /* ── PROGETTI ────────────────────────────────────────────── */
+    .progetti { border-top: 1px solid var(--lgray); }
+    .progetti-head {
+      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .progetti-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; max-width: 600px; }
+    .progetti-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .progetto {
+      padding: 2.5rem 2.5rem;
       border-right: 1px solid var(--lgray);
       border-bottom: 1px solid var(--lgray);
       transition: background .25s;
     }
-    .passo:last-child { border-right: none; }
-    .passo:hover { background: rgba(255,255,255,.7); }
-    .passo-n {
-      font-size: 3rem; font-weight: 700; letter-spacing: -.05em;
-      color: var(--lgray); line-height: 1; margin-bottom: 1.5rem;
-      display: block; transition: color .25s;
-    }
-    .passo:hover .passo-n { color: var(--black); }
-    .passo-title {
-      font-size: max(1.604vw, .95rem);
-      font-weight: 700; letter-spacing: -.02em; margin-bottom: .4rem;
-    }
-    .passo-desc {
-      font-size: max(1.203vw, .82rem);
-      font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.55);
-    }
+    .progetto:nth-child(even) { border-right: none; }
+    .progetto:hover { background: var(--off); }
+    .progetto-tag { font-size: .65rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: .6rem; }
+    .progetto-title { font-size: max(2.139vw, 1.2rem); font-weight: 700; letter-spacing: -.02em; margin-bottom: .4rem; }
+    .progetto-desc { font-size: max(1.203vw, .88rem); font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.6); }
 
-    /* ── CTA FINALE ───────────────────────────────────────────── */
+    /* ── SETTORI ─────────────────────────────────────────────── */
+    .settori { border-top: 1px solid var(--lgray); position: relative; overflow: hidden; }
+    .settori::before {
+      content: '';
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: var(--p); filter: blur(120px); opacity: .4;
+      top: -80px; right: -60px; pointer-events: none;
+    }
+    .settori-head {
+      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
+      position: relative; z-index: 1;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .settori-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 700; letter-spacing: -.04em; }
+    .count { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
+    .settore-row {
+      display: flex; align-items: center;
+      padding: 1.2rem 2.5rem; border-bottom: 1px solid var(--lgray);
+      transition: background .2s, padding-left .25s;
+      position: relative; z-index: 1;
+    }
+    .settore-row:hover { background: var(--off); padding-left: 3.2rem; }
+    .s-n { font-size: .65rem; font-weight: 500; letter-spacing: .08em; color: var(--gray); min-width: 3.5rem; }
+    .s-name { font-size: max(2.139vw, 1.1rem); font-weight: 500; letter-spacing: -.02em; flex: 1; }
+    .s-arr { font-size: .9rem; color: var(--gray); opacity: 0; transition: opacity .2s; }
+    .settore-row:hover .s-arr { opacity: 1; }
+
+    /* ── CLIENTI ─────────────────────────────────────────────── */
+    .clienti {
+      border-top: 1px solid var(--lgray);
+      padding: 4rem 2.5rem;
+      background: var(--off);
+    }
+    .clienti-head { margin-bottom: 3rem; }
+    .clienti-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 700; letter-spacing: -.04em; margin-bottom: .8rem; }
+    .clienti-head p { font-size: max(1.203vw, .9rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); max-width: 600px; }
+    .loghi-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 1px; background: var(--lgray); margin-top: 1rem;
+    }
+    .logo-placeholder {
+      background: var(--off); aspect-ratio: 2/1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gray);
+      transition: background .2s;
+    }
+    .logo-placeholder:hover { background: var(--white); }
+
+    /* ── CTA FINALE ──────────────────────────────────────────── */
     .cta-final {
       border-top: 1px solid var(--lgray);
       display: grid; grid-template-columns: 1fr 1fr;
       position: relative; overflow: hidden;
     }
     .cta-final::after {
-      content: '';
-      position: absolute; width: 500px; height: 500px; border-radius: 50%;
-      background: var(--p); filter: blur(120px); opacity: .4;
+      content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: var(--lb); filter: blur(120px); opacity: .35;
       bottom: -100px; right: -80px; pointer-events: none;
     }
-    .cta-left {
-      padding: 5rem 2.5rem;
-      border-right: 1px solid var(--lgray);
-      position: relative; z-index: 1;
-    }
-    .cta-left h2 {
-      font-size: max(11.143vw, 3.5rem);
-      font-weight: 700; letter-spacing: -.05em; line-height: .88;
-    }
+    .cta-left { padding: 5rem 2.5rem; border-right: 1px solid var(--lgray); position: relative; z-index: 1; }
+    .cta-left h2 { font-size: max(11.143vw, 3.5rem); font-weight: 700; letter-spacing: -.05em; line-height: .88; }
     .cta-left h2 em { font-style: italic; font-weight: 400; }
-    .cta-right {
-      padding: 5rem 2.5rem;
-      display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem;
-      position: relative; z-index: 1;
-    }
-    .cta-email {
-      font-size: max(2.807vw, 1.3rem);
-      font-weight: 300; text-decoration: none; color: var(--black);
-      transition: opacity .2s;
-    }
+    .cta-right { padding: 5rem 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem; position: relative; z-index: 1; }
+    .cta-email { font-size: max(2.807vw, 1.3rem); font-weight: 300; text-decoration: none; color: var(--black); transition: opacity .2s; }
     .cta-email:hover { opacity: .5; }
-    .cta-btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .65rem 1.4rem; align-self: flex-start;
-      background: var(--black); color: var(--white);
+    .btn-fill {
+      display: inline-flex; align-items: center; gap: .5rem; align-self: flex-start;
+      padding: .65rem 1.4rem; background: var(--black); color: var(--white);
       font-family: inherit; font-size: .75rem; font-weight: 600;
       letter-spacing: .05em; text-transform: uppercase;
       text-decoration: none; border-radius: 100px; transition: opacity .2s;
     }
-    .cta-btn:hover { opacity: .8; }
+    .btn-fill:hover { opacity: .8; }
 
-    /* ── FOOTER ───────────────────────────────────────────────── */
-    footer {
-      background: var(--black); color: var(--white);
-      padding: 3.5rem 2.5rem 2.5rem;
-      border-top: 1px solid #222;
-    }
-    .footer-inner {
-      display: grid; grid-template-columns: 1fr auto; gap: 3rem;
-      align-items: start; margin-bottom: 3rem;
-    }
-    .footer-logo img { height: 38px; width: auto; display: block; margin-bottom: 1rem; }
-    .footer-tagline {
-      font-size: max(1.203vw, .85rem); font-weight: 300;
-      color: rgba(255,255,255,.4); line-height: 1.6; max-width: 320px;
-    }
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer { background: var(--black); color: var(--white); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px solid #222; }
+    .footer-inner { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: start; margin-bottom: 3rem; }
+    .footer-logo img { height: 36px; width: auto; display: block; margin-bottom: 1rem; }
+    .footer-tagline { font-size: max(1.203vw, .85rem); font-weight: 300; color: rgba(255,255,255,.4); line-height: 1.6; max-width: 300px; }
     .footer-r { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; }
-    .footer-r a {
-      font-size: .8rem; color: rgba(255,255,255,.4);
-      text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s;
-    }
+    .footer-r a { font-size: .8rem; color: rgba(255,255,255,.4); text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s; }
     .footer-r a:hover { color: var(--white); }
-    .footer-bottom {
-      display: flex; justify-content: space-between;
-      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.1);
-      font-size: .65rem; color: rgba(255,255,255,.2);
-    }
+    .footer-bottom { display: flex; justify-content: space-between; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.1); font-size: .65rem; color: rgba(255,255,255,.2); }
 
-    /* ── RESPONSIVE ────────────────────────────────────────────── */
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media (max-width: 768px) {
       .hero { padding: 3rem 1.5rem 2.5rem; }
-      .hero-bottom { grid-template-columns: 1fr; }
-      .hero-nav { display: none; }
-      .btn-contact-fixed { display: none; }
-      .servizi, .works-grid, .cta-final { grid-template-columns: 1fr; }
-      .servizi-col { border-right: none; border-bottom: 1px solid var(--lgray); }
-      .work { border-right: none; }
+      .hero-bottom, .statement, .come-grid, .progetti-grid, .cta-final { grid-template-columns: 1fr; }
+      .hero-nav, .btn-fixed { display: none; }
+      .statement-left { border-right: none; border-bottom: 1px solid var(--lgray); }
       .cta-left { border-right: none; border-bottom: 1px solid var(--lgray); }
-      .processo-grid { grid-template-columns: 1fr 1fr; }
-      .processo-grid .passo:nth-child(even) { border-right: none; }
+      .domanda { grid-template-columns: 1fr; gap: 1.5rem; }
+      .manifesto-list { grid-template-columns: 1fr 1fr; }
+      .manifesto-item:nth-child(2n) { border-right: none; }
+      .loghi-grid { grid-template-columns: repeat(3, 1fr); }
       .footer-inner { grid-template-columns: 1fr; }
       .footer-r { align-items: flex-start; }
       .footer-bottom { flex-direction: column; gap: .3rem; }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .portfolio-intro { flex-direction: column; gap: 2rem; }
     }
   </style>
 </head>
@@ -428,165 +355,230 @@
 
   <div id="cur-dot"></div>
   <div id="cur-ring"></div>
+  <a href="#" id="logo-fixed"><img src="logo-white.png" alt="Goodcom"></a>
+  <a href="#contatti" class="btn-fixed">Contattaci</a>
 
-  <!-- Logo fisso top-left (appare dopo scroll dell'hero) -->
-  <a href="#" id="logo-fixed"><img src="logo-black.png" alt="Goodcom"></a>
-
-  <!-- Contact button floating top-right -->
-  <a href="#contatti" class="btn-contact-fixed">Contattaci</a>
-
-  <!-- ── HERO ──────────────────────────────────────────────────── -->
+  <!-- ── HERO SCURO ─────────────────────────────────────────────── -->
   <section class="hero" id="top">
+    <div class="hero-blob blob-o"></div>
+    <div class="hero-blob blob-p"></div>
+    <div class="hero-blob blob-lb"></div>
+    <div class="hero-blob blob-db"></div>
 
-    <!-- Logo grande — protagonista dell'hero -->
     <a href="#" class="hero-logo">
-      <img src="logo-black.png" alt="Goodcom">
+      <img src="logo-white.png" alt="Goodcom">
     </a>
 
-    <!-- Bottom: tagline + CTA | nav inline -->
     <div class="hero-bottom">
       <div>
         <p class="hero-tagline">
-          Goodcom è un'agenzia di comunicazione strategica specializzata in Assessment, Narrazione e Attivazione. Creiamo connessioni tra idee e persone. Altrimenti, che senso ha?
+          In GoodCom siamo esperti nella ricerca di soluzioni strategiche e nella narrazione di storie di sostenibilità. Usiamo la comunicazione per orientare i brand verso il futuro.
         </p>
         <a href="#contatti" class="hero-cta">Scopri di più →</a>
       </div>
       <nav class="hero-nav">
         <a href="#metodo">Metodo</a>
-        <div class="nav-sep"></div>
-        <a href="#atelier">Atelier</a>
-        <div class="nav-sep"></div>
+        <div class="ns"></div>
+        <a href="#progetti">Progetti</a>
+        <div class="ns"></div>
         <a href="#settori">Settori</a>
-        <div class="nav-sep"></div>
-        <a href="#contatti" style="background:var(--black);color:var(--white);border-radius:100px;padding:.4rem 1rem;">Contattaci</a>
+        <div class="ns"></div>
+        <a href="#contatti" class="cta-nav">Contattaci</a>
       </nav>
     </div>
-
   </section>
 
-  <!-- ── SERVIZI ─────────────────────────────────────────────────── -->
-  <section class="servizi" id="metodo">
-    <div class="servizi-col">
-      <h2 class="servizi-title">Strategia</h2>
-      <ul class="servizi-list">
-        <li>Assessment <span>01</span></li>
-        <li>Narrazione strategica <span>02</span></li>
-        <li>Analisi stakeholder <span>03</span></li>
-        <li>Definizione obiettivi <span>04</span></li>
-        <li>Disclosure <span>05</span></li>
-      </ul>
-    </div>
-    <div class="servizi-col">
-      <h2 class="servizi-title">Attivazione</h2>
-      <ul class="servizi-list">
-        <li>Campagne di comunicazione <span>01</span></li>
-        <li>Progetti di attivazione <span>02</span></li>
-        <li>Event design <span>03</span></li>
-        <li>Coinvolgimento comunità <span>04</span></li>
-        <li>Strumenti long-term <span>05</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ── INFINITE SCROLL ──────────────────────────────────────────── -->
-  <div class="infinite-scroll">
-    <div class="infinite-track">
-      <span class="infinite-item">No template standard</span><span class="infinite-sep">·</span>
-      <span class="infinite-item">No soluzioni generiche</span><span class="infinite-sep">·</span>
-      <span class="infinite-item">No comunicazione vuota</span><span class="infinite-sep">·</span>
-      <span class="infinite-item">No campagne senz'anima</span><span class="infinite-sep">·</span>
-      <span class="infinite-item">No template standard</span><span class="infinite-sep">·</span>
-      <span class="infinite-item">No soluzioni generiche</span><span class="infinite-sep">·</span>
-      <span class="infinite-item">No comunicazione vuota</span><span class="infinite-sep">·</span>
-      <span class="infinite-item">No campagne senz'anima</span><span class="infinite-sep">·</span>
-    </div>
-  </div>
-
-  <!-- ── PORTFOLIO INTRO ────────────────────────────────────────── -->
-  <div class="portfolio-intro">
-    <p>Comunicazione che crea connessioni reali e risultati duraturi.</p>
-    <a href="#atelier">Vedi tutti i lavori →</a>
-  </div>
-
-  <!-- ── WORKS GRID ─────────────────────────────────────────────── -->
-  <div class="works-grid" id="atelier">
-    <div class="work">
-      <div class="work-thumb"></div>
-      <div class="work-tags"><span>Campagna</span><span>Economia Circolare</span></div>
-      <h3 class="work-title">Progetto 01</h3>
-      <p class="work-desc">Campagna di comunicazione strategica per un'organizzazione del terzo settore.</p>
-    </div>
-    <div class="work">
-      <div class="work-thumb"></div>
-      <div class="work-tags"><span>Evento</span><span>Innovazione Sociale</span></div>
-      <h3 class="work-title">Progetto 02</h3>
-      <p class="work-desc">Progetto di attivazione e coinvolgimento per un consorzio di imprese.</p>
-    </div>
-    <div class="work">
-      <div class="work-thumb"></div>
-      <div class="work-tags"><span>Narrazione</span><span>Industria</span></div>
-      <h3 class="work-title">Progetto 03</h3>
-      <p class="work-desc">Narrazione strategica e identità per un'iniziativa di innovazione sociale.</p>
-    </div>
-    <div class="work">
-      <div class="work-thumb"></div>
-      <div class="work-tags"><span>Attivazione</span><span>Turismo</span></div>
-      <h3 class="work-title">Progetto 04</h3>
-      <p class="work-desc">Campagna integrata di comunicazione per un gruppo del settore turistico.</p>
-    </div>
-  </div>
-
-  <!-- ── TESTIMONIALS ────────────────────────────────────────────── -->
-  <section class="testimonials">
-    <div class="testimonials-head">
-      <h2>I nostri clienti si fidano di noi</h2>
-      <p>E dalle loro parole, stiamo centrando l'obiettivo.</p>
-    </div>
-    <div class="testimonials-grid">
-      <div class="testimonial">
-        <p class="testimonial-quote">"Non solo la professionalità è stata impeccabile nella creazione della nostra campagna, ma abbiamo percepito un genuino entusiasmo e una dedizione ad allineare i messaggi ai nostri valori fondamentali."</p>
-        <div class="testimonial-author">Mario Rossi</div>
-        <div class="testimonial-role">Direttore, Consorzio Esempio</div>
+  <!-- ── 3 DOMANDE ─────────────────────────────────────────────── -->
+  <section class="domande">
+    <div class="domanda">
+      <div>
+        <span class="domanda-n">01</span>
+        <h2 class="domanda-q">La sostenibilità è un tema strategico per il tuo brand?</h2>
+        <p class="domanda-a">La risposta a questa domanda è il cuore della narrazione strategica più creativa, originale e strutturata che possiamo costruire e declinare insieme.</p>
       </div>
-      <div class="testimonial">
-        <p class="testimonial-quote">"Il risultato ha superato le nostre aspettative. Il team si distingue per professionalità e passione. Ogni dettaglio è stato curato per garantire un'esperienza fluida e un'immagine rafforzata."</p>
-        <div class="testimonial-author">Laura Bianchi</div>
-        <div class="testimonial-role">Responsabile Comunicazione, Azienda XYZ</div>
+      <a href="#contatti" class="btn-outline">Contattaci →</a>
+    </div>
+    <div class="domanda">
+      <div>
+        <span class="domanda-n">02</span>
+        <h2 class="domanda-q">Sei un brand orientato alla sostenibilità ma non sai come valorizzare questo approccio?</h2>
+        <p class="domanda-a">Proviamo a trovare insieme una risposta a questa domanda con l'obiettivo di valorizzare con buon senso e creatività il tuo impegno.</p>
       </div>
+      <a href="#contatti" class="btn-outline">Contattaci →</a>
+    </div>
+    <div class="domanda">
+      <div>
+        <span class="domanda-n">03</span>
+        <h2 class="domanda-q">Vuoi realizzare un progetto creativo che comunichi i tuoi valori ESG?</h2>
+        <p class="domanda-a">Ti aiutiamo a valorizzare il tuo impatto positivo con progetti di comunicazione values-based, rivolti a diversi tipi di stakeholder.</p>
+      </div>
+      <a href="#contatti" class="btn-outline">Contattaci →</a>
     </div>
   </section>
 
-  <!-- ── PROCESSO ────────────────────────────────────────────────── -->
-  <section class="processo" id="processo">
-    <div class="processo-header">
-      <h2>Step by step,<br>consegniamo il tuo progetto.</h2>
+  <!-- ── INFINITE SCROLL 1 (grande, scuro) ─────────────────────── -->
+  <div class="iscroll iscroll-dark">
+    <div class="iscroll-track fwd">
+      <span class="iscroll-item-lg">Sostenibile</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Strategica</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Alternativa</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Efficace</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Autentica</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Sostenibile</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Strategica</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Alternativa</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Efficace</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Autentica</span><span class="iscroll-sep-lg">·</span>
     </div>
-    <div class="processo-grid">
-      <div class="passo">
-        <span class="passo-n">01</span>
-        <h3 class="passo-title">Assessment</h3>
-        <p class="passo-desc">Analizziamo contesto e opportunità per costruire la base strategica.</p>
+  </div>
+
+  <!-- ── COME LAVORIAMO ─────────────────────────────────────────── -->
+  <section class="come" id="metodo">
+    <div class="come-head">
+      <h2>Il nostro modo di lavorare</h2>
+      <a href="#contatti" class="btn-outline">Approfondisci →</a>
+    </div>
+    <div class="come-grid">
+      <div class="come-col">
+        <h3>Integrazione</h3>
+        <p>Integriamo diversi ambiti di competenza per offrire una visione completa e soluzioni coerenti con gli obiettivi del cliente.</p>
       </div>
-      <div class="passo">
-        <span class="passo-n">02</span>
-        <h3 class="passo-title">Narrazione</h3>
-        <p class="passo-desc">Traduciamo valori in storie che creano identità duratura.</p>
+      <div class="come-col">
+        <h3>Ottimizzazione</h3>
+        <p>Ottimizziamo costi e tempi, valutiamo le azioni relative ai processi e alle disclosure fornendo le soluzioni più vantaggiose.</p>
       </div>
-      <div class="passo">
-        <span class="passo-n">03</span>
-        <h3 class="passo-title">Coinvolgimento</h3>
-        <p class="passo-desc">Costruiamo relazioni autentiche con stakeholder e comunità.</p>
+      <div class="come-col">
+        <h3>Valorizzazione</h3>
+        <p>Abbiamo tutti gli strumenti per valorizzare i risultati rispetto alle diverse finalità: campagne, progetti di attivazione, eventi.</p>
       </div>
-      <div class="passo">
-        <span class="passo-n">04</span>
-        <h3 class="passo-title">Attivazione</h3>
-        <p class="passo-desc">Portiamo in vita campagne, eventi e progetti concreti.</p>
+      <div class="come-col">
+        <h3>Long-term</h3>
+        <p>Forniamo strumenti che funzionano a lungo termine, costruendo valore duraturo per il brand e i suoi stakeholder.</p>
       </div>
-      <div class="passo">
-        <span class="passo-n">05</span>
-        <h3 class="passo-title">Long-term</h3>
-        <p class="passo-desc">Forniamo strumenti che funzionano nel lungo periodo.</p>
+    </div>
+    <div class="come-process">
+      <span class="process-step">Assessment</span>
+      <span class="process-arrow">›</span>
+      <span class="process-step">Narrazione Strategica</span>
+      <span class="process-arrow">›</span>
+      <span class="process-step">Coinvolgimento</span>
+      <span class="process-arrow">›</span>
+      <span class="process-step">Attivazione</span>
+    </div>
+  </section>
+
+  <!-- ── INFINITE SCROLL 2 (piccolo, chiaro) ───────────────────── -->
+  <div class="iscroll iscroll-light">
+    <div class="iscroll-track bwd">
+      <span class="iscroll-item-sm">Creatività Strategica</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Crescita Umanizzata</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Immaginazione Alternativa</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Design Efficace</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Significato Accessibile</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Valori Intangibili</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Bellezza Rigenerativa</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Relazione Autentica</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Creatività Strategica</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Crescita Umanizzata</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Immaginazione Alternativa</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Design Efficace</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Significato Accessibile</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Valori Intangibili</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Bellezza Rigenerativa</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Relazione Autentica</span><span class="iscroll-sep-sm">·</span>
+    </div>
+  </div>
+
+  <!-- ── MANIFESTO ──────────────────────────────────────────────── -->
+  <section class="manifesto">
+    <div class="manifesto-head">
+      <h2>Il nostro manifesto</h2>
+      <a href="#" class="btn-white">Scoprilo →</a>
+    </div>
+    <div class="manifesto-list">
+      <div class="manifesto-item"><span class="m-n">01</span><h3 class="m-title">Crescita umanizzata</h3></div>
+      <div class="manifesto-item"><span class="m-n">02</span><h3 class="m-title">Microinnovazione</h3></div>
+      <div class="manifesto-item"><span class="m-n">03</span><h3 class="m-title">Semplificazione della complessità</h3></div>
+      <div class="manifesto-item"><span class="m-n">04</span><h3 class="m-title">Economia civile</h3></div>
+      <div class="manifesto-item"><span class="m-n">05</span><h3 class="m-title">Impatto</h3></div>
+      <div class="manifesto-item"><span class="m-n">06</span><h3 class="m-title">Pensiero Critico per l'AI</h3></div>
+      <div class="manifesto-item"><span class="m-n">07</span><h3 class="m-title">Bellezza</h3></div>
+    </div>
+  </section>
+
+  <!-- ── PROGETTI ───────────────────────────────────────────────── -->
+  <section class="progetti" id="progetti">
+    <div class="progetti-head">
+      <h2>Da cosa nasce cosa.<br>I nostri progetti.</h2>
+      <a href="#" class="btn-outline">Tutti i lavori →</a>
+    </div>
+    <div class="progetti-grid">
+      <div class="progetto">
+        <span class="progetto-tag">Trasparenza · Green Claim</span>
+        <h3 class="progetto-title">Empowering Consumers</h3>
+        <p class="progetto-desc">Un audit per la trasparenza dei Green Claim.</p>
       </div>
+      <div class="progetto">
+        <span class="progetto-tag">Innovazione</span>
+        <h3 class="progetto-title">Microinnovazione</h3>
+        <p class="progetto-desc">Pensare in grande e portarlo nel piccolo.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">Organizzazione</span>
+        <h3 class="progetto-title">Flower</h3>
+        <p class="progetto-desc">Attivare nuove energie nella tua organizzazione.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">Circolarità · Eventi</span>
+        <h3 class="progetto-title">Second Life</h3>
+        <p class="progetto-desc">Rigenerazione di materiali fieristici ed eventi.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">ESG · Report</span>
+        <h3 class="progetto-title">Impatto e Report</h3>
+        <p class="progetto-desc">Comunicare efficacemente la rendicontazione ESG.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">Accessibilità</span>
+        <h3 class="progetto-title">Open</h3>
+        <p class="progetto-desc">Abbattere le barriere anche nella comunicazione.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">Horeca · ESG</span>
+        <h3 class="progetto-title">Shostainable</h3>
+        <p class="progetto-desc">Un progetto ESG per il settore HORECA.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SETTORI ────────────────────────────────────────────────── -->
+  <section class="settori" id="settori">
+    <div class="settori-head">
+      <h2>Settori di esperienza</h2>
+      <span class="count">07 settori</span>
+    </div>
+    <div class="settore-row"><span class="s-n">01</span><span class="s-name">Economia Circolare</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arr">→</span></div>
+  </section>
+
+  <!-- ── CLIENTI ────────────────────────────────────────────────── -->
+  <section class="clienti">
+    <div class="clienti-head">
+      <h2>I nostri clienti</h2>
+      <p>I nostri clienti apprezzano la nostra competenza in materia di sostenibilità unita a idee creative. Riusciamo sempre a coniugare la logica della strategia con la magia dello storytelling.</p>
+    </div>
+    <div class="loghi-grid">
+      <div class="logo-placeholder">Cliente 01</div>
+      <div class="logo-placeholder">Cliente 02</div>
+      <div class="logo-placeholder">Cliente 03</div>
+      <div class="logo-placeholder">Cliente 04</div>
+      <div class="logo-placeholder">Cliente 05</div>
+      <div class="logo-placeholder">Cliente 06</div>
     </div>
   </section>
 
@@ -597,7 +589,7 @@
     </div>
     <div class="cta-right">
       <a href="mailto:info@goodcom.it" class="cta-email">info@goodcom.it</a>
-      <a href="mailto:info@goodcom.it" class="cta-btn">Nuovo progetto →</a>
+      <a href="mailto:info@goodcom.it" class="btn-fill">Nuovo progetto →</a>
     </div>
   </section>
 
@@ -610,49 +602,40 @@
       </div>
       <div class="footer-r">
         <a href="#metodo">Metodo</a>
-        <a href="#atelier">Atelier</a>
+        <a href="#progetti">Progetti</a>
         <a href="#settori">Settori</a>
         <a href="mailto:info@goodcom.it">info@goodcom.it</a>
-        <a href="#">LinkedIn @goodcom</a>
-        <a href="#">Instagram @goodcom</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2024 Goodcom — Tutti i diritti riservati — P.IVA 00000000000</span>
-      <span>Comunicazione · Strategia</span>
+      <span>Comunicazione · Strategia · Sostenibilità</span>
     </div>
   </footer>
 
   <script>
-    /* Cursore */
-    const dot = document.getElementById('cur-dot');
-    const ring = document.getElementById('cur-ring');
+    const dot=document.getElementById('cur-dot'), ring=document.getElementById('cur-ring');
     let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove', e=>{
-      mx=e.clientX; my=e.clientY;
-      dot.style.left=mx+'px'; dot.style.top=my+'px';
-    });
-    (function raf(){
-      rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-      ring.style.left=rx+'px'; ring.style.top=ry+'px';
-      requestAnimationFrame(raf);
-    })();
-    document.querySelectorAll('a,.work,.passo,.servizi-list li').forEach(el=>{
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+    (function raf(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
+    document.querySelectorAll('a,.domanda,.come-col,.progetto,.manifesto-item,.settore-row,.logo-placeholder').forEach(el=>{
       el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
       el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
     });
-    document.querySelectorAll('.infinite-scroll,.portfolio-intro,footer').forEach(el=>{
+    document.querySelectorAll('.hero,.iscroll-dark,.manifesto,footer').forEach(el=>{
       el.addEventListener('mouseenter',()=>document.body.classList.add('cd'));
       el.addEventListener('mouseleave',()=>document.body.classList.remove('cd'));
     });
-
     /* Logo fisso appare dopo scroll hero */
-    const hero = document.getElementById('top');
-    const logoFixed = document.getElementById('logo-fixed');
-    const io = new IntersectionObserver(([e])=>{
-      logoFixed.classList.toggle('visible', !e.isIntersecting);
-    }, { threshold: 0.1 });
-    io.observe(hero);
+    const logoFixed=document.getElementById('logo-fixed');
+    const btnFixed=document.querySelector('.btn-fixed');
+    new IntersectionObserver(([e])=>{
+      logoFixed.classList.toggle('visible',!e.isIntersecting);
+      if(!e.isIntersecting){ btnFixed.classList.remove('dark'); }
+      else { btnFixed.classList.add('dark'); }
+    },{threshold:0.05}).observe(document.getElementById('top'));
   </script>
 
 </body>
