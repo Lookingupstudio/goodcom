@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Goodcom</title>
+  <title>Goodcom — Comunicazione strategica</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -15,477 +15,470 @@
       --white: #ffffff;
       --gray:  #8ea6bf;
       --lgray: #d9dfe3;
-      --off:   #f5f5f3;
+      --off:   #f5f4f0;
+      /* palette colori per i blob gradiente */
+      --o: #FF6403; --p: #F5DAE9; --lb: #BCCEFB; --db: #1100A7;
     }
 
     html { scroll-behavior: smooth; cursor: none; }
-
     body {
       font-family: 'Hanken Grotesk', system-ui, sans-serif;
-      background: var(--white);
-      color: var(--black);
-      overflow-x: hidden;
-      cursor: none;
+      background: var(--white); color: var(--black);
+      overflow-x: hidden; cursor: none;
     }
 
-    /* ── CURSORE stile heathermudry, piccolo ─────────────────────
-       Dot preciso + ring che segue con lag elastico.
-       Su hover: ring cresce leggermente.
-       Su sezioni scure: inverte in bianco.                        */
-    #c-dot {
+    /* ── CURSORE ─────────────────────────────────────────────── */
+    #cur-dot {
       position: fixed; width: 6px; height: 6px;
       background: var(--black); border-radius: 50%;
       pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: background .2s, transform .15s;
+      transform: translate(-50%,-50%); transition: background .2s;
     }
-    #c-ring {
-      position: fixed; width: 32px; height: 32px;
-      border: 1.5px solid var(--black);
-      border-radius: 50%;
+    #cur-ring {
+      position: fixed; width: 30px; height: 30px;
+      border: 1.5px solid var(--black); border-radius: 50%;
       pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: width .35s cubic-bezier(.16,1,.3,1),
-                  height .35s cubic-bezier(.16,1,.3,1),
-                  border-color .2s, opacity .2s;
-      opacity: .5;
+      transform: translate(-50%,-50%); opacity: .5;
+      transition: width .35s cubic-bezier(.16,1,.3,1), height .35s cubic-bezier(.16,1,.3,1), border-color .2s, opacity .2s;
     }
-    body.ch #c-ring { width: 48px; height: 48px; opacity: .8; }
-    body.cd #c-dot  { background: var(--white); }
-    body.cd #c-ring { border-color: var(--white); }
+    body.ch #cur-ring { width: 46px; height: 46px; opacity: .8; }
+    body.cd #cur-dot  { background: var(--white); }
+    body.cd #cur-ring { border-color: rgba(255,255,255,.6); }
 
-    /* ── TIPOGRAFIA — scala nographism ──────────────────────
-       h1-huge: max(22.286vw, 5.375rem) — esatto come nographism */
-    .t-huge  { font-size: max(22.286vw, 5.375rem); font-weight: 700; line-height: .88; letter-spacing: -.04em; }
-    .t-h1    { font-size: max(11.143vw, 4rem);     font-weight: 700; line-height: .92; letter-spacing: -.04em; }
-    .t-h2    { font-size: max(6.417vw,  2.986rem); font-weight: 700; line-height: 1;   letter-spacing: -.03em; }
-    .t-h3    { font-size: max(4.813vw,  2.488rem); font-weight: 700; line-height: 1;   letter-spacing: -.03em; }
-    .t-body  { font-size: max(1.203vw,  1rem);     font-weight: 300; line-height: 1.7; }
-    .t-label { font-size: max(.936vw,   .8rem);    font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
-
-    /* ── NAV — struttura nographism: logo | links | CTA ─────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-      display: grid; grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      padding: 0 2.5rem;
-      height: 56px;
-      background: var(--white);
-      border-bottom: 1px solid var(--lgray);
-    }
-    .nav-logo { display: flex; align-items: center; }
-    .nav-logo img { height: 28px; width: auto; display: block; }
-    .nav-links-center {
-      display: flex; align-items: center; gap: 2rem;
-      justify-content: center;
-    }
-    .nav-links-center a {
-      font-size: .72rem; font-weight: 400; letter-spacing: .04em;
-      text-transform: uppercase; text-decoration: none;
-      color: rgba(26,25,24,.5); transition: color .2s; white-space: nowrap;
-    }
-    .nav-links-center a:hover { color: var(--black); }
-    .nav-right { display: flex; justify-content: flex-end; }
-    .nav-cta {
-      padding: .45rem 1.1rem;
-      border: 1px solid var(--black); border-radius: 100px;
-      font-size: .7rem; font-weight: 500; letter-spacing: .04em;
-      text-transform: uppercase; text-decoration: none; color: var(--black);
+    /* ── FLOATING CONTACT BUTTON (top-right fisso) ───────────── */
+    .btn-contact-fixed {
+      position: fixed; top: 1.4rem; right: 2.5rem; z-index: 500;
+      padding: .5rem 1.2rem;
+      border: 1.5px solid var(--black); border-radius: 100px;
+      font-family: inherit; font-size: .72rem; font-weight: 500;
+      letter-spacing: .04em; text-transform: uppercase;
+      text-decoration: none; color: var(--black); background: var(--white);
       transition: background .2s, color .2s;
     }
-    .nav-cta:hover { background: var(--black); color: var(--white); }
+    .btn-contact-fixed:hover { background: var(--black); color: var(--white); }
 
-    /* ── HERO — testo intro + big scroll ─────────────────────── */
+    /* ── LOGO FISSO TOP-LEFT (appare dopo scroll hero) ────────── */
+    #logo-fixed {
+      position: fixed; top: 1.2rem; left: 2.5rem; z-index: 400;
+      opacity: 0; transform: translateY(-6px);
+      transition: opacity .4s, transform .4s;
+      pointer-events: none;
+    }
+    #logo-fixed.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #logo-fixed img { height: 26px; width: auto; display: block; }
+
+    /* ── HERO ─────────────────────────────────────────────────── */
     .hero {
-      padding-top: 5.5rem; /* nav height */
-      border-bottom: 1px solid var(--lgray);
-    }
-
-    /* Blocco intro: logo grande + tagline + CTA */
-    .hero-intro {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0;
-      border-bottom: 1px solid var(--lgray);
-      min-height: 60vh;
-      position: relative; overflow: hidden;
-    }
-
-    /* Blob gradiente stile silent-house — luci atmosferiche su bianco */
-    .hero-intro::before {
-      content: '';
-      position: absolute;
-      width: 600px; height: 600px; border-radius: 50%;
-      background: #FF6403;
-      filter: blur(130px);
-      opacity: .22;
-      top: -120px; right: -80px;
-      pointer-events: none; z-index: 0;
-      animation: blobFloat 12s ease-in-out infinite;
-    }
-    .hero-intro::after {
-      content: '';
-      position: absolute;
-      width: 500px; height: 500px; border-radius: 50%;
-      background: #BCCEFB;
-      filter: blur(110px);
-      opacity: .35;
-      bottom: -80px; left: -60px;
-      pointer-events: none; z-index: 0;
-      animation: blobFloat 16s ease-in-out infinite reverse;
-    }
-    @keyframes blobFloat {
-      0%,100% { transform: translate(0,0) scale(1); }
-      50%      { transform: translate(20px,-15px) scale(1.05); }
-    }
-    /* assicura che il contenuto stia sopra i blob */
-    .hero-intro-left,
-    .hero-intro-right { position: relative; z-index: 1; }
-
-    .hero-intro-left {
-      padding: 4rem 2.5rem;
+      background: var(--white);
+      padding: 3.5rem 2.5rem 3rem;
+      min-height: 100vh;
       display: flex; flex-direction: column; justify-content: space-between;
-      border-right: 1px solid var(--lgray);
+      position: relative; overflow: hidden;
+      border-bottom: 1px solid var(--lgray);
     }
-    .hero-intro-right {
-      padding: 4rem 2.5rem;
-      display: flex; flex-direction: column; justify-content: flex-end;
+
+    /* Blob gradiente sottile nell'hero */
+    .hero::before {
+      content: '';
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: var(--o); filter: blur(130px); opacity: .12;
+      top: -100px; right: -60px; pointer-events: none;
+      animation: blobDrift 14s ease-in-out infinite;
     }
-    .hero-brand {
-      font-size: max(11.143vw, 4rem);
-      font-weight: 700; line-height: .88; letter-spacing: -.05em;
-      color: var(--black);
+    .hero::after {
+      content: '';
+      position: absolute; width: 400px; height: 400px; border-radius: 50%;
+      background: var(--lb); filter: blur(110px); opacity: .2;
+      bottom: -80px; left: -60px; pointer-events: none;
+      animation: blobDrift 18s ease-in-out infinite reverse;
+    }
+    @keyframes blobDrift {
+      0%,100% { transform: translate(0,0); }
+      50% { transform: translate(20px,-15px); }
+    }
+
+    /* Logo grande nell'hero — il logo è il protagonista */
+    .hero-logo {
+      position: relative; z-index: 1;
+      display: block;
+      width: 100%; max-width: 900px;
+    }
+    .hero-logo img { width: 100%; height: auto; display: block; }
+
+    /* Bottom dell'hero: tagline + CTA sinistra, nav destra */
+    .hero-bottom {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: end; gap: 3rem;
+      margin-top: 4rem;
     }
     .hero-tagline {
-      font-size: max(2.807vw, 1.5rem);
-      font-weight: 300; line-height: 1.3;
-      color: var(--black); margin-bottom: 2.5rem;
-    }
-    .hero-sub {
-      font-size: max(1.203vw, .95rem);
-      font-weight: 300; line-height: 1.7;
-      color: rgba(26,25,24,.55); margin-bottom: 2.5rem;
+      font-size: max(1.604vw, 1rem);
+      font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.65);
+      max-width: 520px; margin-bottom: 1.5rem;
     }
     .hero-cta {
       display: inline-flex; align-items: center; gap: .5rem;
-      padding: .7rem 1.5rem;
+      padding: .6rem 1.4rem;
       background: var(--black); color: var(--white);
-      font-family: inherit; font-size: .78rem; font-weight: 600;
+      font-family: inherit; font-size: .75rem; font-weight: 600;
       letter-spacing: .05em; text-transform: uppercase;
       text-decoration: none; border-radius: 100px;
       transition: opacity .2s;
     }
     .hero-cta:hover { opacity: .8; }
 
+    /* Nav inline nell'hero (come nographism) */
+    .hero-nav {
+      display: flex; align-items: center; gap: 0;
+      background: var(--white); border-radius: 100px;
+      padding: .3rem .3rem .3rem .8rem;
+      border: 1px solid var(--lgray);
+      box-shadow: 0 1px 8px rgba(0,0,0,.06);
+    }
+    .hero-nav a {
+      font-size: .72rem; font-weight: 400; letter-spacing: .03em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(26,25,24,.5); padding: .4rem .8rem;
+      transition: color .2s; white-space: nowrap;
+    }
+    .hero-nav a:hover { color: var(--black); }
+    .hero-nav .nav-sep { width: 1px; height: 12px; background: var(--lgray); }
 
-    /* ── SERVIZI: 2 colonne ──────────────────────────────────── */
+    /* ── SERVIZI 2 COLONNE ────────────────────────────────────── */
     .servizi {
       display: grid; grid-template-columns: 1fr 1fr;
       border-bottom: 1px solid var(--lgray);
+      position: relative; overflow: hidden;
+    }
+    /* blob gradiente sulla sezione servizi */
+    .servizi::before {
+      content: '';
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: var(--p); filter: blur(120px); opacity: .4;
+      top: -100px; right: -100px; pointer-events: none; z-index: 0;
     }
     .servizi-col {
+      padding: 4rem 2.5rem; border-right: 1px solid var(--lgray);
+      position: relative; z-index: 1;
+    }
+    .servizi-col:last-child { border-right: none; }
+    .servizi-title {
+      font-size: max(6.417vw, 2.5rem);
+      font-weight: 700; letter-spacing: -.04em; margin-bottom: 2.5rem;
+    }
+    .servizi-list { list-style: none; }
+    .servizi-list li {
+      font-size: max(1.604vw, 1rem); font-weight: 400; line-height: 1;
+      padding: .85rem 0; border-bottom: 1px solid var(--lgray);
+      display: flex; justify-content: space-between; align-items: center;
+      transition: padding-left .2s;
+    }
+    .servizi-list li:first-child { border-top: 1px solid var(--lgray); }
+    .servizi-list li:hover { padding-left: .5rem; }
+    .servizi-list li span { font-size: .65rem; color: var(--gray); font-weight: 500; letter-spacing: .06em; }
+
+    /* ── INFINITE SCROLL ──────────────────────────────────────── */
+    .infinite-scroll {
+      overflow: hidden; background: var(--black);
+      padding: .35em 0;
+    }
+    .infinite-track {
+      display: flex; white-space: nowrap; align-items: center;
+      width: max-content;
+      animation: mq 35s linear infinite;
+      will-change: transform;
+    }
+    .infinite-item {
+      font-size: max(22.286vw, 5.375rem);
+      font-weight: 700; line-height: .9; letter-spacing: -.04em;
+      color: var(--white); padding: 0 .35em; flex-shrink: 0;
+    }
+    .infinite-sep {
+      font-size: max(22.286vw, 5.375rem);
+      color: rgba(255,255,255,.2); flex-shrink: 0; line-height: .9;
+    }
+    @keyframes mq {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .infinite-scroll:hover .infinite-track { animation-play-state: paused; }
+
+    /* ── INTRO PORTFOLIO ──────────────────────────────────────── */
+    .portfolio-intro {
+      background: var(--black); color: var(--white);
       padding: 4rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      gap: 3rem;
     }
-    .servizi-col:first-child { border-right: 1px solid var(--lgray); }
-
-    .col-title {
-      font-size: max(6.417vw, 2.5rem);
+    .portfolio-intro p {
+      font-size: max(4.813vw, 2rem);
       font-weight: 700; letter-spacing: -.04em; line-height: 1;
-      margin-bottom: 2.5rem;
+      max-width: 700px;
     }
-    .col-list { list-style: none; }
-    .col-list li {
-      font-size: max(1.604vw, 1.1rem);
-      font-weight: 400; line-height: 1;
-      padding: .9rem 0;
-      border-bottom: 1px solid var(--lgray);
-      display: flex; align-items: center; justify-content: space-between;
-      transition: padding-left .25s;
+    .portfolio-intro a {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .6rem 1.4rem;
+      border: 1.5px solid rgba(255,255,255,.4); border-radius: 100px;
+      font-family: inherit; font-size: .72rem; font-weight: 500;
+      letter-spacing: .04em; text-transform: uppercase;
+      text-decoration: none; color: var(--white);
+      transition: border-color .2s, background .2s;
     }
-    .col-list li:first-child { border-top: 1px solid var(--lgray); }
-    .col-list li:hover { padding-left: .5rem; }
-    .col-list li span { font-size: .7rem; color: var(--gray); font-weight: 500; letter-spacing: .06em; }
+    .portfolio-intro a:hover { background: rgba(255,255,255,.1); border-color: var(--white); }
 
-    /* ── PORTFOLIO ───────────────────────────────────────────── */
-    .portfolio-head {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding: 3rem 2.5rem;
-      border-bottom: 1px solid var(--lgray);
-      border-top: 1px solid var(--lgray);
-    }
-    .section-title {
-      font-size: max(6.417vw, 2.5rem);
-      font-weight: 700; letter-spacing: -.04em;
-    }
-    .section-link {
-      font-size: .72rem; font-weight: 500; letter-spacing: .07em;
-      text-transform: uppercase; text-decoration: none;
-      color: rgba(26,25,24,.4); transition: color .2s;
-      display: flex; align-items: center; gap: .4rem;
-    }
-    .section-link:hover { color: var(--black); }
-    .section-link::after { content: '→'; }
-
-    .portfolio-grid { display: grid; grid-template-columns: 1fr 1fr; }
-    .portfolio-item {
-      padding: 2rem 2.5rem 2.5rem;
+    /* ── WORKS GRID ───────────────────────────────────────────── */
+    .works-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .work {
+      padding: 2rem 2.5rem 3rem;
       border-right: 1px solid var(--lgray);
       border-bottom: 1px solid var(--lgray);
       transition: background .25s;
     }
-    .portfolio-item:nth-child(even) { border-right: none; }
-    .portfolio-item:hover { background: var(--off); }
-
-    .portfolio-thumb {
+    .work:nth-child(even) { border-right: none; }
+    .work:hover { background: var(--off); }
+    .work-thumb {
       width: 100%; aspect-ratio: 16/9;
-      background: var(--lgray); border-radius: 2px;
-      margin-bottom: 1.5rem; overflow: hidden; position: relative;
+      background: var(--lgray); border-radius: 2px; margin-bottom: 1.5rem;
     }
-    /* Aggiungere immagine reale: .portfolio-thumb img { width:100%; height:100%; object-fit:cover; } */
-
-    .portfolio-tags {
-      font-size: .68rem; font-weight: 500; letter-spacing: .08em;
+    .work-tags {
+      font-size: .65rem; font-weight: 500; letter-spacing: .08em;
       text-transform: uppercase; color: var(--gray);
-      margin-bottom: .6rem; display: flex; gap: .6rem; flex-wrap: wrap;
+      margin-bottom: .5rem; display: flex; gap: .5rem; flex-wrap: wrap;
     }
-    .portfolio-name {
-      font-size: max(2.139vw, 1.3rem);
-      font-weight: 700; letter-spacing: -.02em; line-height: 1.1;
+    .work-title {
+      font-size: max(2.139vw, 1.2rem);
+      font-weight: 700; letter-spacing: -.02em; line-height: 1.1; margin-bottom: .4rem;
     }
-    .portfolio-desc {
-      font-size: max(1.203vw, .9rem);
-      font-weight: 300; line-height: 1.6;
-      color: rgba(26,25,24,.55); margin-top: .5rem;
+    .work-desc {
+      font-size: max(1.203vw, .88rem);
+      font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.55);
     }
 
-    /* ── SETTORI — blob rosa in background ──────────────────── */
-    .settori { position: relative; overflow: hidden; }
-    .settori::before {
-      content: '';
-      position: absolute; width: 500px; height: 500px; border-radius: 50%;
-      background: #F5DAE9;
-      filter: blur(120px); opacity: .5;
-      top: -100px; right: -80px;
-      pointer-events: none; z-index: 0;
-    }
-    .settori-head, .settore-row { position: relative; z-index: 1; }
-
-    .settori-head {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding: 3rem 2.5rem;
-      border-bottom: 1px solid var(--lgray);
+    /* ── TESTIMONIALS ──────────────────────────────────────────── */
+    .testimonials {
       border-top: 1px solid var(--lgray);
+      padding: 4rem 2.5rem;
     }
-    .settore-row {
-      display: flex; align-items: center;
-      padding: 1.2rem 2.5rem;
-      border-bottom: 1px solid var(--lgray);
-      transition: background .2s, padding-left .25s;
+    .testimonials-head {
+      margin-bottom: 3rem;
     }
-    .settore-row:hover { background: var(--off); padding-left: 3.2rem; }
-    .s-n { font-size: .65rem; font-weight: 500; letter-spacing: .08em; color: var(--gray); min-width: 3.5rem; }
-    .s-name { font-size: max(2.139vw, 1.2rem); font-weight: 500; letter-spacing: -.02em; flex: 1; }
-    .s-arr { font-size: .9rem; color: var(--gray); opacity: 0; transition: opacity .2s; }
-    .settore-row:hover .s-arr { opacity: 1; }
+    .testimonials-head h2 {
+      font-size: max(6.417vw, 2.5rem);
+      font-weight: 700; letter-spacing: -.04em;
+    }
+    .testimonials-head p {
+      font-size: max(1.203vw, .9rem);
+      font-weight: 300; color: rgba(26,25,24,.5); margin-top: .4rem;
+    }
+    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .testimonial {
+      padding: 2rem; border: 1px solid var(--lgray); border-radius: 4px;
+    }
+    .testimonial-quote {
+      font-size: max(1.203vw, .95rem);
+      font-weight: 300; line-height: 1.7;
+      color: rgba(26,25,24,.75); margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .testimonial-author { font-weight: 700; font-size: .88rem; }
+    .testimonial-role { font-size: .78rem; color: var(--gray); font-weight: 300; }
 
-    /* ── PROCESSO — blob lightblue in background ────────────── */
+    /* ── PROCESSO ──────────────────────────────────────────────── */
     .processo {
       background: var(--off); border-top: 1px solid var(--lgray);
       position: relative; overflow: hidden;
     }
-    .processo::after {
+    .processo::before {
       content: '';
       position: absolute; width: 600px; height: 600px; border-radius: 50%;
-      background: #BCCEFB;
-      filter: blur(130px); opacity: .45;
-      bottom: -150px; left: -100px;
-      pointer-events: none; z-index: 0;
+      background: var(--lb); filter: blur(130px); opacity: .4;
+      bottom: -150px; left: -100px; pointer-events: none; z-index: 0;
     }
-    .processo-head, .processo-grid { position: relative; z-index: 1; }
-    .processo-head {
-      padding: 3rem 2.5rem;
+    .processo-header {
+      padding: 4rem 2.5rem 3rem;
       border-bottom: 1px solid var(--lgray);
+      position: relative; z-index: 1;
+      display: flex; justify-content: space-between; align-items: flex-end;
     }
-    .processo-head p {
+    .processo-header h2 {
       font-size: max(6.417vw, 2.5rem);
       font-weight: 700; letter-spacing: -.04em; line-height: 1;
-      max-width: 700px;
+      max-width: 600px;
     }
     .processo-grid {
       display: grid; grid-template-columns: repeat(5, 1fr);
+      position: relative; z-index: 1;
     }
-    .processo-step {
-      padding: 2.5rem 1.5rem;
+    .passo {
+      padding: 2.5rem 1.8rem;
       border-right: 1px solid var(--lgray);
       border-bottom: 1px solid var(--lgray);
+      transition: background .25s;
     }
-    .processo-step:last-child { border-right: none; }
-    .step-num {
-      font-size: 2.5rem; font-weight: 700; letter-spacing: -.05em;
+    .passo:last-child { border-right: none; }
+    .passo:hover { background: rgba(255,255,255,.7); }
+    .passo-n {
+      font-size: 3rem; font-weight: 700; letter-spacing: -.05em;
       color: var(--lgray); line-height: 1; margin-bottom: 1.5rem;
       display: block; transition: color .25s;
     }
-    .processo-step:hover .step-num { color: var(--black); }
-    .step-name {
-      font-size: max(1.604vw, 1rem);
-      font-weight: 700; letter-spacing: -.02em; margin-bottom: .5rem;
+    .passo:hover .passo-n { color: var(--black); }
+    .passo-title {
+      font-size: max(1.604vw, .95rem);
+      font-weight: 700; letter-spacing: -.02em; margin-bottom: .4rem;
     }
-    .step-desc {
-      font-size: max(1.203vw, .85rem);
+    .passo-desc {
+      font-size: max(1.203vw, .82rem);
       font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.55);
     }
 
-    /* ── CTA FINALE ─────────────────────────────────────────── */
-    .cta-section {
+    /* ── CTA FINALE ───────────────────────────────────────────── */
+    .cta-final {
       border-top: 1px solid var(--lgray);
       display: grid; grid-template-columns: 1fr 1fr;
       position: relative; overflow: hidden;
     }
-    .cta-section::before {
+    .cta-final::after {
       content: '';
-      position: absolute;
-      width: 700px; height: 700px; border-radius: 50%;
-      background: #1100A7;
-      filter: blur(150px);
-      opacity: .20;
-      top: -200px; right: -100px;
-      pointer-events: none; z-index: 0;
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: var(--p); filter: blur(120px); opacity: .4;
+      bottom: -100px; right: -80px; pointer-events: none;
     }
-    .cta-section::after {
-      content: '';
-      position: absolute;
-      width: 400px; height: 400px; border-radius: 50%;
-      background: #F5DAE9;
-      filter: blur(100px);
-      opacity: .45;
-      bottom: -100px; left: 20%;
-      pointer-events: none; z-index: 0;
-    }
-    .cta-left, .cta-right { position: relative; z-index: 1; }
     .cta-left {
       padding: 5rem 2.5rem;
       border-right: 1px solid var(--lgray);
+      position: relative; z-index: 1;
     }
-    .cta-title {
-      font-size: max(11.143vw, 4rem);
+    .cta-left h2 {
+      font-size: max(11.143vw, 3.5rem);
       font-weight: 700; letter-spacing: -.05em; line-height: .88;
     }
-    .cta-title em { font-style: italic; font-weight: 400; }
+    .cta-left h2 em { font-style: italic; font-weight: 400; }
     .cta-right {
       padding: 5rem 2.5rem;
       display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem;
+      position: relative; z-index: 1;
     }
     .cta-email {
-      font-size: max(2.807vw, 1.5rem);
+      font-size: max(2.807vw, 1.3rem);
       font-weight: 300; text-decoration: none; color: var(--black);
       transition: opacity .2s;
     }
-    .cta-email:hover { opacity: .6; }
+    .cta-email:hover { opacity: .5; }
     .cta-btn {
       display: inline-flex; align-items: center; gap: .5rem;
-      padding: .7rem 1.5rem; align-self: flex-start;
+      padding: .65rem 1.4rem; align-self: flex-start;
       background: var(--black); color: var(--white);
-      font-family: inherit; font-size: .78rem; font-weight: 600;
+      font-family: inherit; font-size: .75rem; font-weight: 600;
       letter-spacing: .05em; text-transform: uppercase;
-      text-decoration: none; border-radius: 100px;
-      transition: opacity .2s;
+      text-decoration: none; border-radius: 100px; transition: opacity .2s;
     }
     .cta-btn:hover { opacity: .8; }
 
-    /* ── FOOTER ─────────────────────────────────────────────── */
+    /* ── FOOTER ───────────────────────────────────────────────── */
     footer {
       background: var(--black); color: var(--white);
-      padding: 3rem 2.5rem;
-      display: grid; grid-template-columns: 1fr auto;
-      align-items: end; gap: 2rem;
-      border-top: 1px solid #333;
+      padding: 3.5rem 2.5rem 2.5rem;
+      border-top: 1px solid #222;
     }
-    .footer-logo img { height: 40px; width: auto; display: block; }
+    .footer-inner {
+      display: grid; grid-template-columns: 1fr auto; gap: 3rem;
+      align-items: start; margin-bottom: 3rem;
+    }
+    .footer-logo img { height: 38px; width: auto; display: block; margin-bottom: 1rem; }
     .footer-tagline {
       font-size: max(1.203vw, .85rem); font-weight: 300;
-      color: rgba(255,255,255,.4); margin-top: 1rem; line-height: 1.6;
+      color: rgba(255,255,255,.4); line-height: 1.6; max-width: 320px;
     }
     .footer-r { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; }
     .footer-r a {
-      font-size: .78rem; font-weight: 300; color: rgba(255,255,255,.4);
-      text-decoration: none; line-height: 1.9; transition: color .2s;
+      font-size: .8rem; color: rgba(255,255,255,.4);
+      text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s;
     }
     .footer-r a:hover { color: var(--white); }
     .footer-bottom {
-      grid-column: 1 / -1;
-      padding-top: 2rem; margin-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,.1);
       display: flex; justify-content: space-between;
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.1);
       font-size: .65rem; color: rgba(255,255,255,.2);
     }
 
-    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    /* ── RESPONSIVE ────────────────────────────────────────────── */
     @media (max-width: 768px) {
-      .hero-intro, .servizi, .portfolio-grid,
-      .processo-grid, .cta-section { grid-template-columns: 1fr; }
-      .hero-intro-left, .servizi-col:first-child { border-right: none; border-bottom: 1px solid var(--lgray); }
-      .portfolio-item { border-right: none; }
-      .processo-step { border-right: none; }
+      .hero { padding: 3rem 1.5rem 2.5rem; }
+      .hero-bottom { grid-template-columns: 1fr; }
+      .hero-nav { display: none; }
+      .btn-contact-fixed { display: none; }
+      .servizi, .works-grid, .cta-final { grid-template-columns: 1fr; }
+      .servizi-col { border-right: none; border-bottom: 1px solid var(--lgray); }
+      .work { border-right: none; }
       .cta-left { border-right: none; border-bottom: 1px solid var(--lgray); }
-      .nav-r a:not(.nav-cta) { display: none; }
-      footer { grid-template-columns: 1fr; }
+      .processo-grid { grid-template-columns: 1fr 1fr; }
+      .processo-grid .passo:nth-child(even) { border-right: none; }
+      .footer-inner { grid-template-columns: 1fr; }
       .footer-r { align-items: flex-start; }
+      .footer-bottom { flex-direction: column; gap: .3rem; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .portfolio-intro { flex-direction: column; gap: 2rem; }
     }
   </style>
 </head>
 <body>
 
-  <div id="c-dot"></div>
-  <div id="c-ring"></div>
+  <div id="cur-dot"></div>
+  <div id="cur-ring"></div>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo"><img src="logo-black.png" alt="Goodcom"></a>
-    <div class="nav-links-center">
-      <a href="#metodo">Metodo</a>
-      <a href="#atelier">Atelier</a>
-      <a href="#settori">Settori</a>
-    </div>
-    <div class="nav-right">
-      <a href="#contatti" class="nav-cta">Contattaci →</a>
-    </div>
-  </nav>
+  <!-- Logo fisso top-left (appare dopo scroll dell'hero) -->
+  <a href="#" id="logo-fixed"><img src="logo-black.png" alt="Goodcom"></a>
+
+  <!-- Contact button floating top-right -->
+  <a href="#contatti" class="btn-contact-fixed">Contattaci</a>
 
   <!-- ── HERO ──────────────────────────────────────────────────── -->
-  <section class="hero">
+  <section class="hero" id="top">
 
-    <!-- Intro: brand + tagline + CTA -->
-    <div class="hero-intro">
-      <div class="hero-intro-left">
-        <div class="hero-brand">goodcom</div>
-        <div>
-          <p class="t-label" style="color:var(--gray); margin-bottom:.8rem;">Agenzia di comunicazione strategica</p>
-        </div>
+    <!-- Logo grande — protagonista dell'hero -->
+    <a href="#" class="hero-logo">
+      <img src="logo-black.png" alt="Goodcom">
+    </a>
+
+    <!-- Bottom: tagline + CTA | nav inline -->
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-tagline">
+          Goodcom è un'agenzia di comunicazione strategica specializzata in Assessment, Narrazione e Attivazione. Creiamo connessioni tra idee e persone. Altrimenti, che senso ha?
+        </p>
+        <a href="#contatti" class="hero-cta">Scopri di più →</a>
       </div>
-      <div class="hero-intro-right">
-        <p class="hero-tagline">Comunichiamo il valore che connette idee e persone.</p>
-        <p class="hero-sub">Integriamo diversi ambiti di competenza per ottimizzare costi, tempi e processi. Forniamo strumenti che funzionano a lungo termine.</p>
-        <a href="#contatti" class="hero-cta">Scopri come →</a>
-      </div>
+      <nav class="hero-nav">
+        <a href="#metodo">Metodo</a>
+        <div class="nav-sep"></div>
+        <a href="#atelier">Atelier</a>
+        <div class="nav-sep"></div>
+        <a href="#settori">Settori</a>
+        <div class="nav-sep"></div>
+        <a href="#contatti" style="background:var(--black);color:var(--white);border-radius:100px;padding:.4rem 1rem;">Contattaci</a>
+      </nav>
     </div>
-
 
   </section>
 
-  <!-- ── SERVIZI: 2 colonne ─────────────────────────────────────── -->
+  <!-- ── SERVIZI ─────────────────────────────────────────────────── -->
   <section class="servizi" id="metodo">
     <div class="servizi-col">
-      <h2 class="col-title">Strategia</h2>
-      <ul class="col-list">
+      <h2 class="servizi-title">Strategia</h2>
+      <ul class="servizi-list">
         <li>Assessment <span>01</span></li>
         <li>Narrazione strategica <span>02</span></li>
-        <li>Definizione obiettivi <span>03</span></li>
-        <li>Analisi stakeholder <span>04</span></li>
+        <li>Analisi stakeholder <span>03</span></li>
+        <li>Definizione obiettivi <span>04</span></li>
         <li>Disclosure <span>05</span></li>
       </ul>
     </div>
     <div class="servizi-col">
-      <h2 class="col-title">Attivazione</h2>
-      <ul class="col-list">
+      <h2 class="servizi-title">Attivazione</h2>
+      <ul class="servizi-list">
         <li>Campagne di comunicazione <span>01</span></li>
         <li>Progetti di attivazione <span>02</span></li>
         <li>Event design <span>03</span></li>
@@ -495,89 +488,112 @@
     </div>
   </section>
 
-  <!-- ── PORTFOLIO / ATELIER ────────────────────────────────────── -->
-  <div class="portfolio-head" id="atelier">
-    <h2 class="section-title">Atelier</h2>
-    <a href="#" class="section-link">Tutti i lavori</a>
-  </div>
-  <div class="portfolio-grid">
-    <div class="portfolio-item">
-      <div class="portfolio-thumb"></div>
-      <div class="portfolio-tags"><span>Campagna</span><span>Economia Circolare</span></div>
-      <h3 class="portfolio-name">Progetto 01</h3>
-      <p class="portfolio-desc">Campagna di comunicazione strategica per un'organizzazione del terzo settore.</p>
-    </div>
-    <div class="portfolio-item">
-      <div class="portfolio-thumb"></div>
-      <div class="portfolio-tags"><span>Evento</span><span>Terzo Settore</span></div>
-      <h3 class="portfolio-name">Progetto 02</h3>
-      <p class="portfolio-desc">Progetto di attivazione e coinvolgimento per un consorzio di imprese.</p>
-    </div>
-    <div class="portfolio-item">
-      <div class="portfolio-thumb"></div>
-      <div class="portfolio-tags"><span>Attivazione</span><span>Innovazione Sociale</span></div>
-      <h3 class="portfolio-name">Progetto 03</h3>
-      <p class="portfolio-desc">Narrazione strategica e identità per un'iniziativa di innovazione sociale.</p>
-    </div>
-    <div class="portfolio-item">
-      <div class="portfolio-thumb"></div>
-      <div class="portfolio-tags"><span>Comunicazione</span><span>Industria</span></div>
-      <h3 class="portfolio-name">Progetto 04</h3>
-      <p class="portfolio-desc">Campagna integrata di comunicazione per un gruppo industriale.</p>
+  <!-- ── INFINITE SCROLL ──────────────────────────────────────────── -->
+  <div class="infinite-scroll">
+    <div class="infinite-track">
+      <span class="infinite-item">No template standard</span><span class="infinite-sep">·</span>
+      <span class="infinite-item">No soluzioni generiche</span><span class="infinite-sep">·</span>
+      <span class="infinite-item">No comunicazione vuota</span><span class="infinite-sep">·</span>
+      <span class="infinite-item">No campagne senz'anima</span><span class="infinite-sep">·</span>
+      <span class="infinite-item">No template standard</span><span class="infinite-sep">·</span>
+      <span class="infinite-item">No soluzioni generiche</span><span class="infinite-sep">·</span>
+      <span class="infinite-item">No comunicazione vuota</span><span class="infinite-sep">·</span>
+      <span class="infinite-item">No campagne senz'anima</span><span class="infinite-sep">·</span>
     </div>
   </div>
 
-  <!-- ── SETTORI ────────────────────────────────────────────────── -->
-  <div class="settori-head" id="settori">
-    <h2 class="section-title">Settori</h2>
-    <span class="t-label" style="color:var(--gray);">07 settori</span>
+  <!-- ── PORTFOLIO INTRO ────────────────────────────────────────── -->
+  <div class="portfolio-intro">
+    <p>Comunicazione che crea connessioni reali e risultati duraturi.</p>
+    <a href="#atelier">Vedi tutti i lavori →</a>
   </div>
-  <div class="settore-row"><span class="s-n">01</span><span class="s-name">Economia Circolare</span><span class="s-arr">→</span></div>
-  <div class="settore-row"><span class="s-n">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arr">→</span></div>
-  <div class="settore-row"><span class="s-n">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arr">→</span></div>
-  <div class="settore-row"><span class="s-n">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arr">→</span></div>
-  <div class="settore-row"><span class="s-n">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arr">→</span></div>
-  <div class="settore-row"><span class="s-n">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arr">→</span></div>
-  <div class="settore-row"><span class="s-n">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arr">→</span></div>
 
-  <!-- ── PROCESSO ───────────────────────────────────────────────── -->
-  <section class="processo" id="metodo-steps">
-    <div class="processo-head">
-      <p>Step by step,<br>consegniamo il tuo progetto.</p>
+  <!-- ── WORKS GRID ─────────────────────────────────────────────── -->
+  <div class="works-grid" id="atelier">
+    <div class="work">
+      <div class="work-thumb"></div>
+      <div class="work-tags"><span>Campagna</span><span>Economia Circolare</span></div>
+      <h3 class="work-title">Progetto 01</h3>
+      <p class="work-desc">Campagna di comunicazione strategica per un'organizzazione del terzo settore.</p>
+    </div>
+    <div class="work">
+      <div class="work-thumb"></div>
+      <div class="work-tags"><span>Evento</span><span>Innovazione Sociale</span></div>
+      <h3 class="work-title">Progetto 02</h3>
+      <p class="work-desc">Progetto di attivazione e coinvolgimento per un consorzio di imprese.</p>
+    </div>
+    <div class="work">
+      <div class="work-thumb"></div>
+      <div class="work-tags"><span>Narrazione</span><span>Industria</span></div>
+      <h3 class="work-title">Progetto 03</h3>
+      <p class="work-desc">Narrazione strategica e identità per un'iniziativa di innovazione sociale.</p>
+    </div>
+    <div class="work">
+      <div class="work-thumb"></div>
+      <div class="work-tags"><span>Attivazione</span><span>Turismo</span></div>
+      <h3 class="work-title">Progetto 04</h3>
+      <p class="work-desc">Campagna integrata di comunicazione per un gruppo del settore turistico.</p>
+    </div>
+  </div>
+
+  <!-- ── TESTIMONIALS ────────────────────────────────────────────── -->
+  <section class="testimonials">
+    <div class="testimonials-head">
+      <h2>I nostri clienti si fidano di noi</h2>
+      <p>E dalle loro parole, stiamo centrando l'obiettivo.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <p class="testimonial-quote">"Non solo la professionalità è stata impeccabile nella creazione della nostra campagna, ma abbiamo percepito un genuino entusiasmo e una dedizione ad allineare i messaggi ai nostri valori fondamentali."</p>
+        <div class="testimonial-author">Mario Rossi</div>
+        <div class="testimonial-role">Direttore, Consorzio Esempio</div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">"Il risultato ha superato le nostre aspettative. Il team si distingue per professionalità e passione. Ogni dettaglio è stato curato per garantire un'esperienza fluida e un'immagine rafforzata."</p>
+        <div class="testimonial-author">Laura Bianchi</div>
+        <div class="testimonial-role">Responsabile Comunicazione, Azienda XYZ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROCESSO ────────────────────────────────────────────────── -->
+  <section class="processo" id="processo">
+    <div class="processo-header">
+      <h2>Step by step,<br>consegniamo il tuo progetto.</h2>
     </div>
     <div class="processo-grid">
-      <div class="processo-step">
-        <span class="step-num">01</span>
-        <h3 class="step-name">Assessment</h3>
-        <p class="step-desc">Analizziamo contesto e opportunità per costruire la base strategica.</p>
+      <div class="passo">
+        <span class="passo-n">01</span>
+        <h3 class="passo-title">Assessment</h3>
+        <p class="passo-desc">Analizziamo contesto e opportunità per costruire la base strategica.</p>
       </div>
-      <div class="processo-step">
-        <span class="step-num">02</span>
-        <h3 class="step-name">Narrazione</h3>
-        <p class="step-desc">Traduciamo valori in storie che creano identità duratura.</p>
+      <div class="passo">
+        <span class="passo-n">02</span>
+        <h3 class="passo-title">Narrazione</h3>
+        <p class="passo-desc">Traduciamo valori in storie che creano identità duratura.</p>
       </div>
-      <div class="processo-step">
-        <span class="step-num">03</span>
-        <h3 class="step-name">Coinvolgimento</h3>
-        <p class="step-desc">Costruiamo relazioni autentiche con stakeholder e comunità.</p>
+      <div class="passo">
+        <span class="passo-n">03</span>
+        <h3 class="passo-title">Coinvolgimento</h3>
+        <p class="passo-desc">Costruiamo relazioni autentiche con stakeholder e comunità.</p>
       </div>
-      <div class="processo-step">
-        <span class="step-num">04</span>
-        <h3 class="step-name">Attivazione</h3>
-        <p class="step-desc">Portiamo in vita campagne, eventi e progetti.</p>
+      <div class="passo">
+        <span class="passo-n">04</span>
+        <h3 class="passo-title">Attivazione</h3>
+        <p class="passo-desc">Portiamo in vita campagne, eventi e progetti concreti.</p>
       </div>
-      <div class="processo-step">
-        <span class="step-num">05</span>
-        <h3 class="step-name">Long-term</h3>
-        <p class="step-desc">Forniamo strumenti che funzionano nel lungo periodo.</p>
+      <div class="passo">
+        <span class="passo-n">05</span>
+        <h3 class="passo-title">Long-term</h3>
+        <p class="passo-desc">Forniamo strumenti che funzionano nel lungo periodo.</p>
       </div>
     </div>
   </section>
 
   <!-- ── CTA FINALE ─────────────────────────────────────────────── -->
-  <section class="cta-section" id="contatti">
+  <section class="cta-final" id="contatti">
     <div class="cta-left">
-      <h2 class="cta-title">Parliamo del<br>tuo <em>progetto.</em></h2>
+      <h2>Siamo a una<br>e-mail di<br><em>distanza.</em></h2>
     </div>
     <div class="cta-right">
       <a href="mailto:info@goodcom.it" class="cta-email">info@goodcom.it</a>
@@ -587,48 +603,57 @@
 
   <!-- ── FOOTER ─────────────────────────────────────────────────── -->
   <footer>
-    <div>
-      <div class="footer-logo"><img src="logo-white.png" alt="Goodcom"></div>
-      <p class="footer-tagline">Comunicazione strategica che connette idee e persone.</p>
-    </div>
-    <div class="footer-r">
-      <a href="#metodo">Metodo</a>
-      <a href="#atelier">Atelier</a>
-      <a href="#settori">Settori</a>
-      <a href="mailto:info@goodcom.it">info@goodcom.it</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Instagram</a>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><img src="logo-white.png" alt="Goodcom"></div>
+        <p class="footer-tagline">Comunicazione strategica che connette idee e persone.</p>
+      </div>
+      <div class="footer-r">
+        <a href="#metodo">Metodo</a>
+        <a href="#atelier">Atelier</a>
+        <a href="#settori">Settori</a>
+        <a href="mailto:info@goodcom.it">info@goodcom.it</a>
+        <a href="#">LinkedIn @goodcom</a>
+        <a href="#">Instagram @goodcom</a>
+      </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2024 Goodcom — Tutti i diritti riservati</span>
-      <span>P.IVA 00000000000</span>
+      <span>© 2024 Goodcom — Tutti i diritti riservati — P.IVA 00000000000</span>
+      <span>Comunicazione · Strategia</span>
     </div>
   </footer>
 
   <script>
-    const dot = document.getElementById('c-dot');
-    const ring = document.getElementById('c-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    /* Cursore */
+    const dot = document.getElementById('cur-dot');
+    const ring = document.getElementById('cur-ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e=>{
+      mx=e.clientX; my=e.clientY;
+      dot.style.left=mx+'px'; dot.style.top=my+'px';
     });
-    (function raf() {
-      rx += (mx - rx) * .12; ry += (my - ry) * .12;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    (function raf(){
+      rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+      ring.style.left=rx+'px'; ring.style.top=ry+'px';
       requestAnimationFrame(raf);
     })();
-
-    document.querySelectorAll('a, .portfolio-item, .settore-row, .processo-step, .col-list li').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+    document.querySelectorAll('a,.work,.passo,.servizi-list li').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+    });
+    document.querySelectorAll('.infinite-scroll,.portfolio-intro,footer').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('cd'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('cd'));
     });
 
-    document.querySelectorAll('footer').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cd'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cd'));
-    });
+    /* Logo fisso appare dopo scroll hero */
+    const hero = document.getElementById('top');
+    const logoFixed = document.getElementById('logo-fixed');
+    const io = new IntersectionObserver(([e])=>{
+      logoFixed.classList.toggle('visible', !e.isIntersecting);
+    }, { threshold: 0.1 });
+    io.observe(hero);
   </script>
+
 </body>
 </html>
