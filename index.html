@@ -16,7 +16,12 @@
       --white:  #ffffff;
       --gray:   #8ea6bf;
       --lgray:  #d9dfe3;
-      --off:    #f4f3f0;   /* sfondo body, leggermente warm */
+      --off:    #f4f3f0;
+      --o:  #FF6403;
+      --p:  #F5DAE9;
+      --lb: #BCCEFB;
+      --st: #8EA6BF;
+      --db: #1100A7;
     }
 
     html { scroll-behavior: smooth; cursor: none; }
@@ -115,20 +120,14 @@
       background: var(--black);
     }
 
-    /* Soft gradient glow — silent-house style, solo come luce */
-    .hero-glow {
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 55% 65% at 78% 18%,
-          rgba(217,223,227,.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 45% at 12% 80%,
-          rgba(142,166,191,.12) 0%, transparent 65%);
-      animation: glowPulse 10s ease-in-out infinite;
-    }
-    @keyframes glowPulse {
-      0%,100% { opacity: 1; }
-      50%      { opacity: .65; }
-    }
+    /* Blob colorati — palette Goodcom */
+    .hero-blob { position: absolute; border-radius: 50%; pointer-events: none; }
+    .blob-o  { width:600px;height:600px; background:var(--o);  filter:blur(130px); opacity:.22; top:-120px; right:-80px;  animation: bd 13s ease-in-out infinite; }
+    .blob-p  { width:500px;height:500px; background:var(--p);  filter:blur(110px); opacity:.20; top:25%;   left:-70px;   animation: bd 17s ease-in-out infinite 2s reverse; }
+    .blob-lb { width:550px;height:550px; background:var(--lb); filter:blur(120px); opacity:.18; bottom:-60px; right:10%; animation: bd 15s ease-in-out infinite 1s; }
+    .blob-st { width:450px;height:450px; background:var(--st); filter:blur(100px); opacity:.20; top:50%;   right:30%;  animation: bd 19s ease-in-out infinite 4s; }
+    .blob-db { width:450px;height:450px; background:var(--db); filter:blur(115px); opacity:.25; bottom:5%;  left:15%;  animation: bd 11s ease-in-out infinite 3s reverse; }
+    @keyframes bd { 0%,100%{transform:translate(0,0)} 50%{transform:translate(18px,-14px)} }
 
     /* Vignetta bottom */
     .hero::after {
@@ -190,6 +189,27 @@
       51%  { transform: scaleY(1); transform-origin: bottom; }
       100% { transform: scaleY(0); transform-origin: bottom; }
     }
+
+    /* ── BANDE SCORREVOLI ───────────────────────────────────────── */
+    .iscroll { overflow: hidden; padding: .35em 0; }
+    .iscroll-dark  { background: var(--black); }
+    .iscroll-light { background: var(--off); border-top: 1px solid var(--lgray); border-bottom: 1px solid var(--lgray); }
+    .iscroll-track {
+      display: flex; white-space: nowrap; align-items: center;
+      width: max-content; will-change: transform;
+    }
+    .iscroll-track.fwd { animation: mq 28s linear infinite; }
+    .iscroll-track.bwd { animation: mq 32s linear infinite reverse; }
+    .iscroll-item-lg { font-size: max(22.286vw, 5.375rem); font-weight: 700; line-height: .9; letter-spacing: -.04em; padding: 0 .35em; flex-shrink: 0; }
+    .iscroll-item-sm { font-size: max(6.417vw, 2.5rem);    font-weight: 700; line-height: .9; letter-spacing: -.04em; padding: 0 .5em;  flex-shrink: 0; }
+    .iscroll-dark  .iscroll-item-lg, .iscroll-dark  .iscroll-item-sm { color: var(--white); }
+    .iscroll-light .iscroll-item-sm { color: var(--black); }
+    .iscroll-sep-lg { font-size: max(22.286vw, 5.375rem); line-height: .9; flex-shrink: 0; }
+    .iscroll-sep-sm { font-size: max(6.417vw, 2.5rem);    line-height: .9; flex-shrink: 0; }
+    .iscroll-dark  .iscroll-sep-lg, .iscroll-dark  .iscroll-sep-sm { color: rgba(255,255,255,.15); }
+    .iscroll-light .iscroll-sep-sm { color: rgba(26,25,24,.15); }
+    @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .iscroll:hover .iscroll-track { animation-play-state: paused; }
 
     /* ── METODO: 4 PANNELLI ──────────────────────────────────────
        Progressione cromatica: bianco → lgray → gray → nero
@@ -388,7 +408,11 @@
 
   <!-- ── HERO ──────────────────────────────────────────────── -->
   <section class="hero" id="hero">
-    <div class="hero-glow"></div>
+    <div class="hero-blob blob-o"></div>
+    <div class="hero-blob blob-p"></div>
+    <div class="hero-blob blob-lb"></div>
+    <div class="hero-blob blob-st"></div>
+    <div class="hero-blob blob-db"></div>
 
     <h1 class="hero-hl">
       <span class="line"><span class="w">Facciamo</span></span>
@@ -405,7 +429,21 @@
     </div>
   </section>
 
-  <div class="gsep"></div>
+  <!-- ── BANDA 1 — grande, scura ─────────────────────────────── -->
+  <div class="iscroll iscroll-dark">
+    <div class="iscroll-track fwd">
+      <span class="iscroll-item-lg">Sostenibile</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Strategica</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Alternativa</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Efficace</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Autentica</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Sostenibile</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Strategica</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Alternativa</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Efficace</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item-lg">Autentica</span><span class="iscroll-sep-lg">·</span>
+    </div>
+  </div>
 
   <!-- ── METODO ────────────────────────────────────────────── -->
   <div id="metodo">
@@ -467,7 +505,27 @@
     </div>
   </section>
 
-  <div class="gsep"></div>
+  <!-- ── BANDA 2 — media, chiara, inversa ────────────────────── -->
+  <div class="iscroll iscroll-light">
+    <div class="iscroll-track bwd">
+      <span class="iscroll-item-sm">Creatività Strategica</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Crescita Umanizzata</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Immaginazione Alternativa</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Design Efficace</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Significato Accessibile</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Valori Intangibili</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Bellezza Rigenerativa</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Relazione Autentica</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Creatività Strategica</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Crescita Umanizzata</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Immaginazione Alternativa</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Design Efficace</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Significato Accessibile</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Valori Intangibili</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Bellezza Rigenerativa</span><span class="iscroll-sep-sm">·</span>
+      <span class="iscroll-item-sm">Relazione Autentica</span><span class="iscroll-sep-sm">·</span>
+    </div>
+  </div>
 
   <!-- ── STATEMENT ─────────────────────────────────────────── -->
   <section class="statement">
