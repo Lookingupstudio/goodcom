@@ -3,433 +3,417 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Goodcom — Comunicazione che connette</title>
+  <title>Goodcom — Comunicazione Sostenibile</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --black:  #1a1918;
-      --white:  #ffffff;
-      --gray:   #8ea6bf;
-      --lgray:  #d9dfe3;
-      --off:    #f4f3f0;
-      --o:  #FF6403;
-      --p:  #F5DAE9;
-      --lb: #BCCEFB;
-      --st: #8EA6BF;
-      --db: #1100A7;
+      --black: #1a1918;
+      --white: #ffffff;
+      --gray:  #8ea6bf;
+      --lgray: #d9dfe3;
+      --off:   #f5f4f0;
+      --o: #FF6403; --p: #F5DAE9; --lb: #BCCEFB; --st: #8EA6BF; --db: #1100A7;
     }
 
     html { scroll-behavior: smooth; cursor: none; }
+    body { font-family: 'Hanken Grotesk', system-ui, sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; cursor: none; }
 
-    body {
-      font-family: 'Hanken Grotesk', sans-serif;
-      background: var(--off);
-      color: var(--black);
-      overflow-x: hidden;
-    }
-
-    /* ── CURSORE — stile nographism ───────────────────────────
-       Default: piccolo dot. Hover testo/link: dot → pill con label. */
-    #cur-dot {
-      position: fixed;
-      min-width: 8px; height: 8px;
-      background: var(--black);
-      border-radius: 100px;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-      transition: min-width .35s cubic-bezier(.16,1,.3,1),
-                  height .35s cubic-bezier(.16,1,.3,1),
-                  background .25s;
-    }
-    #cur-label {
-      font-size: 0; font-weight: 600; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--white);
-      white-space: nowrap; padding: 0;
-      transition: font-size .2s .08s, padding .2s .08s;
-    }
-    /* Hover: dot cresce a pill */
-    body.ch #cur-dot  { min-width: 68px; height: 28px; }
-    body.ch #cur-label { font-size: .58rem; padding: 0 2px; }
-
-    /* Ring laggy — stile heathermudry ma piccolo */
-    #cur-ring {
-      position: fixed;
-      width: 30px; height: 30px;
-      border: 1px solid rgba(26,25,24,.3);
-      border-radius: 50%;
-      pointer-events: none; z-index: 9997;
-      transform: translate(-50%,-50%);
-      transition: width .4s, height .4s, opacity .3s, border-color .25s;
-      opacity: .5;
-    }
-    body.ch #cur-ring { width: 48px; height: 48px; opacity: .15; }
-
-    /* Cursore su sezioni scure */
+    /* ── CURSORE ─────────────────────────────────────────────── */
+    #cur-dot { position: fixed; width: 6px; height: 6px; background: var(--black); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: background .2s; }
+    #cur-ring { position: fixed; width: 30px; height: 30px; border: 1.5px solid var(--black); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .5; transition: width .35s cubic-bezier(.16,1,.3,1), height .35s, border-color .2s, opacity .2s; }
+    body.ch #cur-ring { width: 46px; height: 46px; opacity: .8; }
     body.cd #cur-dot  { background: var(--white); }
-    body.cd #cur-label { color: var(--black); }
-    body.cd #cur-ring { border-color: rgba(255,255,255,.35); }
+    body.cd #cur-ring { border-color: rgba(255,255,255,.5); }
 
-    /* ── NAV ────────────────────────────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+    /* ── HEADER FISSO ────────────────────────────────────────── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
       display: flex; justify-content: space-between; align-items: center;
-      padding: 2rem 3rem;
-      transition: background .3s, padding .3s, border-color .3s;
+      padding: 1.4rem 2.5rem;
+      transition: background .35s, border-color .35s, padding .35s;
     }
-    nav.scrolled {
-      background: rgba(244,243,240,.92);
+    header.scrolled {
+      background: rgba(255,255,255,.92);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(26,25,24,.08);
-      padding: 1.2rem 3rem;
+      border-bottom: 1px solid var(--lgray);
+      padding: 1rem 2.5rem;
     }
-    .nav-logo {
-      font-weight: 700; font-size: 1.05rem; letter-spacing: -.03em;
-      text-decoration: none; color: var(--white); transition: color .3s;
+    .header-logo img { height: 26px; width: auto; display: block; filter: brightness(0) invert(1); transition: filter .35s; }
+    header.scrolled .header-logo img { filter: brightness(0); }
+    .header-nav { display: flex; align-items: center; gap: 0; }
+    .header-nav a {
+      font-size: .72rem; font-weight: 400; letter-spacing: .04em; text-transform: uppercase;
+      text-decoration: none; color: rgba(255,255,255,.55); padding: .4rem .9rem;
+      transition: color .2s; white-space: nowrap;
     }
-    nav.scrolled .nav-logo { color: var(--black); }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-size: .72rem; font-weight: 500; letter-spacing: .08em;
-      text-transform: uppercase; text-decoration: none;
-      color: rgba(255,255,255,.65); transition: color .25s;
+    .header-nav a:hover { color: var(--white); }
+    header.scrolled .header-nav a { color: rgba(26,25,24,.45); }
+    header.scrolled .header-nav a:hover { color: var(--black); }
+    .header-cta {
+      padding: .45rem 1.1rem; border: 1.5px solid rgba(255,255,255,.5); border-radius: 100px;
+      font-family: inherit; font-size: .72rem; font-weight: 500; letter-spacing: .04em;
+      text-transform: uppercase; text-decoration: none; color: var(--white);
+      background: transparent; transition: background .2s, border-color .2s, color .2s;
     }
-    nav.scrolled .nav-links a { color: rgba(26,25,24,.45); }
-    .nav-links a:hover { color: var(--white); }
-    nav.scrolled .nav-links a:hover { color: var(--black); }
+    .header-cta:hover { background: rgba(255,255,255,.12); border-color: var(--white); }
+    header.scrolled .header-cta { color: var(--black); border-color: rgba(26,25,24,.4); }
+    header.scrolled .header-cta:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
-    /* ── SEPARATORE ─────────────────────────────────────────── */
-    .gsep {
-      height: 1px;
-      background: linear-gradient(90deg,
-        transparent 0%, var(--lgray) 20%, var(--gray) 50%, var(--lgray) 80%, transparent 100%);
-    }
-
-    /* ── HERO ────────────────────────────────────────────────── */
+    /* ── HERO SCURO CON GRADIENTE ─────────────────────────────
+       Sfondo nero + blob soft da tutti e 5 i colori palette    */
     .hero {
+      background: linear-gradient(-45deg,
+        #FF6403, #F5DAE9, #BCCEFB, #8EA6BF, #1100A7, #BCCEFB, #F5DAE9, #FF6403);
+      background-size: 400% 400%;
+      animation: gradMove 12s ease infinite;
+      padding: 3.5rem 2.5rem 3rem;
       min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 0 3rem 5.5rem;
+      display: flex; flex-direction: column; justify-content: space-between;
       position: relative; overflow: hidden;
-      background: var(--black);
+      border-bottom: 1px solid #2a2927;
+    }
+    @keyframes gradMove {
+      0%   { background-position: 0%   50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0%   50%; }
+    }
+    /* vignetta per leggibilità testo */
+    .hero-gradient {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(to bottom,
+          rgba(0,0,0,.35) 0%,
+          rgba(0,0,0,.05) 45%,
+          rgba(0,0,0,.50) 100%);
     }
 
-    /* Blob colorati — palette Goodcom */
-    .hero-blob { position: absolute; border-radius: 50%; pointer-events: none; }
-    .blob-o  { width:600px;height:600px; background:var(--o);  filter:blur(130px); opacity:.22; top:-120px; right:-80px;  animation: bd 13s ease-in-out infinite; }
-    .blob-p  { width:500px;height:500px; background:var(--p);  filter:blur(110px); opacity:.20; top:25%;   left:-70px;   animation: bd 17s ease-in-out infinite 2s reverse; }
-    .blob-lb { width:550px;height:550px; background:var(--lb); filter:blur(120px); opacity:.18; bottom:-60px; right:10%; animation: bd 15s ease-in-out infinite 1s; }
-    .blob-st { width:450px;height:450px; background:var(--st); filter:blur(100px); opacity:.20; top:50%;   right:30%;  animation: bd 19s ease-in-out infinite 4s; }
-    .blob-db { width:450px;height:450px; background:var(--db); filter:blur(115px); opacity:.25; bottom:5%;  left:15%;  animation: bd 11s ease-in-out infinite 3s reverse; }
-    @keyframes bd { 0%,100%{transform:translate(0,0)} 50%{transform:translate(18px,-14px)} }
+    .hero-logo { position: relative; z-index: 1; display: block; width: 100%; max-width: 860px; }
+    .hero-logo img { width: 100%; height: auto; display: block; filter: brightness(0) invert(1); }
 
-    /* Vignetta bottom */
-    .hero::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(26,25,24,.5) 0%, transparent 45%);
-      pointer-events: none;
-    }
-
-    .hero-hl {
+    .hero-bottom {
       position: relative; z-index: 1;
-      font-size: clamp(4rem, 12vw, 14rem);
-      font-weight: 700; line-height: .9;
-      letter-spacing: -.04em; color: var(--white);
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: end; gap: 3rem; margin-top: 4rem;
     }
-    .hero-hl .line { display: block; overflow: hidden; }
+    .hero-tagline { font-size: max(1.604vw, 1rem); font-weight: 300; line-height: 1.65; color: rgba(255,255,255,.55); max-width: 520px; margin-bottom: 1.5rem; }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .6rem 1.4rem; background: var(--white); color: var(--black);
+      font-family: inherit; font-size: .75rem; font-weight: 500;
+      letter-spacing: .05em; text-transform: uppercase;
+      text-decoration: none; border-radius: 100px; transition: opacity .2s;
+    }
+    .hero-cta:hover { opacity: .85; }
 
-    /* Nographism effect: solid → outlined al hover */
-    .w {
-      display: inline-block; cursor: none;
-      transition: -webkit-text-stroke .25s, -webkit-text-fill-color .25s;
+
+    /* ── 3 DOMANDE ───────────────────────────────────────────── */
+    .domande { border-bottom: 1px solid var(--lgray); }
+    .domanda {
+      padding: 4rem 2.5rem;
+      border-bottom: 1px solid var(--lgray);
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 3rem; align-items: end;
+      transition: background .25s;
     }
-    .w:hover {
-      -webkit-text-stroke: 1.5px var(--white);
-      -webkit-text-fill-color: transparent;
+    .domanda:last-child { border-bottom: none; }
+    .domanda:hover { background: var(--off); }
+    .domanda-n { font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 1rem; }
+    .domanda-q { font-size: max(3.61vw, 1.8rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.05; margin-bottom: 1rem; }
+    .domanda-a { font-size: max(1.203vw, .95rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); max-width: 600px; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: .5rem; flex-shrink: 0;
+      padding: .6rem 1.4rem; border: 1.5px solid var(--black); border-radius: 100px;
+      font-family: inherit; font-size: .72rem; font-weight: 500;
+      letter-spacing: .05em; text-transform: uppercase;
+      text-decoration: none; color: var(--black);
+      transition: background .2s, color .2s;
+    }
+    .btn-outline:hover { background: var(--black); color: var(--white); }
+
+    /* ── BRAND STATEMENT ─────────────────────────────────────── */
+    .statement {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--lgray);
+    }
+    .statement-left { padding: 5rem 2.5rem; border-right: 1px solid var(--lgray); }
+    .statement-right { padding: 5rem 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; }
+    .statement-left p {
+      font-size: max(4.813vw, 2rem);
+      font-weight: 500; letter-spacing: -.04em; line-height: 1;
+    }
+    .statement-right p {
+      font-size: max(1.604vw, 1rem);
+      font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6);
     }
 
-    .hero-tag {
-      position: relative; z-index: 1;
-      font-size: .75rem; font-weight: 400; letter-spacing: .12em;
-      text-transform: uppercase; color: rgba(255,255,255,.35);
-      margin-top: 3rem;
-    }
-
-    /* Animazioni ingresso */
-    .hero-hl .line span { animation: up .9s cubic-bezier(.16,1,.3,1) both; }
-    .hero-hl .line:nth-child(1) span { animation-delay: .05s; }
-    .hero-hl .line:nth-child(2) span { animation-delay: .18s; }
-    .hero-hl .line:nth-child(3) span { animation-delay: .30s; }
-    .hero-hl .line:nth-child(4) span { animation-delay: .42s; }
-    .hero-tag { animation: fi .8s ease .65s both; }
-
-    @keyframes up {
-      from { opacity:0; transform: translateY(56px); }
-      to   { opacity:1; transform: translateY(0); }
-    }
-    @keyframes fi { from { opacity:0; } to { opacity:1; } }
-
-    /* Scroll cue */
-    .scroll-cue {
-      position: absolute; bottom: 2.5rem; right: 3rem; z-index: 2;
-      display: flex; flex-direction: column; align-items: center; gap: .5rem;
-      opacity: .25; animation: fi 1s ease 1.2s both;
-    }
-    .scroll-cue span { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--white); }
-    .scroll-cue-line { width: 1px; height: 44px; background: var(--white); animation: scl 1.8s ease-in-out infinite; }
-    @keyframes scl {
-      0%   { transform: scaleY(0); transform-origin: top; }
-      50%  { transform: scaleY(1); transform-origin: top; }
-      51%  { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
-
-    /* ── BANDE SCORREVOLI ───────────────────────────────────────── */
+    /* ── INFINITE SCROLL ─────────────────────────────────────── */
     .iscroll { overflow: hidden; padding: .35em 0; }
-    .iscroll-dark  { background: var(--black); }
+    .iscroll-dark { background: var(--black); }
     .iscroll-light { background: var(--off); border-top: 1px solid var(--lgray); border-bottom: 1px solid var(--lgray); }
     .iscroll-track {
       display: flex; white-space: nowrap; align-items: center;
       width: max-content; will-change: transform;
     }
-    .iscroll-track.fwd { animation: mq 28s linear infinite; }
-    .iscroll-track.bwd { animation: mq 32s linear infinite reverse; }
-    .iscroll-item-lg { font-size: max(22.286vw, 5.375rem); font-weight: 700; line-height: .9; letter-spacing: -.04em; padding: 0 .35em; flex-shrink: 0; }
-    .iscroll-item-sm { font-size: max(6.417vw, 2.5rem);    font-weight: 700; line-height: .9; letter-spacing: -.04em; padding: 0 .5em;  flex-shrink: 0; }
-    .iscroll-dark  .iscroll-item-lg, .iscroll-dark  .iscroll-item-sm { color: var(--white); }
+    .iscroll-track.fwd  { animation: mq 28s linear infinite; }
+    .iscroll-track.bwd  { animation: mq 32s linear infinite reverse; }
+    .iscroll-item-lg { font-size: max(22.286vw, 5.375rem); font-weight: 500; line-height: .9; letter-spacing: -.04em; padding: 0 .35em; flex-shrink: 0; }
+    .iscroll-item-sm { font-size: max(6.417vw, 2.5rem); font-weight: 500; line-height: .9; letter-spacing: -.04em; padding: 0 .5em; flex-shrink: 0; }
+    .iscroll-dark .iscroll-item-lg, .iscroll-dark .iscroll-item-sm { color: var(--white); }
     .iscroll-light .iscroll-item-sm { color: var(--black); }
     .iscroll-sep-lg { font-size: max(22.286vw, 5.375rem); line-height: .9; flex-shrink: 0; }
-    .iscroll-sep-sm { font-size: max(6.417vw, 2.5rem);    line-height: .9; flex-shrink: 0; }
-    .iscroll-dark  .iscroll-sep-lg, .iscroll-dark  .iscroll-sep-sm { color: rgba(255,255,255,.15); }
-    .iscroll-light .iscroll-sep-sm { color: rgba(26,25,24,.15); }
-    @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .iscroll-sep-sm { font-size: max(6.417vw, 2.5rem); line-height: .9; flex-shrink: 0; }
+    .iscroll-dark .iscroll-sep-lg, .iscroll-dark .iscroll-sep-sm { color: rgba(255,255,255,.2); }
+    .iscroll-light .iscroll-sep-sm { color: rgba(26,25,24,.2); }
+    @keyframes mq { from{transform:translateX(0)}to{transform:translateX(-50%)} }
     .iscroll:hover .iscroll-track { animation-play-state: paused; }
 
-    /* ── METODO: 4 PANNELLI ──────────────────────────────────────
-       Progressione cromatica: bianco → lgray → gray → nero
-       Tono caldo → freddo → scuro. Stesso layout alternato del 3k. */
-    .panel {
-      min-height: 65vh;
-      display: grid; grid-template-columns: 1fr 1.6fr;
-      align-items: end; gap: 2rem;
-      padding: 5rem 3rem;
-      position: relative; overflow: hidden;
+    /* ── COME LAVORIAMO ──────────────────────────────────────── */
+    .come { border-bottom: 1px solid var(--lgray); }
+    .come-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
     }
-    .panel.rev { grid-template-columns: 1.6fr 1fr; }
-    .panel.rev .p-title { order: 2; text-align: right; }
-    .panel.rev .p-meta  { order: 1; }
-
-    /* Numero watermark */
-    .panel-num {
-      position: absolute;
-      font-size: 36vw; font-weight: 700; line-height: 1;
-      opacity: .05; pointer-events: none; user-select: none;
-      bottom: -.15em; right: -.03em;
-      letter-spacing: -.05em; color: currentColor;
+    .come-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; }
+    .come-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .come-col { padding: 3rem 2.5rem; border-right: 1px solid var(--lgray); border-bottom: 1px solid var(--lgray); }
+    .come-col:nth-child(even) { border-right: none; }
+    .come-col:last-child, .come-col:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+    .come-col h3 { font-size: max(2.139vw, 1.2rem); font-weight: 500; letter-spacing: -.03em; margin-bottom: .8rem; }
+    .come-col p { font-size: max(1.203vw, .9rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); }
+    .come-process {
+      padding: 3rem 2.5rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      border-top: 1px solid var(--lgray);
     }
-    .panel.rev .panel-num { right: auto; left: -.03em; }
-
-    .panel-1 { background: var(--white); color: var(--black); }
-    .panel-2 { background: var(--lgray); color: var(--black); }
-    .panel-3 { background: var(--gray);  color: var(--black); }
-    .panel-4 { background: var(--black); color: var(--white); }
-
-    .p-meta {
-      font-size: .68rem; font-weight: 500; letter-spacing: .12em;
-      text-transform: uppercase; opacity: .4; display: block; margin-bottom: .6rem;
-    }
-    .p-title {
-      font-size: clamp(2.8rem, 6.5vw, 8rem);
-      font-weight: 700; letter-spacing: -.04em; line-height: .92;
-    }
-    .p-desc {
-      font-size: 1rem; font-weight: 300; line-height: 1.75;
-      opacity: .6; max-width: 360px;
-    }
-    .panel-4 .p-meta { opacity: .35; color: var(--white); }
-    .panel-4 .p-desc { color: rgba(255,255,255,.55); opacity: 1; }
+    .process-step { font-size: max(1.604vw, .95rem); font-weight: 500; letter-spacing: -.02em; }
+    .process-arrow { color: var(--gray); font-size: 1.2rem; }
 
     /* ── MANIFESTO ───────────────────────────────────────────── */
-    .manifesto { background: var(--white); padding: 9rem 3rem; }
-    .section-label {
-      font-size: .68rem; font-weight: 500; letter-spacing: .14em;
-      text-transform: uppercase; opacity: .3; display: block; margin-bottom: 3.5rem;
-    }
-    .manifesto-body {
-      font-size: clamp(1.8rem, 4vw, 5.5rem);
-      font-weight: 500; line-height: 1.1; letter-spacing: -.03em;
-    }
-    .manifesto-body p { margin-bottom: 1rem; }
-    .manifesto-body p:last-child { margin-bottom: 0; }
-
-    /* Parole enfatizzate: italic invece di gradient */
-    .ew { font-style: italic; font-weight: 700; }
-
-    /* ── STATEMENT / FILOSOFIA ──────────────────────────────────
-       Gradiente in scala di grigio-blu: tono atmosferico, non colorato. */
-    .statement { padding: 10rem 3rem; position: relative; overflow: hidden; }
-    .statement-bg {
-      position: absolute; inset: 0;
-      background: linear-gradient(140deg,
-        #f0f3f5 0%,
-        var(--lgray) 25%,
-        var(--gray)  55%,
-        #3a4f60      78%,
-        var(--black) 100%);
-    }
-    .statement-text {
-      position: relative; z-index: 1;
-      font-size: clamp(1.6rem, 3.5vw, 4.5rem);
-      font-weight: 300; line-height: 1.45;
-      color: var(--white); max-width: 900px;
-      text-shadow: 0 2px 24px rgba(0,0,0,.2);
-    }
-    .statement-text em {
-      font-style: italic; font-weight: 500;
-    }
-
-    /* ── SETTORI ────────────────────────────────────────────── */
-    .settori { background: var(--white); padding: 8rem 3rem 1rem; }
-    .settore-row {
-      display: flex; align-items: center; gap: 2rem;
-      padding: 1.6rem 0;
-      border-top: 1px solid rgba(26,25,24,.1);
+    .manifesto {
+      background: linear-gradient(135deg, #ffffff 0%, #F5DAE9 50%, #BCCEFB 100%);
+      color: var(--black);
       position: relative; overflow: hidden;
-      transition: background .3s;
+      border-bottom: 1px solid var(--lgray);
     }
-    .settore-row:last-child { border-bottom: 1px solid rgba(26,25,24,.1); }
-    .settore-row:hover { background: rgba(26,25,24,.03); }
-
-    /* Linea sinistra che cresce + testo che scivola */
-    .settore-row::before {
-      content: '';
-      position: absolute; left: -3rem; top: 0; bottom: 0; width: 2px;
-      background: var(--black);
-      transform: scaleY(0); transform-origin: bottom;
-      transition: transform .35s cubic-bezier(.16,1,.3,1);
-    }
-    .settore-row:hover::before { transform: scaleY(1); }
-    .settore-row > * { position: relative; z-index: 1; }
-
-    .s-num  { font-size: .65rem; font-weight: 500; letter-spacing: .08em;
-              opacity: .3; min-width: 3rem; transition: opacity .3s; }
-    .s-name { font-size: clamp(1.1rem, 2.3vw, 2.6rem); font-weight: 500;
-              letter-spacing: -.02em; flex: 1;
-              transition: transform .35s cubic-bezier(.16,1,.3,1); }
-    .s-arrow { font-size: 1rem; opacity: 0; transform: translateX(-8px);
-               transition: opacity .3s, transform .4s cubic-bezier(.16,1,.3,1); }
-
-    .settore-row:hover .s-num   { opacity: .7; }
-    .settore-row:hover .s-name  { transform: translateX(6px); }
-    .settore-row:hover .s-arrow { opacity: 1; transform: translateX(0); }
-
-    /* ── GALLERY / ATELIER ───────────────────────────────────── */
-    .gallery { background: var(--black); padding: 8rem 3rem; }
-    .gallery .section-label { color: rgba(255,255,255,.25); opacity: 1; }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: 200px;
-      gap: .75rem; margin-top: 2rem;
-    }
-    .gi {
-      position: relative; overflow: hidden; border-radius: 3px;
-      background: rgba(255,255,255,.05); cursor: none;
-      display: flex; align-items: flex-end; padding: 1.2rem;
-    }
-    .gi::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg,
-        rgba(217,223,227,.25) 0%, transparent 50%, rgba(142,166,191,.15) 100%);
-      opacity: 0; transition: opacity .4s;
-    }
-    .gi:hover::after { opacity: 1; }
-    .gi-label {
+    .manifesto-head {
+      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
       position: relative; z-index: 1;
-      font-size: .65rem; font-weight: 500; letter-spacing: .1em;
-      text-transform: uppercase; color: rgba(255,255,255,.25); transition: color .3s;
+      display: flex; justify-content: space-between; align-items: flex-end;
     }
-    .gi:hover .gi-label { color: rgba(255,255,255,.85); }
-    .gi.c5 { grid-column: span 5; } .gi.c4 { grid-column: span 4; }
-    .gi.c3 { grid-column: span 3; } .gi.c6 { grid-column: span 6; }
-    .gi.r2 { grid-row: span 2; }
-
-    /* ── FOOTER ─────────────────────────────────────────────── */
-    footer { background: var(--black); color: var(--white); padding: 0 3rem 3rem; }
-    .footer-line {
-      height: 1px;
-      background: linear-gradient(90deg,
-        transparent 0%, var(--gray) 30%, var(--lgray) 50%, var(--gray) 70%, transparent 100%);
-      margin-bottom: 5rem;
+    .manifesto-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; }
+    .manifesto-list {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      position: relative; z-index: 1;
     }
-    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2rem; align-items: end; padding-bottom: 3rem; }
-    .footer-logo { font-size: 3.5rem; font-weight: 700; letter-spacing: -.05em; }
-    .footer-col { display: flex; flex-direction: column; gap: .5rem; }
-    .footer-col .lbl { font-size: .62rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.2); margin-bottom: .3rem; }
-    .footer-col a { font-size: .82rem; color: rgba(255,255,255,.4); text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s; }
-    .footer-col a:hover { color: var(--white); }
-    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: .68rem; color: rgba(255,255,255,.2); }
+    .manifesto-item {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid rgba(26,25,24,.1);
+      border-bottom: 1px solid rgba(26,25,24,.1);
+      transition: background .25s;
+    }
+    .manifesto-item:nth-child(4n) { border-right: none; }
+    .manifesto-item:hover { background: rgba(255,255,255,.4); }
+    .m-n { font-size: 2.5rem; font-weight: 500; letter-spacing: -.05em; color: rgba(26,25,24,.15); line-height: 1; margin-bottom: 1rem; display: block; transition: color .25s; }
+    .manifesto-item:hover .m-n { color: rgba(26,25,24,.4); }
+    .m-title { font-size: max(1.604vw, 1rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
+    .btn-white {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .6rem 1.4rem; border: 1.5px solid rgba(26,25,24,.35); border-radius: 100px;
+      font-family: inherit; font-size: .72rem; font-weight: 500;
+      letter-spacing: .05em; text-transform: uppercase;
+      text-decoration: none; color: var(--black); transition: background .2s, color .2s;
+    }
+    .btn-white:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
-    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    /* ── PROGETTI ────────────────────────────────────────────── */
+    .progetti { border-top: 1px solid var(--lgray); }
+    .progetti-head {
+      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .progetti-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; line-height: 1; max-width: 600px; }
+    .progetti-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .progetto {
+      padding: 2.5rem 2.5rem;
+      border-right: 1px solid var(--lgray);
+      border-bottom: 1px solid var(--lgray);
+      transition: background .25s;
+    }
+    .progetto:nth-child(even) { border-right: none; }
+    .progetto:hover { background: var(--off); }
+    .progetto-tag { font-size: .65rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: .6rem; }
+    .progetto-title { font-size: max(2.139vw, 1.2rem); font-weight: 500; letter-spacing: -.02em; margin-bottom: .4rem; }
+    .progetto-desc { font-size: max(1.203vw, .88rem); font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.6); }
+
+    /* ── SETTORI ─────────────────────────────────────────────── */
+    .settori { border-top: 1px solid var(--lgray); position: relative; overflow: hidden; }
+    .settori::before {
+      content: '';
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: var(--p); filter: blur(120px); opacity: .4;
+      top: -80px; right: -60px; pointer-events: none;
+    }
+    .settori-head {
+      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
+      position: relative; z-index: 1;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .settori-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; }
+    .count { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
+    .settore-row {
+      display: flex; align-items: center;
+      padding: 1.2rem 2.5rem; border-bottom: 1px solid var(--lgray);
+      transition: background .2s, padding-left .25s;
+      position: relative; z-index: 1;
+    }
+    .settore-row:hover { background: var(--off); padding-left: 3.2rem; }
+    .s-n { font-size: .65rem; font-weight: 500; letter-spacing: .08em; color: var(--gray); min-width: 3.5rem; }
+    .s-name { font-size: max(2.139vw, 1.1rem); font-weight: 500; letter-spacing: -.02em; flex: 1; }
+    .s-arr { font-size: .9rem; color: var(--gray); opacity: 0; transition: opacity .2s; }
+    .settore-row:hover .s-arr { opacity: 1; }
+
+    /* ── CLIENTI ─────────────────────────────────────────────── */
+    .clienti {
+      border-top: 1px solid var(--lgray);
+      padding: 4rem 2.5rem;
+      background: var(--off);
+    }
+    .clienti-head { margin-bottom: 3rem; }
+    .clienti-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; margin-bottom: .8rem; }
+    .clienti-head p { font-size: max(1.203vw, .9rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); max-width: 600px; }
+    .loghi-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 1px; background: var(--lgray); margin-top: 1rem;
+    }
+    .logo-placeholder {
+      background: var(--off); aspect-ratio: 2/1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gray);
+      transition: background .2s;
+    }
+    .logo-placeholder:hover { background: var(--white); }
+
+    /* ── CTA FINALE ──────────────────────────────────────────── */
+    .cta-final {
+      border-top: 1px solid var(--lgray);
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+    .cta-final::after {
+      content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: var(--lb); filter: blur(120px); opacity: .35;
+      bottom: -100px; right: -80px; pointer-events: none;
+    }
+    .cta-left { padding: 5rem 2.5rem; border-right: 1px solid var(--lgray); position: relative; z-index: 1; }
+    .cta-left h2 { font-size: max(11.143vw, 3.5rem); font-weight: 500; letter-spacing: -.05em; line-height: .88; }
+    .cta-left h2 em { font-style: italic; font-weight: 400; }
+    .cta-right { padding: 5rem 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem; position: relative; z-index: 1; }
+    .cta-email { font-size: max(2.807vw, 1.3rem); font-weight: 300; text-decoration: none; color: var(--black); transition: opacity .2s; }
+    .cta-email:hover { opacity: .5; }
+    .btn-fill {
+      display: inline-flex; align-items: center; gap: .5rem; align-self: flex-start;
+      padding: .65rem 1.4rem; background: var(--black); color: var(--white);
+      font-family: inherit; font-size: .75rem; font-weight: 500;
+      letter-spacing: .05em; text-transform: uppercase;
+      text-decoration: none; border-radius: 100px; transition: opacity .2s;
+    }
+    .btn-fill:hover { opacity: .8; }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer { background: var(--black); color: var(--white); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px solid #222; }
+    .footer-inner { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: start; margin-bottom: 3rem; }
+    .footer-logo img { height: 36px; width: auto; display: block; margin-bottom: 1rem; }
+    .footer-tagline { font-size: max(1.203vw, .85rem); font-weight: 300; color: rgba(255,255,255,.4); line-height: 1.6; max-width: 300px; }
+    .footer-r { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; }
+    .footer-r a { font-size: .8rem; color: rgba(255,255,255,.4); text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s; }
+    .footer-r a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.1); font-size: .65rem; color: rgba(255,255,255,.2); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media (max-width: 768px) {
-      nav, .hero, .manifesto, .settori, .gallery, footer, .statement { padding-left: 1.5rem; padding-right: 1.5rem; }
-      .hero { padding-bottom: 4rem; }
-      .panel { grid-template-columns: 1fr; min-height: auto; padding: 4rem 1.5rem; }
-      .panel.rev .p-title, .panel.rev .p-meta { order: unset; text-align: left; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .gi { grid-column: span 1 !important; grid-row: span 1 !important; }
-      .footer-grid { grid-template-columns: 1fr; }
+      .hero { padding: 3rem 1.5rem 2.5rem; }
+      .hero-bottom, .statement, .come-grid, .progetti-grid, .cta-final { grid-template-columns: 1fr; }
+      .hero-nav, .btn-fixed { display: none; }
+      .statement-left { border-right: none; border-bottom: 1px solid var(--lgray); }
+      .cta-left { border-right: none; border-bottom: 1px solid var(--lgray); }
+      .domanda { grid-template-columns: 1fr; gap: 1.5rem; }
+      .manifesto-list { grid-template-columns: 1fr 1fr; }
+      .manifesto-item:nth-child(2n) { border-right: none; }
+      .loghi-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-r { align-items: flex-start; }
       .footer-bottom { flex-direction: column; gap: .3rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Cursore -->
-  <div id="cur-dot"><span id="cur-label">apri</span></div>
+  <div id="cur-dot"></div>
   <div id="cur-ring"></div>
 
-  <!-- NAV -->
-  <nav id="nav">
-    <a href="#" class="nav-logo">goodcom</a>
-    <ul class="nav-links">
-      <li><a href="#metodo">Metodo</a></li>
-      <li><a href="#settori">Settori</a></li>
-      <li><a href="#atelier">Atelier</a></li>
-      <li><a href="#contatti">Contatti</a></li>
-    </ul>
-  </nav>
+  <header id="site-header">
+    <a href="#top" class="header-logo"><img src="logo-white.png" alt="Goodcom"></a>
+    <nav class="header-nav">
+      <a href="#metodo">Metodo</a>
+      <a href="#progetti">Progetti</a>
+      <a href="#settori">Settori</a>
+      <a href="#contatti" class="header-cta">Contattaci</a>
+    </nav>
+  </header>
 
-  <!-- ── HERO ──────────────────────────────────────────────── -->
-  <section class="hero" id="hero">
-    <div class="hero-blob blob-o"></div>
-    <div class="hero-blob blob-p"></div>
-    <div class="hero-blob blob-lb"></div>
-    <div class="hero-blob blob-st"></div>
-    <div class="hero-blob blob-db"></div>
+  <!-- ── HERO SCURO ─────────────────────────────────────────────── -->
+  <section class="hero" id="top">
+    <div class="hero-gradient"></div>
 
-    <h1 class="hero-hl">
-      <span class="line"><span class="w">Facciamo</span></span>
-      <span class="line"><span class="w">incontrare</span></span>
-      <span class="line"><span class="w">idee &amp;</span></span>
-      <span class="line"><span class="w">persone.</span></span>
-    </h1>
+    <a href="#" class="hero-logo">
+      <img src="logo-white.png" alt="Goodcom">
+    </a>
 
-    <p class="hero-tag">Assessment &nbsp;·&nbsp; Narrazione Strategica &nbsp;·&nbsp; Coinvolgimento &nbsp;·&nbsp; Attivazione</p>
-
-    <div class="scroll-cue" aria-hidden="true">
-      <div class="scroll-cue-line"></div>
-      <span>scroll</span>
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-tagline">
+          In GoodCom siamo esperti nella ricerca di soluzioni strategiche e nella narrazione di storie di sostenibilità. Usiamo la comunicazione per orientare i brand verso il futuro.
+        </p>
+        <a href="#contatti" class="hero-cta">Scopri di più →</a>
+      </div>
     </div>
   </section>
 
-  <!-- ── BANDA 1 — grande, scura ─────────────────────────────── -->
+  <!-- ── 3 DOMANDE ─────────────────────────────────────────────── -->
+  <section class="domande">
+    <div class="domanda">
+      <div>
+        <span class="domanda-n">01</span>
+        <h2 class="domanda-q">La sostenibilità è un tema strategico per il tuo brand?</h2>
+        <p class="domanda-a">La risposta a questa domanda è il cuore della narrazione strategica più creativa, originale e strutturata che possiamo costruire e declinare insieme.</p>
+      </div>
+      <a href="#contatti" class="btn-outline">Contattaci →</a>
+    </div>
+    <div class="domanda">
+      <div>
+        <span class="domanda-n">02</span>
+        <h2 class="domanda-q">Sei un brand orientato alla sostenibilità ma non sai come valorizzare questo approccio?</h2>
+        <p class="domanda-a">Proviamo a trovare insieme una risposta a questa domanda con l'obiettivo di valorizzare con buon senso e creatività il tuo impegno.</p>
+      </div>
+      <a href="#contatti" class="btn-outline">Contattaci →</a>
+    </div>
+    <div class="domanda">
+      <div>
+        <span class="domanda-n">03</span>
+        <h2 class="domanda-q">Vuoi realizzare un progetto creativo che comunichi i tuoi valori ESG?</h2>
+        <p class="domanda-a">Ti aiutiamo a valorizzare il tuo impatto positivo con progetti di comunicazione values-based, rivolti a diversi tipi di stakeholder.</p>
+      </div>
+      <a href="#contatti" class="btn-outline">Contattaci →</a>
+    </div>
+  </section>
+
+  <!-- ── BANDA SCORREVOLE 1 (grande, scuro) ────────────────────── -->
   <div class="iscroll iscroll-dark">
     <div class="iscroll-track fwd">
       <span class="iscroll-item-lg">Sostenibile</span><span class="iscroll-sep-lg">·</span>
@@ -445,67 +429,42 @@
     </div>
   </div>
 
-  <!-- ── METODO ────────────────────────────────────────────── -->
-  <div id="metodo">
-
-    <div class="panel panel-1">
-      <span class="panel-num" aria-hidden="true">01</span>
-      <div>
-        <span class="p-meta">01 · Il nostro metodo</span>
-        <h2 class="p-title">Assess&shy;ment</h2>
+  <!-- ── COME LAVORIAMO ─────────────────────────────────────────── -->
+  <section class="come" id="metodo">
+    <div class="come-head">
+      <h2>Il nostro modo di lavorare</h2>
+      <a href="#contatti" class="btn-outline">Approfondisci →</a>
+    </div>
+    <div class="come-grid">
+      <div class="come-col">
+        <h3>Integrazione</h3>
+        <p>Integriamo diversi ambiti di competenza per offrire una visione completa e soluzioni coerenti con gli obiettivi del cliente.</p>
       </div>
-      <div>
-        <p class="p-desc">Analizziamo contesto, processi e opportunità. Valutiamo le disclosure e costruiamo la base strategica più vantaggiosa.</p>
+      <div class="come-col">
+        <h3>Ottimizzazione</h3>
+        <p>Ottimizziamo costi e tempi, valutiamo le azioni relative ai processi e alle disclosure fornendo le soluzioni più vantaggiose.</p>
+      </div>
+      <div class="come-col">
+        <h3>Valorizzazione</h3>
+        <p>Abbiamo tutti gli strumenti per valorizzare i risultati rispetto alle diverse finalità: campagne, progetti di attivazione, eventi.</p>
+      </div>
+      <div class="come-col">
+        <h3>Long-term</h3>
+        <p>Forniamo strumenti che funzionano a lungo termine, costruendo valore duraturo per il brand e i suoi stakeholder.</p>
       </div>
     </div>
-
-    <div class="panel panel-2 rev">
-      <span class="panel-num" aria-hidden="true">02</span>
-      <div>
-        <p class="p-desc">Traduciamo dati e valori in storie che creano identità forte e differenziazione duratura nel tempo.</p>
-      </div>
-      <div>
-        <span class="p-meta">02 · Il nostro metodo</span>
-        <h2 class="p-title">Narra&shy;zione Strate&shy;gica</h2>
-      </div>
-    </div>
-
-    <div class="panel panel-3">
-      <span class="panel-num" aria-hidden="true">03</span>
-      <div>
-        <span class="p-meta">03 · Il nostro metodo</span>
-        <h2 class="p-title">Coin&shy;volgi&shy;mento</h2>
-      </div>
-      <div>
-        <p class="p-desc">Costruiamo relazioni autentiche con comunità, stakeholder e pubblici chiave attraverso strumenti di partecipazione reale.</p>
-      </div>
-    </div>
-
-    <div class="panel panel-4 rev">
-      <span class="panel-num" aria-hidden="true">04</span>
-      <div>
-        <p class="p-desc">Portiamo in vita campagne, attivazioni ed eventi con strumenti che funzionano a lungo termine.</p>
-      </div>
-      <div>
-        <span class="p-meta">04 · Il nostro metodo</span>
-        <h2 class="p-title">Attiva&shy;zione</h2>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ── MANIFESTO ─────────────────────────────────────────── -->
-  <section class="manifesto">
-    <span class="section-label">Come lavoriamo</span>
-    <div class="manifesto-body">
-      <p>Integriamo <span class="ew">diversi ambiti</span><br>di competenza.</p>
-      <p>Ottimizziamo <span class="ew">costi e tempi</span><br>con le soluzioni più vantaggiose.</p>
-      <p>Valorizziamo <span class="ew">ogni risultato</span><br>rispetto alle finalità.</p>
-      <p>Forniamo strumenti<br>che <span class="ew">durano nel tempo.</span></p>
+    <div class="come-process">
+      <span class="process-step">Assessment</span>
+      <span class="process-arrow">›</span>
+      <span class="process-step">Narrazione Strategica</span>
+      <span class="process-arrow">›</span>
+      <span class="process-step">Coinvolgimento</span>
+      <span class="process-arrow">›</span>
+      <span class="process-step">Attivazione</span>
     </div>
   </section>
 
-  <!-- ── BANDA 2 — media, chiara, inversa ────────────────────── -->
+  <!-- ── BANDA SCORREVOLE 2 (media, chiaro, direzione inversa) ─── -->
   <div class="iscroll iscroll-light">
     <div class="iscroll-track bwd">
       <span class="iscroll-item-sm">Creatività Strategica</span><span class="iscroll-sep-sm">·</span>
@@ -527,120 +486,150 @@
     </div>
   </div>
 
-  <!-- ── STATEMENT ─────────────────────────────────────────── -->
-  <section class="statement">
-    <div class="statement-bg"></div>
-    <p class="statement-text">
-      Il colore che si mescola non è solo grafica —<br>
-      è una rappresentazione visiva degli <em>incontri umani</em>,<br>
-      della <em>co-creazione</em>, delle idee che si fondono.<br><br>
-      Il mix di cose sempre diverse,<br>
-      ma sempre con un <em>obiettivo preciso.</em>
-    </p>
-  </section>
-
-  <!-- ── SETTORI ────────────────────────────────────────────── -->
-  <section class="settori" id="settori">
-    <span class="section-label">Settori di esperienza</span>
-    <div class="settore-row"><span class="s-num">01</span><span class="s-name">Economia Circolare</span><span class="s-arrow">→</span></div>
-    <div class="settore-row"><span class="s-num">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arrow">→</span></div>
-    <div class="settore-row"><span class="s-num">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arrow">→</span></div>
-    <div class="settore-row"><span class="s-num">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arrow">→</span></div>
-    <div class="settore-row"><span class="s-num">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arrow">→</span></div>
-    <div class="settore-row"><span class="s-num">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arrow">→</span></div>
-    <div class="settore-row"><span class="s-num">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arrow">→</span></div>
-  </section>
-
-  <div class="gsep"></div>
-
-  <!-- ── GALLERY / ATELIER ─────────────────────────────────── -->
-  <section class="gallery" id="atelier">
-    <span class="section-label">Atelier — Lavori selezionati</span>
-    <div class="gallery-grid">
-      <div class="gi c5 r2"><span class="gi-label">Campagna 01</span></div>
-      <div class="gi c4"><span class="gi-label">Evento 02</span></div>
-      <div class="gi c3"><span class="gi-label">03</span></div>
-      <div class="gi c4"><span class="gi-label">Progetto 04</span></div>
-      <div class="gi c3"><span class="gi-label">05</span></div>
-      <div class="gi c6"><span class="gi-label">Attivazione 06</span></div>
-      <div class="gi c3"><span class="gi-label">07</span></div>
-      <div class="gi c3"><span class="gi-label">08</span></div>
+  <!-- ── MANIFESTO ──────────────────────────────────────────────── -->
+  <section class="manifesto">
+    <div class="manifesto-head">
+      <h2>Il nostro manifesto</h2>
+      <a href="#" class="btn-white">Scoprilo →</a>
+    </div>
+    <div class="manifesto-list">
+      <div class="manifesto-item"><span class="m-n">01</span><h3 class="m-title">Crescita umanizzata</h3></div>
+      <div class="manifesto-item"><span class="m-n">02</span><h3 class="m-title">Microinnovazione</h3></div>
+      <div class="manifesto-item"><span class="m-n">03</span><h3 class="m-title">Semplificazione della complessità</h3></div>
+      <div class="manifesto-item"><span class="m-n">04</span><h3 class="m-title">Economia civile</h3></div>
+      <div class="manifesto-item"><span class="m-n">05</span><h3 class="m-title">Impatto</h3></div>
+      <div class="manifesto-item"><span class="m-n">06</span><h3 class="m-title">Pensiero Critico per l'AI</h3></div>
+      <div class="manifesto-item"><span class="m-n">07</span><h3 class="m-title">Bellezza</h3></div>
     </div>
   </section>
 
-  <!-- ── FOOTER ─────────────────────────────────────────────── -->
-  <footer id="contatti">
-    <div class="footer-line"></div>
-    <div class="footer-grid">
-      <div class="footer-logo">goodcom</div>
-      <div class="footer-col">
-        <span class="lbl">Navigazione</span>
-        <a href="#metodo">Metodo</a>
-        <a href="#settori">Settori</a>
-        <a href="#atelier">Atelier</a>
+  <!-- ── PROGETTI ───────────────────────────────────────────────── -->
+  <section class="progetti" id="progetti">
+    <div class="progetti-head">
+      <h2>Da cosa nasce cosa.<br>I nostri progetti.</h2>
+      <a href="#" class="btn-outline">Tutti i lavori →</a>
+    </div>
+    <div class="progetti-grid">
+      <div class="progetto">
+        <span class="progetto-tag">Trasparenza · Green Claim</span>
+        <h3 class="progetto-title">Empowering Consumers</h3>
+        <p class="progetto-desc">Un audit per la trasparenza dei Green Claim.</p>
       </div>
-      <div class="footer-col">
-        <span class="lbl">Contatti</span>
+      <div class="progetto">
+        <span class="progetto-tag">Innovazione</span>
+        <h3 class="progetto-title">Microinnovazione</h3>
+        <p class="progetto-desc">Pensare in grande e portarlo nel piccolo.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">Organizzazione</span>
+        <h3 class="progetto-title">Flower</h3>
+        <p class="progetto-desc">Attivare nuove energie nella tua organizzazione.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">Circolarità · Eventi</span>
+        <h3 class="progetto-title">Second Life</h3>
+        <p class="progetto-desc">Rigenerazione di materiali fieristici ed eventi.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">ESG · Report</span>
+        <h3 class="progetto-title">Impatto e Report</h3>
+        <p class="progetto-desc">Comunicare efficacemente la rendicontazione ESG.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">Accessibilità</span>
+        <h3 class="progetto-title">Open</h3>
+        <p class="progetto-desc">Abbattere le barriere anche nella comunicazione.</p>
+      </div>
+      <div class="progetto">
+        <span class="progetto-tag">Horeca · ESG</span>
+        <h3 class="progetto-title">Shostainable</h3>
+        <p class="progetto-desc">Un progetto ESG per il settore HORECA.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SETTORI ────────────────────────────────────────────────── -->
+  <section class="settori" id="settori">
+    <div class="settori-head">
+      <h2>Settori di esperienza</h2>
+      <span class="count">07 settori</span>
+    </div>
+    <div class="settore-row"><span class="s-n">01</span><span class="s-name">Economia Circolare</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arr">→</span></div>
+  </section>
+
+  <!-- ── CLIENTI ────────────────────────────────────────────────── -->
+  <section class="clienti">
+    <div class="clienti-head">
+      <h2>I nostri clienti</h2>
+      <p>I nostri clienti apprezzano la nostra competenza in materia di sostenibilità unita a idee creative. Riusciamo sempre a coniugare la logica della strategia con la magia dello storytelling.</p>
+    </div>
+    <div class="loghi-grid">
+      <div class="logo-placeholder">Cliente 01</div>
+      <div class="logo-placeholder">Cliente 02</div>
+      <div class="logo-placeholder">Cliente 03</div>
+      <div class="logo-placeholder">Cliente 04</div>
+      <div class="logo-placeholder">Cliente 05</div>
+      <div class="logo-placeholder">Cliente 06</div>
+    </div>
+  </section>
+
+  <!-- ── CTA FINALE ─────────────────────────────────────────────── -->
+  <section class="cta-final" id="contatti">
+    <div class="cta-left">
+      <h2>Siamo a una<br>e-mail di<br><em>distanza.</em></h2>
+    </div>
+    <div class="cta-right">
+      <a href="mailto:info@goodcom.it" class="cta-email">info@goodcom.it</a>
+      <a href="mailto:info@goodcom.it" class="btn-fill">Nuovo progetto →</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><img src="logo-white.png" alt="Goodcom"></div>
+        <p class="footer-tagline">Comunicazione strategica che connette idee e persone.</p>
+      </div>
+      <div class="footer-r">
+        <a href="#metodo">Metodo</a>
+        <a href="#progetti">Progetti</a>
+        <a href="#settori">Settori</a>
         <a href="mailto:info@goodcom.it">info@goodcom.it</a>
         <a href="#">LinkedIn</a>
         <a href="#">Instagram</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2024 Goodcom — Tutti i diritti riservati</span>
-      <span>P.IVA 00000000000</span>
+      <span>© 2024 Goodcom — Tutti i diritti riservati — P.IVA 00000000000</span>
+      <span>Comunicazione · Strategia · Sostenibilità</span>
     </div>
   </footer>
 
   <script>
-    /* ── CURSORE ──────────────────────────────────────────── */
-    const dot   = document.getElementById('cur-dot');
-    const lbl   = document.getElementById('cur-label');
-    const ring  = document.getElementById('cur-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    const dot=document.getElementById('cur-dot'), ring=document.getElementById('cur-ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+    (function raf(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
+    document.querySelectorAll('a,.domanda,.come-col,.progetto,.manifesto-item,.settore-row,.logo-placeholder').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
     });
-    (function raf() {
-      rx += (mx - rx) * .1; ry += (my - ry) * .1;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(raf);
-    })();
-
-    /* Hover: pill con label contestuale */
-    const hoverMap = [
-      ['.w',           'apri'],
-      ['.settore-row', 'scopri'],
-      ['.gi',          'view'],
-      ['a',            ''],
-      ['.manifesto-body p', 'leggi'],
-    ];
-    hoverMap.forEach(([sel, text]) => {
-      document.querySelectorAll(sel).forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          document.body.classList.add('ch');
-          if (text) lbl.textContent = text;
-        });
-        el.addEventListener('mouseleave', () => {
-          document.body.classList.remove('ch');
-        });
-      });
+    document.querySelectorAll('.hero,.iscroll-dark,footer').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('cd'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('cd'));
     });
-
-    /* Cursore bianco sulle sezioni scure */
-    document.querySelectorAll('.hero, .panel-4, .gallery, footer').forEach(s => {
-      s.addEventListener('mouseenter', () => document.body.classList.add('cd'));
-      s.addEventListener('mouseleave', () => document.body.classList.remove('cd'));
-    });
-
-    /* Nav: trasparente sull'hero, off-white dopo */
-    const nav  = document.getElementById('nav');
-    const heroH = document.querySelector('.hero').offsetHeight;
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > heroH * .8);
-    }, { passive: true });
+    /* Header: trasparente sull'hero, solid dopo */
+    const siteHeader = document.getElementById('site-header');
+    new IntersectionObserver(([e])=>{
+      siteHeader.classList.toggle('scrolled', !e.isIntersecting);
+    },{threshold:0.05}).observe(document.getElementById('top'));
   </script>
 
 </body>
