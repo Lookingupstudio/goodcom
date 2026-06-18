@@ -169,29 +169,29 @@
     }
     .hero-cta:hover { opacity: .8; }
 
-    /* BIG SCROLL — la firma visiva di nographism: testo enorme che scorre */
+    /* BIG SCROLL — testo enorme che scorre, sfondo celestino */
     .big-scroll {
       overflow: hidden;
-      background: var(--black);
+      background: var(--lb);
       padding: .4em 0;
-      border-top: 1px solid #333;
+      border-top: 1px solid rgba(26,25,24,.1);
+      border-bottom: 1px solid rgba(26,25,24,.1);
     }
     .big-scroll-track {
       display: flex; white-space: nowrap; align-items: center;
-      animation: bigscroll 18s linear infinite;
+      animation: bigscroll 10s linear infinite;
     }
     .big-scroll-item {
       font-size: max(22.286vw, 5.375rem);
       font-weight: 700; line-height: .9; letter-spacing: -.04em;
-      color: var(--white);
-      padding: 0 .5em;
+      color: var(--black);
+      padding: 0 .4em;
       flex-shrink: 0;
     }
     .big-scroll-sep {
       font-size: max(22.286vw, 5.375rem);
-      color: var(--gray);
-      opacity: .4; flex-shrink: 0;
-      line-height: .9;
+      color: rgba(26,25,24,.25);
+      flex-shrink: 0; line-height: .9;
     }
     @keyframes bigscroll {
       from { transform: translateX(0); }
@@ -464,25 +464,33 @@
       </div>
     </div>
 
-    <!-- BIG SCROLL — la firma visiva: testo enorme che scorre -->
+    <!-- BIG SCROLL -->
     <div class="big-scroll">
       <div class="big-scroll-track">
-        <span class="big-scroll-item">Assessment</span>
+        <span class="big-scroll-item">Economia Circolare</span>
         <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Narrazione</span>
+        <span class="big-scroll-item">Terzo Settore</span>
         <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Coinvolgimento</span>
+        <span class="big-scroll-item">Innovazione Sociale</span>
         <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Attivazione</span>
+        <span class="big-scroll-item">Turismo</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Industria</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Moda</span>
         <span class="big-scroll-sep">·</span>
         <!-- duplicato per loop -->
-        <span class="big-scroll-item">Assessment</span>
+        <span class="big-scroll-item">Economia Circolare</span>
         <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Narrazione</span>
+        <span class="big-scroll-item">Terzo Settore</span>
         <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Coinvolgimento</span>
+        <span class="big-scroll-item">Innovazione Sociale</span>
         <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Attivazione</span>
+        <span class="big-scroll-item">Turismo</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Industria</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Moda</span>
         <span class="big-scroll-sep">·</span>
       </div>
     </div>
@@ -643,7 +651,7 @@
       el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
     });
 
-    document.querySelectorAll('footer, .big-scroll').forEach(el => {
+    document.querySelectorAll('footer').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cd'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cd'));
     });
