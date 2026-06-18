@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Goodcom — Comunicazione che connette</title>
+  <title>Goodcom</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -15,374 +15,348 @@
       --white: #ffffff;
       --gray:  #8ea6bf;
       --lgray: #d9dfe3;
-      --off:   #f4f3f0;
-      /* palette originale — usata solo nel gradiente */
-      --o:  #FF6403;
-      --p:  #F5DAE9;
-      --lb: #BCCEFB;
-      --db: #1100A7;
+      --off:   #f5f5f3;
     }
 
-    html { scroll-behavior: smooth; cursor: none; }
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Hanken Grotesk', sans-serif;
+      font-family: 'Hanken Grotesk', system-ui, sans-serif;
       background: var(--white);
       color: var(--black);
       overflow-x: hidden;
+      cursor: default;
     }
 
-    /* ── CURSORE — dot + ring semplice (no pill, no testo) ─── */
-    #cur-dot {
-      position: fixed;
-      width: 7px; height: 7px;
-      background: var(--black);
-      border-radius: 50%;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: background .2s, transform .15s;
-    }
-    #cur-ring {
-      position: fixed;
-      width: 28px; height: 28px;
-      border: 1px solid rgba(26,25,24,.35);
-      border-radius: 50%;
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: width .4s cubic-bezier(.16,1,.3,1),
-                  height .4s cubic-bezier(.16,1,.3,1),
-                  border-color .2s;
-    }
-    body.ch #cur-ring { width: 42px; height: 42px; }
-    /* cursore bianco su sezioni scure */
-    body.cd #cur-dot  { background: var(--white); }
-    body.cd #cur-ring { border-color: rgba(255,255,255,.4); }
+    /* ── TIPOGRAFIA — scala nographism ──────────────────────
+       h1-huge: max(22.286vw, 5.375rem) — esatto come nographism */
+    .t-huge  { font-size: max(22.286vw, 5.375rem); font-weight: 700; line-height: .88; letter-spacing: -.04em; }
+    .t-h1    { font-size: max(11.143vw, 4rem);     font-weight: 700; line-height: .92; letter-spacing: -.04em; }
+    .t-h2    { font-size: max(6.417vw,  2.986rem); font-weight: 700; line-height: 1;   letter-spacing: -.03em; }
+    .t-h3    { font-size: max(4.813vw,  2.488rem); font-weight: 700; line-height: 1;   letter-spacing: -.03em; }
+    .t-body  { font-size: max(1.203vw,  1rem);     font-weight: 300; line-height: 1.7; }
+    .t-label { font-size: max(.936vw,   .8rem);    font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
 
     /* ── NAV ─────────────────────────────────────────────────── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.2rem 2.5rem;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 1.1rem 2.5rem;
       background: var(--white);
       border-bottom: 1px solid var(--lgray);
     }
-    .logo img {
-      height: 36px; width: auto; display: block;
-    }
-    .nav-r { display: flex; align-items: center; gap: 2rem; }
+    .nav-logo img { height: 32px; width: auto; display: block; }
+    .nav-r { display: flex; align-items: center; gap: 2.5rem; }
     .nav-r a {
-      font-size: .72rem; font-weight: 500; letter-spacing: .07em;
+      font-size: .72rem; font-weight: 500; letter-spacing: .06em;
       text-transform: uppercase; text-decoration: none;
-      color: rgba(26,25,24,.4); transition: color .2s;
+      color: rgba(26,25,24,.45); transition: color .2s;
     }
     .nav-r a:hover { color: var(--black); }
     .nav-cta {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .55rem 1.2rem;
+      padding: .5rem 1.2rem;
       border: 1.5px solid var(--black); border-radius: 100px;
-      font-size: .7rem; font-weight: 600; letter-spacing: .06em;
-      text-transform: uppercase; text-decoration: none; color: var(--black);
-      transition: background .2s, color .2s;
+      color: var(--black) !important;
+      transition: background .2s, color .2s !important;
     }
-    .nav-cta:hover { background: var(--black); color: var(--white); }
+    .nav-cta:hover { background: var(--black); color: var(--white) !important; }
 
-    /* ── HERO ────────────────────────────────────────────────── */
+    /* ── HERO — testo intro + big scroll ─────────────────────── */
     .hero {
-      padding: 12rem 2.5rem 6rem;
-      background: var(--white);
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-top: 5.5rem; /* nav height */
       border-bottom: 1px solid var(--lgray);
     }
-    .hero-label {
-      font-size: .68rem; font-weight: 500; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--gray);
-      margin-bottom: 2.5rem; display: block;
+
+    /* Blocco intro: logo grande + tagline + CTA */
+    .hero-intro {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--lgray);
+      min-height: 60vh;
     }
-    .hero-hl {
-      font-size: clamp(4.5rem, 13vw, 17rem);
-      font-weight: 700; line-height: .88;
-      letter-spacing: -.04em; color: var(--black);
-      margin-bottom: 3rem;
+    .hero-intro-left {
+      padding: 4rem 2.5rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      border-right: 1px solid var(--lgray);
     }
-    .hero-foot {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      border-top: 1px solid var(--lgray); padding-top: 1.8rem;
+    .hero-intro-right {
+      padding: 4rem 2.5rem;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .hero-brand {
+      font-size: max(11.143vw, 4rem);
+      font-weight: 700; line-height: .88; letter-spacing: -.05em;
+      color: var(--black);
+    }
+    .hero-tagline {
+      font-size: max(2.807vw, 1.5rem);
+      font-weight: 300; line-height: 1.3;
+      color: var(--black); margin-bottom: 2.5rem;
     }
     .hero-sub {
-      font-size: clamp(.95rem, 1.5vw, 1.2rem);
-      font-weight: 300; line-height: 1.6;
-      color: rgba(26,25,24,.5); max-width: 480px;
+      font-size: max(1.203vw, .95rem);
+      font-weight: 300; line-height: 1.7;
+      color: rgba(26,25,24,.55); margin-bottom: 2.5rem;
     }
-    .hero-scroll {
-      font-size: .65rem; font-weight: 500; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--gray);
-      display: flex; align-items: center; gap: .6rem;
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.5rem;
+      background: var(--black); color: var(--white);
+      font-family: inherit; font-size: .78rem; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+      text-decoration: none; border-radius: 100px;
+      transition: opacity .2s;
     }
-    .hero-scroll::before {
-      content: ''; display: block;
-      width: 32px; height: 1px; background: var(--gray);
-    }
+    .hero-cta:hover { opacity: .8; }
 
-    /* ── MARQUEE ─────────────────────────────────────────────── */
-    .marquee {
-      background: var(--black); overflow: hidden; padding: .9rem 0;
+    /* BIG SCROLL — la firma visiva di nographism: testo enorme che scorre */
+    .big-scroll {
+      overflow: hidden;
+      background: var(--black);
+      padding: .4em 0;
+      border-top: 1px solid #333;
     }
-    .marquee-track {
-      display: flex; white-space: nowrap;
-      animation: marquee 22s linear infinite;
+    .big-scroll-track {
+      display: flex; white-space: nowrap; align-items: center;
+      animation: bigscroll 18s linear infinite;
     }
-    .marquee-item {
-      font-size: .72rem; font-weight: 500; letter-spacing: .1em;
-      text-transform: uppercase; color: rgba(255,255,255,.5);
-      padding: 0 2.5rem; display: flex; align-items: center; gap: 2.5rem;
+    .big-scroll-item {
+      font-size: max(22.286vw, 5.375rem);
+      font-weight: 700; line-height: .9; letter-spacing: -.04em;
+      color: var(--white);
+      padding: 0 .5em;
+      flex-shrink: 0;
     }
-    .marquee-item::after {
-      content: '·'; color: var(--gray); font-size: .8rem;
+    .big-scroll-sep {
+      font-size: max(22.286vw, 5.375rem);
+      color: var(--gray);
+      opacity: .4; flex-shrink: 0;
+      line-height: .9;
     }
-    @keyframes marquee {
+    @keyframes bigscroll {
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
     }
 
-    /* ── INTRO 2 COLONNE ─────────────────────────────────────── */
-    .intro {
+    /* ── SERVIZI: 2 colonne ──────────────────────────────────── */
+    .servizi {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0; border-bottom: 1px solid var(--lgray);
-    }
-    .intro-left {
-      padding: 6rem 2.5rem;
-      border-right: 1px solid var(--lgray);
-    }
-    .intro-right { padding: 6rem 2.5rem; }
-    .intro-tag {
-      font-size: .68rem; font-weight: 500; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 2rem;
-    }
-    .intro-title {
-      font-size: clamp(2rem, 3.5vw, 4rem);
-      font-weight: 700; letter-spacing: -.04em; line-height: 1;
-    }
-    .intro-body {
-      font-size: 1rem; font-weight: 300; line-height: 1.8;
-      color: rgba(26,25,24,.6); margin-top: 2rem;
-    }
-    .intro-body p + p { margin-top: 1rem; }
-
-
-    /* ── METODO ──────────────────────────────────────────────── */
-    .metodo { background: var(--white); }
-    .metodo-head {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding: 4rem 2.5rem 2rem;
       border-bottom: 1px solid var(--lgray);
     }
-    .metodo-head h2 {
-      font-size: clamp(2rem, 3vw, 3.5rem);
+    .servizi-col {
+      padding: 4rem 2.5rem;
+    }
+    .servizi-col:first-child { border-right: 1px solid var(--lgray); }
+
+    .col-title {
+      font-size: max(6.417vw, 2.5rem);
+      font-weight: 700; letter-spacing: -.04em; line-height: 1;
+      margin-bottom: 2.5rem;
+    }
+    .col-list { list-style: none; }
+    .col-list li {
+      font-size: max(1.604vw, 1.1rem);
+      font-weight: 400; line-height: 1;
+      padding: .9rem 0;
+      border-bottom: 1px solid var(--lgray);
+      display: flex; align-items: center; justify-content: space-between;
+      transition: padding-left .25s;
+    }
+    .col-list li:first-child { border-top: 1px solid var(--lgray); }
+    .col-list li:hover { padding-left: .5rem; }
+    .col-list li span { font-size: .7rem; color: var(--gray); font-weight: 500; letter-spacing: .06em; }
+
+    /* ── PORTFOLIO ───────────────────────────────────────────── */
+    .portfolio-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 3rem 2.5rem;
+      border-bottom: 1px solid var(--lgray);
+      border-top: 1px solid var(--lgray);
+    }
+    .section-title {
+      font-size: max(6.417vw, 2.5rem);
       font-weight: 700; letter-spacing: -.04em;
     }
-    .count-tag {
-      font-size: .68rem; font-weight: 500; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--gray);
+    .section-link {
+      font-size: .72rem; font-weight: 500; letter-spacing: .07em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(26,25,24,.4); transition: color .2s;
+      display: flex; align-items: center; gap: .4rem;
     }
-    .step {
-      display: grid; grid-template-columns: 5rem 1fr 1fr;
-      gap: 2rem; align-items: start;
-      padding: 3rem 2.5rem;
+    .section-link:hover { color: var(--black); }
+    .section-link::after { content: '→'; }
+
+    .portfolio-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .portfolio-item {
+      padding: 2rem 2.5rem 2.5rem;
+      border-right: 1px solid var(--lgray);
       border-bottom: 1px solid var(--lgray);
       transition: background .25s;
     }
-    .step:hover { background: var(--off); }
-    .step-n {
-      font-size: 3.5rem; font-weight: 700; letter-spacing: -.05em;
-      line-height: 1; color: var(--lgray); transition: color .3s;
-    }
-    .step:hover .step-n { color: var(--black); }
-    .step-title {
-      font-size: clamp(1.4rem, 2.5vw, 2.5rem);
-      font-weight: 700; letter-spacing: -.03em; line-height: 1.05;
-      padding-top: .3rem;
-    }
-    .step-desc {
-      font-size: .95rem; font-weight: 300; line-height: 1.75;
-      color: rgba(26,25,24,.55); padding-top: .4rem;
-    }
+    .portfolio-item:nth-child(even) { border-right: none; }
+    .portfolio-item:hover { background: var(--off); }
 
-    /* ── WORKS / ATELIER ─────────────────────────────────────── */
-    .works { border-top: 1px solid var(--lgray); }
-    .works-head {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding: 4rem 2.5rem 3rem;
-      border-bottom: 1px solid var(--lgray);
-    }
-    .works-head h2 {
-      font-size: clamp(2rem, 3vw, 3.5rem);
-      font-weight: 700; letter-spacing: -.04em;
-    }
-    .works-head a {
-      font-size: .72rem; font-weight: 500; letter-spacing: .08em;
-      text-transform: uppercase; text-decoration: none;
-      color: rgba(26,25,24,.4); transition: color .2s;
-      display: flex; align-items: center; gap: .5rem;
-    }
-    .works-head a:hover { color: var(--black); }
-    .works-head a::after { content: '→'; }
-    .works-grid { display: grid; grid-template-columns: 1fr 1fr; }
-    .work-item {
-      border-right: 1px solid var(--lgray);
-      border-bottom: 1px solid var(--lgray);
-      padding: 2rem 2.5rem 2.5rem;
-      cursor: none; transition: background .25s;
-    }
-    .work-item:nth-child(even) { border-right: none; }
-    .work-item:hover { background: var(--off); }
-    .work-thumb {
+    .portfolio-thumb {
       width: 100%; aspect-ratio: 16/9;
-      background: var(--lgray);
-      border-radius: 2px; margin-bottom: 1.5rem;
-      overflow: hidden; position: relative;
+      background: var(--lgray); border-radius: 2px;
+      margin-bottom: 1.5rem; overflow: hidden; position: relative;
     }
-    .work-thumb::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg,
-        rgba(142,166,191,.2) 0%, transparent 50%,
-        rgba(217,223,227,.15) 100%);
-      opacity: 0; transition: opacity .3s;
+    /* Aggiungere immagine reale: .portfolio-thumb img { width:100%; height:100%; object-fit:cover; } */
+
+    .portfolio-tags {
+      font-size: .68rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gray);
+      margin-bottom: .6rem; display: flex; gap: .6rem; flex-wrap: wrap;
     }
-    .work-item:hover .work-thumb::after { opacity: 1; }
-    .work-cat {
-      font-size: .65rem; font-weight: 500; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--gray); margin-bottom: .5rem; display: block;
-    }
-    .work-title {
-      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+    .portfolio-name {
+      font-size: max(2.139vw, 1.3rem);
       font-weight: 700; letter-spacing: -.02em; line-height: 1.1;
+    }
+    .portfolio-desc {
+      font-size: max(1.203vw, .9rem);
+      font-weight: 300; line-height: 1.6;
+      color: rgba(26,25,24,.55); margin-top: .5rem;
     }
 
     /* ── SETTORI ─────────────────────────────────────────────── */
-    .settori { border-top: 1px solid var(--lgray); }
     .settori-head {
       display: flex; justify-content: space-between; align-items: baseline;
-      padding: 4rem 2.5rem 3rem;
+      padding: 3rem 2.5rem;
       border-bottom: 1px solid var(--lgray);
-    }
-    .settori-head h2 {
-      font-size: clamp(2rem, 3vw, 3.5rem);
-      font-weight: 700; letter-spacing: -.04em;
+      border-top: 1px solid var(--lgray);
     }
     .settore-row {
       display: flex; align-items: center;
-      padding: 1.4rem 2.5rem;
+      padding: 1.2rem 2.5rem;
       border-bottom: 1px solid var(--lgray);
-      cursor: none; transition: background .25s;
+      transition: background .2s, padding-left .25s;
     }
-    .settore-row:hover { background: var(--off); }
-    .s-n {
-      font-size: .65rem; font-weight: 500; letter-spacing: .08em;
-      color: var(--gray); min-width: 4rem;
-    }
-    .s-name {
-      font-size: clamp(1rem, 2vw, 1.8rem);
-      font-weight: 500; letter-spacing: -.02em; flex: 1;
-      transition: transform .3s cubic-bezier(.16,1,.3,1);
-    }
-    .settore-row:hover .s-name { transform: translateX(6px); }
-    .s-arr {
-      font-size: .9rem; color: var(--gray);
-      opacity: 0; transform: translateX(-6px);
-      transition: opacity .25s, transform .35s cubic-bezier(.16,1,.3,1);
-    }
-    .settore-row:hover .s-arr { opacity: 1; transform: translateX(0); }
+    .settore-row:hover { background: var(--off); padding-left: 3.2rem; }
+    .s-n { font-size: .65rem; font-weight: 500; letter-spacing: .08em; color: var(--gray); min-width: 3.5rem; }
+    .s-name { font-size: max(2.139vw, 1.2rem); font-weight: 500; letter-spacing: -.02em; flex: 1; }
+    .s-arr { font-size: .9rem; color: var(--gray); opacity: 0; transition: opacity .2s; }
+    .settore-row:hover .s-arr { opacity: 1; }
 
-    /* ── CTA ─────────────────────────────────────────────────── */
-    .cta-block {
-      padding: 7rem 2.5rem;
-      border-top: 1px solid var(--lgray);
+    /* ── PROCESSO ────────────────────────────────────────────── */
+    .processo { background: var(--off); border-top: 1px solid var(--lgray); }
+    .processo-head {
+      padding: 3rem 2.5rem;
       border-bottom: 1px solid var(--lgray);
-      display: flex; justify-content: space-between; align-items: center; gap: 3rem;
+    }
+    .processo-head p {
+      font-size: max(6.417vw, 2.5rem);
+      font-weight: 700; letter-spacing: -.04em; line-height: 1;
+      max-width: 700px;
+    }
+    .processo-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+    }
+    .processo-step {
+      padding: 2.5rem 1.5rem;
+      border-right: 1px solid var(--lgray);
+      border-bottom: 1px solid var(--lgray);
+    }
+    .processo-step:last-child { border-right: none; }
+    .step-num {
+      font-size: 2.5rem; font-weight: 700; letter-spacing: -.05em;
+      color: var(--lgray); line-height: 1; margin-bottom: 1.5rem;
+      display: block; transition: color .25s;
+    }
+    .processo-step:hover .step-num { color: var(--black); }
+    .step-name {
+      font-size: max(1.604vw, 1rem);
+      font-weight: 700; letter-spacing: -.02em; margin-bottom: .5rem;
+    }
+    .step-desc {
+      font-size: max(1.203vw, .85rem);
+      font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.55);
+    }
+
+    /* ── CTA FINALE ─────────────────────────────────────────── */
+    .cta-section {
+      border-top: 1px solid var(--lgray);
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .cta-left {
+      padding: 5rem 2.5rem;
+      border-right: 1px solid var(--lgray);
     }
     .cta-title {
-      font-size: clamp(2.5rem, 5vw, 6.5rem);
-      font-weight: 700; letter-spacing: -.04em; line-height: .92;
+      font-size: max(11.143vw, 4rem);
+      font-weight: 700; letter-spacing: -.05em; line-height: .88;
     }
     .cta-title em { font-style: italic; font-weight: 400; }
-    .cta-btn {
-      flex-shrink: 0;
-      display: inline-flex; align-items: center; gap: .7rem;
-      padding: 1rem 2rem;
-      background: var(--black); color: var(--white);
-      font-family: 'Hanken Grotesk', sans-serif;
-      font-size: .78rem; font-weight: 600; letter-spacing: .06em;
-      text-transform: uppercase; text-decoration: none; border-radius: 100px;
-      transition: opacity .2s, transform .2s;
+    .cta-right {
+      padding: 5rem 2.5rem;
+      display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem;
     }
-    .cta-btn:hover { opacity: .8; transform: scale(.98); }
+    .cta-email {
+      font-size: max(2.807vw, 1.5rem);
+      font-weight: 300; text-decoration: none; color: var(--black);
+      transition: opacity .2s;
+    }
+    .cta-email:hover { opacity: .6; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.5rem; align-self: flex-start;
+      background: var(--black); color: var(--white);
+      font-family: inherit; font-size: .78rem; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+      text-decoration: none; border-radius: 100px;
+      transition: opacity .2s;
+    }
+    .cta-btn:hover { opacity: .8; }
 
     /* ── FOOTER ─────────────────────────────────────────────── */
     footer {
       background: var(--black); color: var(--white);
-      padding: 4rem 2.5rem 2.5rem;
+      padding: 3rem 2.5rem;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: end; gap: 2rem;
+      border-top: 1px solid #333;
     }
-    .footer-top {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      padding-bottom: 4rem;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-      gap: 2rem;
-    }
-    .footer-logo img { height: 44px; width: auto; display: block; }
+    .footer-logo img { height: 40px; width: auto; display: block; }
     .footer-tagline {
-      font-size: .85rem; font-weight: 300;
-      color: rgba(255,255,255,.4); line-height: 1.7;
-      max-width: 320px; margin-top: 1.2rem;
+      font-size: max(1.203vw, .85rem); font-weight: 300;
+      color: rgba(255,255,255,.4); margin-top: 1rem; line-height: 1.6;
     }
-    .footer-links { display: flex; flex-direction: column; gap: .4rem; align-items: flex-end; }
-    .footer-links a {
-      font-size: .8rem; color: rgba(255,255,255,.4);
-      text-decoration: none; font-weight: 300; line-height: 2;
-      transition: color .2s;
+    .footer-r { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; }
+    .footer-r a {
+      font-size: .78rem; font-weight: 300; color: rgba(255,255,255,.4);
+      text-decoration: none; line-height: 1.9; transition: color .2s;
     }
-    .footer-links a:hover { color: var(--white); }
+    .footer-r a:hover { color: var(--white); }
     .footer-bottom {
+      grid-column: 1 / -1;
+      padding-top: 2rem; margin-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,.1);
       display: flex; justify-content: space-between;
-      padding-top: 2rem;
       font-size: .65rem; color: rgba(255,255,255,.2);
     }
 
     /* ── RESPONSIVE ─────────────────────────────────────────── */
     @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .logo img { height: 28px; }
-      .hero, .intro-left, .intro-right, .metodo-head, .step,
-      .works-head, .settori-head, .cta-block,
-      .gradient-band, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
-      .hero { padding-top: 8rem; padding-bottom: 3rem; }
-      .intro { grid-template-columns: 1fr; }
-      .intro-left { border-right: none; border-bottom: 1px solid var(--lgray); }
-      .step { grid-template-columns: 3rem 1fr; }
-      .step-desc { display: none; }
-      .works-grid { grid-template-columns: 1fr; }
-      .work-item { border-right: none; }
-      .cta-block { flex-direction: column; gap: 2rem; }
-      .footer-top { flex-direction: column; }
-      .footer-links { align-items: flex-start; }
-      .footer-bottom { flex-direction: column; gap: .3rem; }
+      .hero-intro, .servizi, .portfolio-grid,
+      .processo-grid, .cta-section { grid-template-columns: 1fr; }
+      .hero-intro-left, .servizi-col:first-child { border-right: none; border-bottom: 1px solid var(--lgray); }
+      .portfolio-item { border-right: none; }
+      .processo-step { border-right: none; }
+      .cta-left { border-right: none; border-bottom: 1px solid var(--lgray); }
       .nav-r a:not(.nav-cta) { display: none; }
+      footer { grid-template-columns: 1fr; }
+      .footer-r { align-items: flex-start; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Cursore -->
-  <div id="cur-dot"></div>
-  <div id="cur-ring"></div>
-
   <!-- NAV -->
   <nav>
-    <a href="#" class="logo">
-      <img src="logo-black.png" alt="Goodcom">
-    </a>
+    <a href="#" class="nav-logo"><img src="logo-black.png" alt="Goodcom"></a>
     <div class="nav-r">
       <a href="#metodo">Metodo</a>
-      <a href="#works">Atelier</a>
+      <a href="#atelier">Atelier</a>
       <a href="#settori">Settori</a>
       <a href="#contatti" class="nav-cta">Contattaci →</a>
     </div>
@@ -390,191 +364,180 @@
 
   <!-- ── HERO ──────────────────────────────────────────────────── -->
   <section class="hero">
-    <span class="hero-label">Agenzia di comunicazione strategica</span>
-    <h1 class="hero-hl">
-      Comunichiamo<br>
-      il valore<br>
-      che connette.
-    </h1>
-    <div class="hero-foot">
-      <p class="hero-sub">
-        Integriamo diversi ambiti di competenza per ottimizzare costi, tempi e processi. Forniamo strumenti che funzionano a lungo termine.
-      </p>
-      <span class="hero-scroll">Scorri</span>
-    </div>
-  </section>
 
-  <!-- ── MARQUEE ─────────────────────────────────────────────────── -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span class="marquee-item">Assessment</span>
-      <span class="marquee-item">Narrazione Strategica</span>
-      <span class="marquee-item">Coinvolgimento</span>
-      <span class="marquee-item">Attivazione</span>
-      <span class="marquee-item">Campagne</span>
-      <span class="marquee-item">Economia Circolare</span>
-      <span class="marquee-item">Innovazione Sociale</span>
-      <span class="marquee-item">Terzo Settore</span>
-      <span class="marquee-item">Assessment</span>
-      <span class="marquee-item">Narrazione Strategica</span>
-      <span class="marquee-item">Coinvolgimento</span>
-      <span class="marquee-item">Attivazione</span>
-      <span class="marquee-item">Campagne</span>
-      <span class="marquee-item">Economia Circolare</span>
-      <span class="marquee-item">Innovazione Sociale</span>
-      <span class="marquee-item">Terzo Settore</span>
-    </div>
-  </div>
-
-  <!-- ── INTRO 2 COLONNE ────────────────────────────────────────── -->
-  <div class="intro">
-    <div class="intro-left">
-      <span class="intro-tag">Chi siamo</span>
-      <h2 class="intro-title">Il mix che<br>fa la<br>differenza.</h2>
-    </div>
-    <div class="intro-right">
-      <span class="intro-tag">Il nostro approccio</span>
-      <div class="intro-body">
-        <p>Integriamo diversi ambiti di competenza e ottimizziamo costi e tempi, valutando le azioni relative ai processi e alle disclosure e fornendo le soluzioni più vantaggiose.</p>
-        <p>Abbiamo tutti gli strumenti per valorizzare i risultati rispetto alle diverse finalità e tipologie di servizi necessari: campagne di comunicazione, progetti di attivazione, eventi.</p>
-        <p>Forniamo strumenti che funzionano a lungo termine.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── METODO ─────────────────────────────────────────────────── -->
-  <section class="metodo" id="metodo">
-    <div class="metodo-head">
-      <h2>Il nostro metodo</h2>
-      <span class="count-tag">04 step</span>
-    </div>
-    <div class="step">
-      <span class="step-n">01</span>
-      <h3 class="step-title">Assessment</h3>
-      <p class="step-desc">Analizziamo contesto, processi e opportunità. Valutiamo le disclosure e costruiamo la base strategica più vantaggiosa per ogni cliente.</p>
-    </div>
-    <div class="step">
-      <span class="step-n">02</span>
-      <h3 class="step-title">Narrazione Strategica</h3>
-      <p class="step-desc">Traduciamo dati e valori in storie che creano identità forte e differenziazione duratura nel tempo.</p>
-    </div>
-    <div class="step">
-      <span class="step-n">03</span>
-      <h3 class="step-title">Coinvolgimento</h3>
-      <p class="step-desc">Costruiamo relazioni autentiche con comunità, stakeholder e pubblici chiave attraverso strumenti di partecipazione reale.</p>
-    </div>
-    <div class="step">
-      <span class="step-n">04</span>
-      <h3 class="step-title">Attivazione</h3>
-      <p class="step-desc">Portiamo in vita campagne, attivazioni ed eventi con strumenti che funzionano a lungo termine.</p>
-    </div>
-  </section>
-
-  <!-- ── WORKS / ATELIER ───────────────────────────────────────── -->
-  <section class="works" id="works">
-    <div class="works-head">
-      <h2>Atelier</h2>
-      <a href="#">Tutti i lavori</a>
-    </div>
-    <div class="works-grid">
-      <div class="work-item">
-        <div class="work-thumb"></div>
-        <span class="work-cat">Campagna · Economia Circolare</span>
-        <h3 class="work-title">Progetto 01</h3>
-      </div>
-      <div class="work-item">
-        <div class="work-thumb"></div>
-        <span class="work-cat">Evento · Terzo Settore</span>
-        <h3 class="work-title">Progetto 02</h3>
-      </div>
-      <div class="work-item">
-        <div class="work-thumb"></div>
-        <span class="work-cat">Attivazione · Innovazione Sociale</span>
-        <h3 class="work-title">Progetto 03</h3>
-      </div>
-      <div class="work-item">
-        <div class="work-thumb"></div>
-        <span class="work-cat">Comunicazione · Industria</span>
-        <h3 class="work-title">Progetto 04</h3>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── SETTORI ───────────────────────────────────────────────── -->
-  <section class="settori" id="settori">
-    <div class="settori-head">
-      <h2>Settori di esperienza</h2>
-      <span class="count-tag">07 settori</span>
-    </div>
-    <div class="settore-row"><span class="s-n">01</span><span class="s-name">Economia Circolare</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arr">→</span></div>
-  </section>
-
-  <!-- ── CTA ──────────────────────────────────────────────────── -->
-  <div class="cta-block" id="contatti">
-    <h2 class="cta-title">Parliamo del<br>tuo <em>progetto.</em></h2>
-    <a href="mailto:info@goodcom.it" class="cta-btn">Scrivici →</a>
-  </div>
-
-  <!-- ── FOOTER ────────────────────────────────────────────────── -->
-  <footer>
-    <div class="footer-top">
-      <div>
-        <div class="footer-logo">
-          <img src="logo-white.png" alt="Goodcom">
+    <!-- Intro: brand + tagline + CTA -->
+    <div class="hero-intro">
+      <div class="hero-intro-left">
+        <div class="hero-brand">goodcom</div>
+        <div>
+          <p class="t-label" style="color:var(--gray); margin-bottom:.8rem;">Agenzia di comunicazione strategica</p>
         </div>
-        <p class="footer-tagline">
-          Comunicazione strategica che connette idee e persone.
-        </p>
       </div>
-      <div class="footer-links">
-        <a href="#metodo">Metodo</a>
-        <a href="#works">Atelier</a>
-        <a href="#settori">Settori</a>
-        <a href="mailto:info@goodcom.it">info@goodcom.it</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Instagram</a>
+      <div class="hero-intro-right">
+        <p class="hero-tagline">Comunichiamo il valore che connette idee e persone.</p>
+        <p class="hero-sub">Integriamo diversi ambiti di competenza per ottimizzare costi, tempi e processi. Forniamo strumenti che funzionano a lungo termine.</p>
+        <a href="#contatti" class="hero-cta">Scopri come →</a>
       </div>
+    </div>
+
+    <!-- BIG SCROLL — la firma visiva: testo enorme che scorre -->
+    <div class="big-scroll">
+      <div class="big-scroll-track">
+        <span class="big-scroll-item">Assessment</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Narrazione</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Coinvolgimento</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Attivazione</span>
+        <span class="big-scroll-sep">·</span>
+        <!-- duplicato per loop -->
+        <span class="big-scroll-item">Assessment</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Narrazione</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Coinvolgimento</span>
+        <span class="big-scroll-sep">·</span>
+        <span class="big-scroll-item">Attivazione</span>
+        <span class="big-scroll-sep">·</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── SERVIZI: 2 colonne ─────────────────────────────────────── -->
+  <section class="servizi" id="metodo">
+    <div class="servizi-col">
+      <h2 class="col-title">Strategia</h2>
+      <ul class="col-list">
+        <li>Assessment <span>01</span></li>
+        <li>Narrazione strategica <span>02</span></li>
+        <li>Definizione obiettivi <span>03</span></li>
+        <li>Analisi stakeholder <span>04</span></li>
+        <li>Disclosure <span>05</span></li>
+      </ul>
+    </div>
+    <div class="servizi-col">
+      <h2 class="col-title">Attivazione</h2>
+      <ul class="col-list">
+        <li>Campagne di comunicazione <span>01</span></li>
+        <li>Progetti di attivazione <span>02</span></li>
+        <li>Event design <span>03</span></li>
+        <li>Coinvolgimento comunità <span>04</span></li>
+        <li>Strumenti long-term <span>05</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── PORTFOLIO / ATELIER ────────────────────────────────────── -->
+  <div class="portfolio-head" id="atelier">
+    <h2 class="section-title">Atelier</h2>
+    <a href="#" class="section-link">Tutti i lavori</a>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-item">
+      <div class="portfolio-thumb"></div>
+      <div class="portfolio-tags"><span>Campagna</span><span>Economia Circolare</span></div>
+      <h3 class="portfolio-name">Progetto 01</h3>
+      <p class="portfolio-desc">Campagna di comunicazione strategica per un'organizzazione del terzo settore.</p>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-thumb"></div>
+      <div class="portfolio-tags"><span>Evento</span><span>Terzo Settore</span></div>
+      <h3 class="portfolio-name">Progetto 02</h3>
+      <p class="portfolio-desc">Progetto di attivazione e coinvolgimento per un consorzio di imprese.</p>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-thumb"></div>
+      <div class="portfolio-tags"><span>Attivazione</span><span>Innovazione Sociale</span></div>
+      <h3 class="portfolio-name">Progetto 03</h3>
+      <p class="portfolio-desc">Narrazione strategica e identità per un'iniziativa di innovazione sociale.</p>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-thumb"></div>
+      <div class="portfolio-tags"><span>Comunicazione</span><span>Industria</span></div>
+      <h3 class="portfolio-name">Progetto 04</h3>
+      <p class="portfolio-desc">Campagna integrata di comunicazione per un gruppo industriale.</p>
+    </div>
+  </div>
+
+  <!-- ── SETTORI ────────────────────────────────────────────────── -->
+  <div class="settori-head" id="settori">
+    <h2 class="section-title">Settori</h2>
+    <span class="t-label" style="color:var(--gray);">07 settori</span>
+  </div>
+  <div class="settore-row"><span class="s-n">01</span><span class="s-name">Economia Circolare</span><span class="s-arr">→</span></div>
+  <div class="settore-row"><span class="s-n">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arr">→</span></div>
+  <div class="settore-row"><span class="s-n">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arr">→</span></div>
+  <div class="settore-row"><span class="s-n">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arr">→</span></div>
+  <div class="settore-row"><span class="s-n">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arr">→</span></div>
+  <div class="settore-row"><span class="s-n">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arr">→</span></div>
+  <div class="settore-row"><span class="s-n">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arr">→</span></div>
+
+  <!-- ── PROCESSO ───────────────────────────────────────────────── -->
+  <section class="processo" id="metodo-steps">
+    <div class="processo-head">
+      <p>Step by step,<br>consegniamo il tuo progetto.</p>
+    </div>
+    <div class="processo-grid">
+      <div class="processo-step">
+        <span class="step-num">01</span>
+        <h3 class="step-name">Assessment</h3>
+        <p class="step-desc">Analizziamo contesto e opportunità per costruire la base strategica.</p>
+      </div>
+      <div class="processo-step">
+        <span class="step-num">02</span>
+        <h3 class="step-name">Narrazione</h3>
+        <p class="step-desc">Traduciamo valori in storie che creano identità duratura.</p>
+      </div>
+      <div class="processo-step">
+        <span class="step-num">03</span>
+        <h3 class="step-name">Coinvolgimento</h3>
+        <p class="step-desc">Costruiamo relazioni autentiche con stakeholder e comunità.</p>
+      </div>
+      <div class="processo-step">
+        <span class="step-num">04</span>
+        <h3 class="step-name">Attivazione</h3>
+        <p class="step-desc">Portiamo in vita campagne, eventi e progetti.</p>
+      </div>
+      <div class="processo-step">
+        <span class="step-num">05</span>
+        <h3 class="step-name">Long-term</h3>
+        <p class="step-desc">Forniamo strumenti che funzionano nel lungo periodo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA FINALE ─────────────────────────────────────────────── -->
+  <section class="cta-section" id="contatti">
+    <div class="cta-left">
+      <h2 class="cta-title">Parliamo del<br>tuo <em>progetto.</em></h2>
+    </div>
+    <div class="cta-right">
+      <a href="mailto:info@goodcom.it" class="cta-email">info@goodcom.it</a>
+      <a href="mailto:info@goodcom.it" class="cta-btn">Nuovo progetto →</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+  <footer>
+    <div>
+      <div class="footer-logo"><img src="logo-white.png" alt="Goodcom"></div>
+      <p class="footer-tagline">Comunicazione strategica che connette idee e persone.</p>
+    </div>
+    <div class="footer-r">
+      <a href="#metodo">Metodo</a>
+      <a href="#atelier">Atelier</a>
+      <a href="#settori">Settori</a>
+      <a href="mailto:info@goodcom.it">info@goodcom.it</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Instagram</a>
     </div>
     <div class="footer-bottom">
       <span>© 2024 Goodcom — Tutti i diritti riservati</span>
       <span>P.IVA 00000000000</span>
     </div>
   </footer>
-
-  <script>
-    /* Cursore semplice: dot + ring laggy */
-    const dot  = document.getElementById('cur-dot');
-    const ring = document.getElementById('cur-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-    });
-    (function raf() {
-      rx += (mx - rx) * .1; ry += (my - ry) * .1;
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(raf);
-    })();
-
-    /* Ring si allarga sugli elementi interattivi */
-    document.querySelectorAll('a, .step, .work-item, .settore-row').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
-    });
-
-    /* Cursore bianco su sezioni scure */
-    document.querySelectorAll('footer, .marquee').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cd'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cd'));
-    });
-  </script>
 
 </body>
 </html>
