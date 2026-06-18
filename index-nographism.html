@@ -186,7 +186,9 @@
     }
     .big-scroll-track {
       display: flex; white-space: nowrap; align-items: center;
+      width: max-content;
       animation: bigscroll 20s linear infinite;
+      will-change: transform;
     }
     .big-scroll-item {
       font-size: max(22.286vw, 5.375rem);
@@ -200,10 +202,10 @@
       color: rgba(255,255,255,.25);
       flex-shrink: 0; line-height: .9;
     }
-    /* -25% = 1 copia su 4 totali → loop perfetto senza JS */
+    /* -50% = 1 copia su 2 totali con width:max-content → loop perfetto */
     @keyframes bigscroll {
       from { transform: translateX(0); }
-      to   { transform: translateX(-25%); }
+      to   { transform: translateX(-50%); }
     }
     .big-scroll:hover .big-scroll-track { animation-play-state: paused; }
 
@@ -475,7 +477,7 @@
       </div>
     </div>
 
-    <!-- BIG SCROLL — 4 copie pure HTML, -25% CSS = loop perfetto -->
+    <!-- BIG SCROLL — 2 copie + width:max-content + translateX(-50%) -->
     <div class="big-scroll">
       <div class="big-scroll-track">
         <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
@@ -485,23 +487,6 @@
         <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
         <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
         <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
-
-        <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Turismo &amp; Horeca</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
-
-        <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Turismo &amp; Horeca</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
-
         <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
         <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
         <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
