@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goodcom — Comunicazione che connette</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #1a1918;
+      --white: #ffffff;
+      --gray:  #8ea6bf;
+      --lgray: #d9dfe3;
+      --off:   #f4f3f0;
+    }
+
+    html { scroll-behavior: smooth; cursor: none; }
+    body {
+      font-family: 'Hanken Grotesk', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── CURSORE nographism ──────────────────────────────────
+       Dot piccolo → pill con testo al hover, come nographism   */
+    #cur {
+      position: fixed;
+      min-width: 8px; height: 8px;
+      background: var(--black);
+      border-radius: 100px;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      transition: min-width .35s cubic-bezier(.16,1,.3,1),
+                  height .35s cubic-bezier(.16,1,.3,1),
+                  background .2s;
+    }
+    #cur-txt {
+      font-size: 0; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--white);
+      white-space: nowrap;
+      transition: font-size .18s .06s;
+    }
+    body.ch #cur       { min-width: 72px; height: 30px; }
+    body.ch #cur-txt   { font-size: .58rem; }
+    /* cursore bianco su sezioni scure */
+    body.cd #cur       { background: var(--white); }
+    body.cd #cur-txt   { color: var(--black); }
+
+    /* ── NAV ─────────────────────────────────────────────────
+       Stile nographism: logo sinistra, voci destra, sfondo bianco
+       sottile bordo bottom. No hamburger.                      */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 2.5rem;
+      background: var(--white);
+      border-bottom: 1px solid var(--lgray);
+    }
+    .logo {
+      font-weight: 700; font-size: 1rem; letter-spacing: -.03em;
+      text-decoration: none; color: var(--black);
+    }
+    .nav-r { display: flex; align-items: center; gap: 2rem; }
+    .nav-r a {
+      font-size: .72rem; font-weight: 500; letter-spacing: .07em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(26,25,24,.45); transition: color .2s;
+    }
+    .nav-r a:hover { color: var(--black); }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .55rem 1.2rem;
+      border: 1.5px solid var(--black); border-radius: 100px;
+      font-size: .7rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; text-decoration: none; color: var(--black);
+      transition: background .2s, color .2s;
+    }
+    .nav-cta:hover { background: var(--black); color: var(--white); }
+
+    /* ── HERO ────────────────────────────────────────────────
+       Nographism: sfondo bianco, testo nero enorme, sinistra  */
+    .hero {
+      padding: 12rem 2.5rem 6rem;
+      background: var(--white);
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      border-bottom: 1px solid var(--lgray);
+    }
+    .hero-label {
+      font-size: .68rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gray);
+      margin-bottom: 2.5rem; display: block;
+    }
+    .hero-hl {
+      font-size: clamp(4.5rem, 13vw, 17rem);
+      font-weight: 700; line-height: .88;
+      letter-spacing: -.04em; color: var(--black);
+      margin-bottom: 3rem;
+    }
+    /* effetto nographism: hover → outlined */
+    .w {
+      display: inline-block; cursor: none;
+      transition: -webkit-text-stroke .2s, -webkit-text-fill-color .2s;
+    }
+    .w:hover {
+      -webkit-text-stroke: 1.5px var(--black);
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-foot {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      border-top: 1px solid var(--lgray); padding-top: 1.8rem;
+    }
+    .hero-sub {
+      font-size: clamp(.95rem, 1.5vw, 1.2rem);
+      font-weight: 300; line-height: 1.6;
+      color: rgba(26,25,24,.5); max-width: 480px;
+    }
+    .hero-scroll {
+      font-size: .65rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gray);
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .hero-scroll::before {
+      content: ''; display: block;
+      width: 32px; height: 1px; background: var(--gray);
+    }
+
+    /* ── MARQUEE ─────────────────────────────────────────────
+       Stile nographism: banda scura con testo che scorre.      */
+    .marquee {
+      background: var(--black); overflow: hidden;
+      padding: .9rem 0; border-bottom: 1px solid #333;
+    }
+    .marquee-track {
+      display: flex; white-space: nowrap;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-item {
+      font-size: .72rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.55);
+      padding: 0 2rem;
+    }
+    .marquee-item .sep { color: var(--gray); margin: 0 .8rem; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── INTRO 2 COLONNE ─────────────────────────────────────
+       Stile nographism: testo left, descrizione right          */
+    .intro {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; border-bottom: 1px solid var(--lgray);
+    }
+    .intro-left {
+      padding: 6rem 2.5rem;
+      border-right: 1px solid var(--lgray);
+    }
+    .intro-right { padding: 6rem 2.5rem; }
+    .intro-tag {
+      font-size: .68rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 2rem;
+    }
+    .intro-title {
+      font-size: clamp(2rem, 3.5vw, 4rem);
+      font-weight: 700; letter-spacing: -.04em; line-height: 1;
+    }
+    .intro-body {
+      font-size: 1rem; font-weight: 300; line-height: 1.8;
+      color: rgba(26,25,24,.6); margin-top: 2rem;
+    }
+    .intro-body p + p { margin-top: 1rem; }
+
+    /* ── METODO ──────────────────────────────────────────────
+       Stile nographism: lista numbered a tutta larghezza,
+       ogni step = riga con bordo, numero grande in background  */
+    .metodo { background: var(--white); }
+    .metodo-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 4rem 2.5rem 2rem;
+      border-bottom: 1px solid var(--lgray);
+    }
+    .metodo-head h2 {
+      font-size: clamp(2rem, 3vw, 3.5rem);
+      font-weight: 700; letter-spacing: -.04em;
+    }
+    .metodo-count {
+      font-size: .68rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--gray);
+    }
+    .step {
+      display: grid; grid-template-columns: 5rem 1fr 1fr;
+      gap: 2rem; align-items: start;
+      padding: 3rem 2.5rem;
+      border-bottom: 1px solid var(--lgray);
+      position: relative; overflow: hidden;
+      transition: background .3s;
+    }
+    .step:hover { background: var(--off); }
+    .step-n {
+      font-size: 3.5rem; font-weight: 700; letter-spacing: -.05em;
+      line-height: 1; color: var(--lgray);
+      transition: color .3s;
+    }
+    .step:hover .step-n { color: var(--black); }
+    .step-title {
+      font-size: clamp(1.4rem, 2.5vw, 2.5rem);
+      font-weight: 700; letter-spacing: -.03em; line-height: 1.05;
+      padding-top: .3rem;
+    }
+    .step-desc {
+      font-size: .95rem; font-weight: 300; line-height: 1.75;
+      color: rgba(26,25,24,.55); padding-top: .4rem;
+    }
+
+    /* ── WORKS / ATELIER ─────────────────────────────────────
+       Stile nographism: griglia 2 colonne, immagini 16:9,
+       hover mostra categoria                                   */
+    .works { border-top: 1px solid var(--lgray); }
+    .works-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 4rem 2.5rem 3rem;
+      border-bottom: 1px solid var(--lgray);
+    }
+    .works-head h2 {
+      font-size: clamp(2rem, 3vw, 3.5rem);
+      font-weight: 700; letter-spacing: -.04em;
+    }
+    .works-head a {
+      font-size: .72rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(26,25,24,.4); transition: color .2s;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .works-head a:hover { color: var(--black); }
+    .works-head a::after { content: '→'; }
+
+    .works-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .work-item {
+      border-right: 1px solid var(--lgray);
+      border-bottom: 1px solid var(--lgray);
+      padding: 2rem 2.5rem 2.5rem;
+      cursor: none; position: relative; overflow: hidden;
+      transition: background .3s;
+    }
+    .work-item:nth-child(even) { border-right: none; }
+    .work-item:hover { background: var(--off); }
+
+    .work-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      background: var(--lgray);
+      border-radius: 3px; margin-bottom: 1.5rem;
+      overflow: hidden; position: relative;
+    }
+    .work-thumb::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg,
+        rgba(142,166,191,.2) 0%, transparent 50%,
+        rgba(217,223,227,.15) 100%);
+      opacity: 0; transition: opacity .35s;
+    }
+    .work-item:hover .work-thumb::after { opacity: 1; }
+
+    .work-cat {
+      font-size: .65rem; font-weight: 500; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gray); margin-bottom: .5rem; display: block;
+    }
+    .work-title {
+      font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+      font-weight: 700; letter-spacing: -.02em; line-height: 1.1;
+    }
+
+    /* ── SETTORI ─────────────────────────────────────────────
+       Lista minimal: numero + nome, separatori sottili         */
+    .settori { border-top: 1px solid var(--lgray); }
+    .settori-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 4rem 2.5rem 3rem;
+      border-bottom: 1px solid var(--lgray);
+    }
+    .settori-head h2 {
+      font-size: clamp(2rem, 3vw, 3.5rem);
+      font-weight: 700; letter-spacing: -.04em;
+    }
+    .settore-row {
+      display: flex; align-items: center;
+      padding: 1.4rem 2.5rem;
+      border-bottom: 1px solid var(--lgray);
+      cursor: none; transition: background .25s;
+    }
+    .settore-row:hover { background: var(--off); }
+    .s-n {
+      font-size: .65rem; font-weight: 500; letter-spacing: .08em;
+      color: var(--gray); min-width: 4rem;
+    }
+    .s-name {
+      font-size: clamp(1rem, 2vw, 1.8rem);
+      font-weight: 500; letter-spacing: -.02em; flex: 1;
+      transition: transform .3s cubic-bezier(.16,1,.3,1);
+    }
+    .settore-row:hover .s-name { transform: translateX(6px); }
+    .s-arr {
+      font-size: .9rem; color: var(--gray);
+      opacity: 0; transform: translateX(-6px);
+      transition: opacity .25s, transform .35s cubic-bezier(.16,1,.3,1);
+    }
+    .settore-row:hover .s-arr { opacity: 1; transform: translateX(0); }
+
+    /* ── CTA ─────────────────────────────────────────────────
+       Stile nographism: testo grande, bordo top/bottom         */
+    .cta-block {
+      padding: 7rem 2.5rem;
+      border-top: 1px solid var(--lgray);
+      border-bottom: 1px solid var(--lgray);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 3rem;
+    }
+    .cta-title {
+      font-size: clamp(2.5rem, 5vw, 6.5rem);
+      font-weight: 700; letter-spacing: -.04em; line-height: .92;
+    }
+    .cta-title em { font-style: italic; font-weight: 400; }
+    .cta-btn {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: 1rem 2rem;
+      background: var(--black); color: var(--white);
+      font-family: 'Hanken Grotesk', sans-serif;
+      font-size: .78rem; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; text-decoration: none; border-radius: 100px;
+      transition: opacity .2s, transform .2s;
+    }
+    .cta-btn:hover { opacity: .8; transform: scale(.98); }
+
+    /* ── FOOTER ─────────────────────────────────────────────
+       Stile nographism: scuro, semplice                       */
+    footer {
+      background: var(--black); color: var(--white);
+      padding: 4rem 2.5rem 2.5rem;
+    }
+    .footer-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      gap: 2rem;
+    }
+    .footer-logo {
+      font-size: 2.5rem; font-weight: 700; letter-spacing: -.05em;
+    }
+    .footer-tagline {
+      font-size: .85rem; font-weight: 300;
+      color: rgba(255,255,255,.4); line-height: 1.7;
+      max-width: 320px;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: .4rem; align-items: flex-end; }
+    .footer-links a {
+      font-size: .8rem; color: rgba(255,255,255,.4);
+      text-decoration: none; font-weight: 300; line-height: 2;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex; justify-content: space-between;
+      padding-top: 2rem;
+      font-size: .65rem; color: rgba(255,255,255,.2);
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero, .intro-left, .intro-right, .metodo-head, .step,
+      .works-head, .works-grid, .settori-head, .cta-block, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero { padding-top: 8rem; padding-bottom: 3rem; }
+      .intro { grid-template-columns: 1fr; }
+      .intro-left { border-right: none; border-bottom: 1px solid var(--lgray); }
+      .step { grid-template-columns: 3rem 1fr; }
+      .step-desc { display: none; }
+      .works-grid { grid-template-columns: 1fr; }
+      .work-item { border-right: none; }
+      .cta-block { flex-direction: column; gap: 2rem; }
+      .footer-top { flex-direction: column; }
+      .footer-links { align-items: flex-start; }
+      .footer-bottom { flex-direction: column; gap: .3rem; }
+      .nav-r a:not(.nav-cta) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursore -->
+  <div id="cur"><span id="cur-txt">scopri</span></div>
+
+  <!-- NAV — fisso, bordo bottom, logo + link + CTA -->
+  <nav>
+    <a href="#" class="logo">goodcom</a>
+    <div class="nav-r">
+      <a href="#metodo">Metodo</a>
+      <a href="#works">Atelier</a>
+      <a href="#settori">Settori</a>
+      <a href="#contatti" class="nav-cta">Contattaci →</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────────── -->
+  <section class="hero">
+    <span class="hero-label">Agenzia di comunicazione strategica</span>
+    <h1 class="hero-hl">
+      <span class="w">Comunichiamo</span><br>
+      <span class="w">il valore</span><br>
+      <span class="w">che connette.</span>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-sub">
+        Integriamo diversi ambiti di competenza per ottimizzare costi, tempi e processi. Forniamo strumenti che funzionano a lungo termine.
+      </p>
+      <span class="hero-scroll">Scorri</span>
+    </div>
+  </section>
+
+  <!-- ── MARQUEE ────────────────────────────────────────────── -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Assessment<span class="sep">—</span></span>
+      <span class="marquee-item">Narrazione Strategica<span class="sep">—</span></span>
+      <span class="marquee-item">Coinvolgimento<span class="sep">—</span></span>
+      <span class="marquee-item">Attivazione<span class="sep">—</span></span>
+      <span class="marquee-item">Campagne<span class="sep">—</span></span>
+      <span class="marquee-item">Economia Circolare<span class="sep">—</span></span>
+      <span class="marquee-item">Innovazione Sociale<span class="sep">—</span></span>
+      <span class="marquee-item">Terzo Settore<span class="sep">—</span></span>
+      <!-- duplicato per loop seamless -->
+      <span class="marquee-item">Assessment<span class="sep">—</span></span>
+      <span class="marquee-item">Narrazione Strategica<span class="sep">—</span></span>
+      <span class="marquee-item">Coinvolgimento<span class="sep">—</span></span>
+      <span class="marquee-item">Attivazione<span class="sep">—</span></span>
+      <span class="marquee-item">Campagne<span class="sep">—</span></span>
+      <span class="marquee-item">Economia Circolare<span class="sep">—</span></span>
+      <span class="marquee-item">Innovazione Sociale<span class="sep">—</span></span>
+      <span class="marquee-item">Terzo Settore<span class="sep">—</span></span>
+    </div>
+  </div>
+
+  <!-- ── INTRO 2 COLONNE ────────────────────────────────────── -->
+  <div class="intro">
+    <div class="intro-left">
+      <span class="intro-tag">Chi siamo</span>
+      <h2 class="intro-title">Il mix che<br>fa la<br>differenza.</h2>
+    </div>
+    <div class="intro-right">
+      <span class="intro-tag">Il nostro approccio</span>
+      <div class="intro-body">
+        <p>Integriamo diversi ambiti di competenza e ottimizziamo costi e tempi, valutando le azioni relative ai processi e alle disclosure e fornendo le soluzioni più vantaggiose.</p>
+        <p>Abbiamo tutti gli strumenti per valorizzare i risultati rispetto alle diverse finalità e tipologie di servizi necessari: campagne di comunicazione, progetti di attivazione, eventi.</p>
+        <p>Forniamo strumenti che funzionano a lungo termine.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── METODO ─────────────────────────────────────────────── -->
+  <section class="metodo" id="metodo">
+    <div class="metodo-head">
+      <h2>Il nostro metodo</h2>
+      <span class="metodo-count">04 step</span>
+    </div>
+
+    <div class="step">
+      <span class="step-n">01</span>
+      <div>
+        <h3 class="step-title">Assessment</h3>
+      </div>
+      <p class="step-desc">Analizziamo contesto, processi e opportunità. Valutiamo le disclosure e costruiamo la base strategica più vantaggiosa per ogni cliente.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-n">02</span>
+      <div>
+        <h3 class="step-title">Narrazione Strategica</h3>
+      </div>
+      <p class="step-desc">Traduciamo dati e valori in storie che creano identità forte e differenziazione duratura nel tempo.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-n">03</span>
+      <div>
+        <h3 class="step-title">Coinvolgimento</h3>
+      </div>
+      <p class="step-desc">Costruiamo relazioni autentiche con comunità, stakeholder e pubblici chiave attraverso strumenti di partecipazione reale.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-n">04</span>
+      <div>
+        <h3 class="step-title">Attivazione</h3>
+      </div>
+      <p class="step-desc">Portiamo in vita campagne, attivazioni ed eventi con strumenti che funzionano a lungo termine.</p>
+    </div>
+  </section>
+
+  <!-- ── WORKS / ATELIER ────────────────────────────────────── -->
+  <section class="works" id="works">
+    <div class="works-head">
+      <h2>Atelier</h2>
+      <a href="#">Tutti i lavori</a>
+    </div>
+    <div class="works-grid">
+      <div class="work-item">
+        <div class="work-thumb"></div>
+        <span class="work-cat">Campagna · Economia Circolare</span>
+        <h3 class="work-title">Progetto 01</h3>
+      </div>
+      <div class="work-item">
+        <div class="work-thumb"></div>
+        <span class="work-cat">Evento · Terzo Settore</span>
+        <h3 class="work-title">Progetto 02</h3>
+      </div>
+      <div class="work-item">
+        <div class="work-thumb"></div>
+        <span class="work-cat">Attivazione · Innovazione Sociale</span>
+        <h3 class="work-title">Progetto 03</h3>
+      </div>
+      <div class="work-item">
+        <div class="work-thumb"></div>
+        <span class="work-cat">Comunicazione · Industria</span>
+        <h3 class="work-title">Progetto 04</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SETTORI ────────────────────────────────────────────── -->
+  <section class="settori" id="settori">
+    <div class="settori-head">
+      <h2>Settori di esperienza</h2>
+      <span class="metodo-count">07 settori</span>
+    </div>
+    <div class="settore-row"><span class="s-n">01</span><span class="s-name">Economia Circolare</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arr">→</span></div>
+    <div class="settore-row"><span class="s-n">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arr">→</span></div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────────── -->
+  <div class="cta-block" id="contatti">
+    <h2 class="cta-title">Parliamo del<br>tuo <em>progetto.</em></h2>
+    <a href="mailto:info@goodcom.it" class="cta-btn">Scrivici →</a>
+  </div>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">goodcom</div>
+        <p class="footer-tagline" style="margin-top:1rem;">
+          Comunicazione strategica che connette<br>idee e persone.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="#metodo">Metodo</a>
+        <a href="#works">Atelier</a>
+        <a href="#settori">Settori</a>
+        <a href="mailto:info@goodcom.it">info@goodcom.it</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Goodcom — Tutti i diritti riservati</span>
+      <span>P.IVA 00000000000</span>
+    </div>
+  </footer>
+
+  <script>
+    /* Cursore */
+    const cur = document.getElementById('cur');
+    const txt = document.getElementById('cur-txt');
+    let mx = 0, my = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+    });
+
+    const hoverMap = [
+      ['.w',           'apri'],
+      ['.step',        'leggi'],
+      ['.work-item',   'view'],
+      ['.settore-row', 'scopri'],
+      ['a',            ''],
+      ['.nav-cta',     'vai'],
+    ];
+    hoverMap.forEach(([sel, t]) => {
+      document.querySelectorAll(sel).forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          document.body.classList.add('ch');
+          if (t) txt.textContent = t;
+        });
+        el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+      });
+    });
+
+    /* Cursore bianco su footer */
+    document.querySelectorAll('footer, .marquee').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cd'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cd'));
+    });
+  </script>
+
+</body>
+</html>
