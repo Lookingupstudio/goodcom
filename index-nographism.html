@@ -176,38 +176,6 @@
     }
     .hero-cta:hover { opacity: .8; }
 
-    /* BIG SCROLL — testo enorme che scorre, sfondo celestino */
-    .big-scroll {
-      overflow: hidden;
-      background: var(--black);
-      padding: .4em 0;
-      border-top: none;
-      border-bottom: none;
-    }
-    .big-scroll-track {
-      display: flex; white-space: nowrap; align-items: center;
-      width: max-content;
-      animation: bigscroll 40s linear infinite;
-      will-change: transform;
-    }
-    .big-scroll-item {
-      font-size: max(22.286vw, 5.375rem);
-      font-weight: 700; line-height: .9; letter-spacing: -.04em;
-      color: var(--white);
-      padding: 0 .4em;
-      flex-shrink: 0;
-    }
-    .big-scroll-sep {
-      font-size: max(22.286vw, 5.375rem);
-      color: rgba(255,255,255,.25);
-      flex-shrink: 0; line-height: .9;
-    }
-    /* -50% = 1 copia su 2 totali con width:max-content → loop perfetto */
-    @keyframes bigscroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    .big-scroll:hover .big-scroll-track { animation-play-state: paused; }
 
     /* ── SERVIZI: 2 colonne ──────────────────────────────────── */
     .servizi {
@@ -500,25 +468,6 @@
       </div>
     </div>
 
-    <!-- BIG SCROLL — 2 copie + width:max-content + translateX(-50%) -->
-    <div class="big-scroll">
-      <div class="big-scroll-track">
-        <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Turismo &amp; Horeca</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Economia Circolare</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Terzo Settore</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Innovazione Sociale</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Turismo &amp; Horeca</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Industria</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Moda &amp; Calzaturiero</span><span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Consorzi</span><span class="big-scroll-sep">·</span>
-      </div>
-    </div>
 
   </section>
 
@@ -676,7 +625,7 @@
       el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
     });
 
-    document.querySelectorAll('footer, .big-scroll').forEach(el => {
+    document.querySelectorAll('footer').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cd'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cd'));
     });
