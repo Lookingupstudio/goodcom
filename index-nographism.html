@@ -179,7 +179,10 @@
     }
     .big-scroll-track {
       display: flex; white-space: nowrap; align-items: center;
-      animation: bigscroll 10s linear infinite;
+      /* durata impostata via JS dopo clonazione */
+    }
+    .big-scroll-track.ready {
+      animation: bigscroll 14s linear infinite;
     }
     .big-scroll-item {
       font-size: max(8vw, 3.5rem);
@@ -197,6 +200,8 @@
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
     }
+    /* pausa hover */
+    .big-scroll:hover .big-scroll-track { animation-play-state: paused; }
 
     /* ── SERVIZI: 2 colonne ──────────────────────────────────── */
     .servizi {
@@ -464,33 +469,22 @@
       </div>
     </div>
 
-    <!-- BIG SCROLL -->
+    <!-- BIG SCROLL — JS clona il contenuto per loop perfetto -->
     <div class="big-scroll">
-      <div class="big-scroll-track">
+      <div class="big-scroll-track" id="scrollTrack">
         <span class="big-scroll-item">Economia Circolare</span>
         <span class="big-scroll-sep">·</span>
         <span class="big-scroll-item">Terzo Settore</span>
         <span class="big-scroll-sep">·</span>
         <span class="big-scroll-item">Innovazione Sociale</span>
         <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Turismo</span>
+        <span class="big-scroll-item">Turismo &amp; Horeca</span>
         <span class="big-scroll-sep">·</span>
         <span class="big-scroll-item">Industria</span>
         <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Moda</span>
+        <span class="big-scroll-item">Moda &amp; Calzaturiero</span>
         <span class="big-scroll-sep">·</span>
-        <!-- duplicato per loop -->
-        <span class="big-scroll-item">Economia Circolare</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Terzo Settore</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Innovazione Sociale</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Turismo</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Industria</span>
-        <span class="big-scroll-sep">·</span>
-        <span class="big-scroll-item">Moda</span>
+        <span class="big-scroll-item">Consorzi</span>
         <span class="big-scroll-sep">·</span>
       </div>
     </div>
@@ -632,6 +626,13 @@
   </footer>
 
   <script>
+    /* Loop marquee perfetto: clona il contenuto, anima su -50% */
+    const track = document.getElementById('scrollTrack');
+    if (track) {
+      track.innerHTML += track.innerHTML; // duplica
+      track.classList.add('ready');
+    }
+
     const dot = document.getElementById('c-dot');
     const ring = document.getElementById('c-ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
