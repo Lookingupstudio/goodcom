@@ -289,7 +289,18 @@
       color: rgba(26,25,24,.55); margin-top: .5rem;
     }
 
-    /* ── SETTORI ─────────────────────────────────────────────── */
+    /* ── SETTORI — blob rosa in background ──────────────────── */
+    .settori { position: relative; overflow: hidden; }
+    .settori::before {
+      content: '';
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: #F5DAE9;
+      filter: blur(120px); opacity: .5;
+      top: -100px; right: -80px;
+      pointer-events: none; z-index: 0;
+    }
+    .settori-head, .settore-row { position: relative; z-index: 1; }
+
     .settori-head {
       display: flex; justify-content: space-between; align-items: baseline;
       padding: 3rem 2.5rem;
@@ -308,8 +319,20 @@
     .s-arr { font-size: .9rem; color: var(--gray); opacity: 0; transition: opacity .2s; }
     .settore-row:hover .s-arr { opacity: 1; }
 
-    /* ── PROCESSO ────────────────────────────────────────────── */
-    .processo { background: var(--off); border-top: 1px solid var(--lgray); }
+    /* ── PROCESSO — blob lightblue in background ────────────── */
+    .processo {
+      background: var(--off); border-top: 1px solid var(--lgray);
+      position: relative; overflow: hidden;
+    }
+    .processo::after {
+      content: '';
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: #BCCEFB;
+      filter: blur(130px); opacity: .45;
+      bottom: -150px; left: -100px;
+      pointer-events: none; z-index: 0;
+    }
+    .processo-head, .processo-grid { position: relative; z-index: 1; }
     .processo-head {
       padding: 3rem 2.5rem;
       border-bottom: 1px solid var(--lgray);
