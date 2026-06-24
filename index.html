@@ -9,346 +9,197 @@
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --black: #1a1918;
-      --white: #ffffff;
-      --gray:  #8ea6bf;
-      --lgray: #d9dfe3;
-      --off:   #f5f4f0;
+      --black: #1a1918; --white: #ffffff; --gray: #8ea6bf;
+      --lgray: #d9dfe3; --off: #f5f4f0;
       --o: #FF6403; --p: #F5DAE9; --lb: #BCCEFB; --st: #8EA6BF; --db: #1100A7;
     }
-
     html { scroll-behavior: smooth; cursor: none; }
     body { font-family: 'Hanken Grotesk', system-ui, sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; cursor: none; }
 
-    /* ── CURSORE ─────────────────────────────────────────────── */
+    /* CURSORE */
     #cur-dot { position: fixed; width: 6px; height: 6px; background: var(--black); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: background .2s; }
     #cur-ring { position: fixed; width: 30px; height: 30px; border: 1.5px solid var(--black); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .5; transition: width .35s cubic-bezier(.16,1,.3,1), height .35s, border-color .2s, opacity .2s; }
     body.ch #cur-ring { width: 46px; height: 46px; opacity: .8; }
     body.cd #cur-dot  { background: var(--white); }
     body.cd #cur-ring { border-color: rgba(255,255,255,.5); }
 
-    /* ── HEADER FISSO ────────────────────────────────────────── */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.4rem 2.5rem;
-      transition: background .35s, border-color .35s, padding .35s;
-    }
-    header.scrolled {
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--lgray);
-      padding: 1rem 2.5rem;
-    }
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 500; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 2.5rem; transition: background .35s, border-color .35s, padding .35s; }
+    header.scrolled { background: rgba(255,255,255,.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--lgray); padding: 1rem 2.5rem; }
     .header-logo img { height: 26px; width: auto; display: block; filter: brightness(0) invert(1); transition: filter .35s; }
     header.scrolled .header-logo img { filter: brightness(0); }
     .header-nav { display: flex; align-items: center; gap: 0; }
-    .header-nav a {
-      font-size: .72rem; font-weight: 400; letter-spacing: .04em; text-transform: uppercase;
-      text-decoration: none; color: rgba(255,255,255,.55); padding: .4rem .9rem;
-      transition: color .2s; white-space: nowrap;
-    }
+    .header-nav a { font-size: .72rem; font-weight: 400; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,.55); padding: .4rem .9rem; transition: color .2s; white-space: nowrap; }
     .header-nav a:hover { color: var(--white); }
     header.scrolled .header-nav a { color: rgba(26,25,24,.45); }
     header.scrolled .header-nav a:hover { color: var(--black); }
-    .header-cta {
-      padding: .45rem 1.1rem; border: 1.5px solid rgba(255,255,255,.5); border-radius: 100px;
-      font-family: inherit; font-size: .72rem; font-weight: 500; letter-spacing: .04em;
-      text-transform: uppercase; text-decoration: none; color: var(--white);
-      background: transparent; transition: background .2s, border-color .2s, color .2s;
-    }
+    .header-cta { padding: .45rem 1.1rem; border: 1.5px solid rgba(255,255,255,.5); border-radius: 100px; font-family: inherit; font-size: .72rem; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; color: var(--white); background: transparent; transition: background .2s, border-color .2s, color .2s; }
     .header-cta:hover { background: rgba(255,255,255,.12); border-color: var(--white); }
     header.scrolled .header-cta { color: var(--black); border-color: rgba(26,25,24,.4); }
     header.scrolled .header-cta:hover { background: var(--black); color: var(--white); border-color: var(--black); }
 
-    /* ── HERO SCURO CON GRADIENTE ─────────────────────────────
-       Sfondo nero + blob soft da tutti e 5 i colori palette    */
-    .hero {
-      background: linear-gradient(-45deg,
-        #FF6403, #F5DAE9, #BCCEFB, #8EA6BF, #1100A7, #BCCEFB, #F5DAE9, #FF6403);
-      background-size: 400% 400%;
-      animation: gradMove 12s ease infinite;
-      padding: 3.5rem 2.5rem 3rem;
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: space-between;
-      position: relative; overflow: hidden;
-      border-bottom: 1px solid #2a2927;
-    }
-    @keyframes gradMove {
-      0%   { background-position: 0%   50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0%   50%; }
-    }
-    /* vignetta per leggibilità testo */
-    .hero-gradient {
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        linear-gradient(to bottom,
-          rgba(0,0,0,.35) 0%,
-          rgba(0,0,0,.05) 45%,
-          rgba(0,0,0,.50) 100%);
-    }
-
+    /* HERO */
+    .hero { background: linear-gradient(-45deg, #FF6403,#F5DAE9,#BCCEFB,#8EA6BF,#1100A7,#BCCEFB,#F5DAE9,#FF6403); background-size: 400% 400%; animation: gradMove 12s ease infinite; padding: 3.5rem 2.5rem 3rem; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; border-bottom: 1px solid #2a2927; }
+    @keyframes gradMove { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    .hero-gradient { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(0,0,0,.35) 0%, rgba(0,0,0,.05) 45%, rgba(0,0,0,.5) 100%); }
     .hero-logo { position: relative; z-index: 1; display: block; width: 100%; max-width: 860px; }
     .hero-logo img { width: 100%; height: auto; display: block; filter: brightness(0) invert(1); }
-
-    .hero-bottom {
-      position: relative; z-index: 1;
-      display: grid; grid-template-columns: 1fr auto;
-      align-items: end; gap: 3rem; margin-top: 4rem;
-    }
+    .hero-bottom { position: relative; z-index: 1; margin-top: 4rem; }
     .hero-tagline { font-size: max(1.604vw, 1rem); font-weight: 300; line-height: 1.65; color: rgba(255,255,255,.55); max-width: 520px; margin-bottom: 1.5rem; }
-    .hero-cta {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem 1.4rem; background: var(--white); color: var(--black);
-      font-family: inherit; font-size: .75rem; font-weight: 500;
-      letter-spacing: .05em; text-transform: uppercase;
-      text-decoration: none; border-radius: 100px; transition: opacity .2s;
-    }
+    .hero-cta { display: inline-flex; align-items: center; gap: .5rem; padding: .6rem 1.4rem; background: var(--white); color: var(--black); font-family: inherit; font-size: .75rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; text-decoration: none; border-radius: 100px; transition: opacity .2s; }
     .hero-cta:hover { opacity: .85; }
 
-
-    /* ── 3 DOMANDE ───────────────────────────────────────────── */
-    .domande { border-bottom: 1px solid var(--lgray); }
-    .domanda {
-      padding: 4rem 2.5rem;
-      border-bottom: 1px solid var(--lgray);
-      display: grid; grid-template-columns: 1fr auto;
-      gap: 3rem; align-items: end;
-      transition: background .25s;
-    }
-    .domanda:last-child { border-bottom: none; }
-    .domanda:hover { background: var(--off); }
-    .domanda-n { font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 1rem; }
-    .domanda-q { font-size: max(3.61vw, 1.8rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.05; margin-bottom: 1rem; }
-    .domanda-a { font-size: max(1.203vw, .95rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); max-width: 600px; }
-    .btn-outline {
-      display: inline-flex; align-items: center; gap: .5rem; flex-shrink: 0;
-      padding: .6rem 1.4rem; border: 1.5px solid var(--black); border-radius: 100px;
-      font-family: inherit; font-size: .72rem; font-weight: 500;
-      letter-spacing: .05em; text-transform: uppercase;
-      text-decoration: none; color: var(--black);
-      transition: background .2s, color .2s;
-    }
+    /* BOTTONI GLOBALI */
+    .btn-outline { display: inline-flex; align-items: center; gap: .5rem; flex-shrink: 0; padding: .6rem 1.4rem; border: 1.5px solid var(--black); border-radius: 100px; font-family: inherit; font-size: .72rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; text-decoration: none; color: var(--black); transition: background .2s, color .2s; }
     .btn-outline:hover { background: var(--black); color: var(--white); }
+    .btn-fill { display: inline-flex; align-items: center; gap: .5rem; padding: .65rem 1.4rem; background: var(--black); color: var(--white); font-family: inherit; font-size: .75rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; text-decoration: none; border-radius: 100px; transition: opacity .2s; }
+    .btn-fill:hover { opacity: .8; }
+    .overline { font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 1rem; }
+    .section-label { font-size: .68rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: .4; display: block; margin-bottom: 1rem; }
 
-    /* ── BRAND STATEMENT ─────────────────────────────────────── */
-    .statement {
-      display: grid; grid-template-columns: 1fr 1fr;
-      border-bottom: 1px solid var(--lgray);
-    }
-    .statement-left { padding: 5rem 2.5rem; border-right: 1px solid var(--lgray); }
-    .statement-right { padding: 5rem 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; }
-    .statement-left p {
-      font-size: max(4.813vw, 2rem);
-      font-weight: 500; letter-spacing: -.04em; line-height: 1;
-    }
-    .statement-right p {
-      font-size: max(1.604vw, 1rem);
-      font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6);
-    }
+    /* BLOCCO 1 — SLIDER */
+    .slider { position: relative; overflow: hidden; border-bottom: 1px solid var(--lgray); }
+    .slides-wrap { display: flex; transition: transform .7s cubic-bezier(.16,1,.3,1); }
+    .slide { min-width: 100%; padding: 5rem 2.5rem; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: end; }
+    .slide-n { font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 1.2rem; }
+    .slide-q { font-size: max(3.4vw, 1.7rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.05; margin-bottom: 1rem; }
+    .slide-a { font-size: max(1.2vw, .95rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); max-width: 580px; }
+    .slider-footer { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2.5rem; border-top: 1px solid var(--lgray); }
+    .slider-dots { display: flex; gap: .6rem; align-items: center; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lgray); cursor: pointer; transition: background .25s, transform .25s; border: none; padding: 0; }
+    .dot.active { background: var(--black); transform: scale(1.2); }
+    .slider-progress { font-size: .65rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
 
-    /* ── INFINITE SCROLL ─────────────────────────────────────── */
-    .iscroll { overflow: hidden; padding: .35em 0; }
+    /* BLOCCO 2 — INTRO + LOGHI */
+    .intro { border-bottom: 1px solid var(--lgray); }
+    .intro-text { padding: 5rem 2.5rem 4rem; }
+    .intro-text p { font-size: max(2.6vw, 1.3rem); font-weight: 300; line-height: 1.55; max-width: 860px; letter-spacing: -.02em; }
+    .loghi-row { display: flex; align-items: center; border-top: 1px solid var(--lgray); }
+    .logo-client { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2.2rem 1rem; border-right: 1px solid var(--lgray); opacity: .3; filter: grayscale(1); transition: opacity .25s; cursor: pointer; }
+    .logo-client:last-child { border-right: none; }
+    .logo-client:hover { opacity: .65; }
+    .logo-client span { font-size: .75rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--black); }
+
+    /* BLOCCO 3 — FASCIA SCORREVOLE */
+    .iscroll { overflow: hidden; padding: .3em 0; }
     .iscroll-dark { background: var(--black); }
-    .iscroll-light { background: var(--off); border-top: 1px solid var(--lgray); border-bottom: 1px solid var(--lgray); }
-    .iscroll-track {
-      display: flex; white-space: nowrap; align-items: center;
-      width: max-content; will-change: transform;
-    }
-    .iscroll-track.fwd  { animation: mq 28s linear infinite; }
-    .iscroll-track.bwd  { animation: mq 32s linear infinite reverse; }
-    .iscroll-item-lg { font-size: max(22.286vw, 5.375rem); font-weight: 500; line-height: .9; letter-spacing: -.04em; padding: 0 .35em; flex-shrink: 0; }
-    .iscroll-item-sm { font-size: max(6.417vw, 2.5rem); font-weight: 500; line-height: .9; letter-spacing: -.04em; padding: 0 .5em; flex-shrink: 0; }
-    .iscroll-dark .iscroll-item-lg, .iscroll-dark .iscroll-item-sm { color: var(--white); }
-    .iscroll-light .iscroll-item-sm { color: var(--black); }
-    .iscroll-sep-lg { font-size: max(22.286vw, 5.375rem); line-height: .9; flex-shrink: 0; }
-    .iscroll-sep-sm { font-size: max(6.417vw, 2.5rem); line-height: .9; flex-shrink: 0; }
-    .iscroll-dark .iscroll-sep-lg, .iscroll-dark .iscroll-sep-sm { color: rgba(255,255,255,.2); }
-    .iscroll-light .iscroll-sep-sm { color: rgba(26,25,24,.2); }
-    @keyframes mq { from{transform:translateX(0)}to{transform:translateX(-50%)} }
+    .iscroll-track { display: flex; white-space: nowrap; align-items: center; width: max-content; will-change: transform; }
+    .iscroll-track.fwd { animation: mq 36s linear infinite; }
+    .iscroll-item { font-size: max(3.8vw, 1.8rem); font-weight: 500; line-height: 1; letter-spacing: -.02em; padding: 0 .6em; flex-shrink: 0; color: var(--white); }
+    .iscroll-sep { font-size: max(3.8vw, 1.8rem); line-height: 1; flex-shrink: 0; color: rgba(255,255,255,.2); padding: 0 .1em; }
+    @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
     .iscroll:hover .iscroll-track { animation-play-state: paused; }
 
-    /* ── COME LAVORIAMO ──────────────────────────────────────── */
-    .come { border-bottom: 1px solid var(--lgray); }
-    .come-head {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
-    }
-    .come-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; }
-    .come-grid { display: grid; grid-template-columns: 1fr 1fr; }
-    .come-col { padding: 3rem 2.5rem; border-right: 1px solid var(--lgray); border-bottom: 1px solid var(--lgray); }
-    .come-col:nth-child(even) { border-right: none; }
-    .come-col:last-child, .come-col:nth-last-child(2):nth-child(odd) { border-bottom: none; }
-    .come-col h3 { font-size: max(2.139vw, 1.2rem); font-weight: 500; letter-spacing: -.03em; margin-bottom: .8rem; }
-    .come-col p { font-size: max(1.203vw, .9rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); }
-    .come-process {
-      padding: 3rem 2.5rem;
-      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-      border-top: 1px solid var(--lgray);
-    }
-    .process-step { font-size: max(1.604vw, .95rem); font-weight: 500; letter-spacing: -.02em; }
-    .process-arrow { color: var(--gray); font-size: 1.2rem; }
+    /* BLOCCO 4 — CI OCCUPIAMO DI */
+    .servizi { border-bottom: 1px solid var(--lgray); }
+    .servizi-head { padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray); }
+    .servizi-head h2 { font-size: max(6.4vw, 2.5rem); font-weight: 600; letter-spacing: -.04em; }
+    .servizi-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .servizio-row { display: flex; align-items: center; gap: 1.5rem; padding: 1.2rem 2.5rem; border-bottom: 1px solid var(--lgray); border-right: 1px solid var(--lgray); transition: background .2s, padding-left .25s; }
+    .servizi-grid .servizio-row:nth-child(even) { border-right: none; }
+    .servizi-grid .servizio-row:nth-last-child(1),
+    .servizi-grid .servizio-row:nth-last-child(2) { border-bottom: none; }
+    .servizio-row:hover { background: var(--off); padding-left: 3.2rem; }
+    .srv-n { font-size: .62rem; font-weight: 500; letter-spacing: .08em; color: var(--gray); min-width: 2.5rem; }
+    .srv-name { font-size: max(1.4vw, .95rem); font-weight: 400; letter-spacing: -.01em; }
 
-    /* ── MANIFESTO ───────────────────────────────────────────── */
-    .manifesto {
-      background: linear-gradient(135deg, #ffffff 0%, #F5DAE9 50%, #BCCEFB 100%);
-      color: var(--black);
-      position: relative; overflow: hidden;
-      border-bottom: 1px solid var(--lgray);
-    }
-    .manifesto-head {
-      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
-      position: relative; z-index: 1;
-      display: flex; justify-content: space-between; align-items: flex-end;
-    }
-    .manifesto-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; }
-    .manifesto-list {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      position: relative; z-index: 1;
-    }
-    .manifesto-item {
-      padding: 2.5rem 2rem;
-      border-right: 1px solid rgba(26,25,24,.1);
-      border-bottom: 1px solid rgba(26,25,24,.1);
-      transition: background .25s;
-    }
-    .manifesto-item:nth-child(4n) { border-right: none; }
-    .manifesto-item:hover { background: rgba(255,255,255,.4); }
-    .m-n { font-size: 2.5rem; font-weight: 500; letter-spacing: -.05em; color: rgba(26,25,24,.15); line-height: 1; margin-bottom: 1rem; display: block; transition: color .25s; }
-    .manifesto-item:hover .m-n { color: rgba(26,25,24,.4); }
-    .m-title { font-size: max(1.604vw, 1rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
-    .btn-white {
-      flex-shrink: 0;
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem 1.4rem; border: 1.5px solid rgba(26,25,24,.35); border-radius: 100px;
-      font-family: inherit; font-size: .72rem; font-weight: 500;
-      letter-spacing: .05em; text-transform: uppercase;
-      text-decoration: none; color: var(--black); transition: background .2s, color .2s;
-    }
-    .btn-white:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    /* BLOCCO 5 — MANIFESTO */
+    .manifesto { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--lgray); min-height: 80vh; }
+    .manifesto-left { border-right: 1px solid var(--lgray); display: flex; flex-direction: column; }
+    .manifesto-head { padding: 3.5rem 2.5rem 2.5rem; border-bottom: 1px solid var(--lgray); }
+    .manifesto-head h2 { font-size: max(6.4vw, 2.5rem); font-weight: 600; letter-spacing: -.04em; margin-bottom: .5rem; }
+    .manifesto-head p { font-size: max(1.2vw, .9rem); font-weight: 300; color: rgba(26,25,24,.5); }
+    .manifesto-list { flex: 1; }
+    .mng-item { display: flex; align-items: baseline; gap: 1.5rem; padding: 1.3rem 2.5rem; border-bottom: 1px solid var(--lgray); cursor: pointer; opacity: .28; transition: opacity .3s, background .2s; }
+    .mng-item:last-child { border-bottom: none; }
+    .mng-item.active { opacity: 1; background: var(--off); }
+    .mng-item:hover { opacity: .65; }
+    .mng-item.active:hover { opacity: 1; }
+    .mng-n { font-size: .65rem; font-weight: 500; letter-spacing: .08em; color: var(--gray); min-width: 2rem; }
+    .mng-title { font-size: max(1.8vw, 1rem); font-weight: 500; letter-spacing: -.02em; }
+    .manifesto-foot { padding: 2rem 2.5rem; border-top: 1px solid var(--lgray); }
+    .manifesto-right { position: relative; background: var(--off); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .mng-panel { position: absolute; inset: 0; opacity: 0; transition: opacity .45s; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 3rem; }
+    .mng-panel.active { opacity: 1; }
+    .mng-panel-num { font-size: max(22vw, 6rem); font-weight: 600; letter-spacing: -.06em; color: var(--lgray); line-height: .85; user-select: none; }
+    .mng-panel-label { font-size: max(1.4vw, .95rem); font-weight: 300; letter-spacing: -.01em; color: var(--gray); margin-top: 1.5rem; text-align: center; }
 
-    /* ── PROGETTI ────────────────────────────────────────────── */
-    .progetti { border-top: 1px solid var(--lgray); }
-    .progetti-head {
-      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
-      display: flex; justify-content: space-between; align-items: flex-end;
-    }
-    .progetti-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; line-height: 1; max-width: 600px; }
+    /* BLOCCO 6 — PROGETTI */
+    .progetti { border-bottom: 1px solid var(--lgray); }
+    .progetti-head { padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray); }
+    .progetti-head h2 { font-size: max(6.4vw, 2.5rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: .8rem; }
+    .progetti-head .subtext { font-size: max(1.2vw, .95rem); font-weight: 300; color: rgba(26,25,24,.6); max-width: 600px; }
     .progetti-grid { display: grid; grid-template-columns: 1fr 1fr; }
-    .progetto {
-      padding: 2.5rem 2.5rem;
-      border-right: 1px solid var(--lgray);
-      border-bottom: 1px solid var(--lgray);
-      transition: background .25s;
-    }
+    .progetto { display: block; text-decoration: none; color: var(--black); border-right: 1px solid var(--lgray); border-bottom: 1px solid var(--lgray); transition: background .25s; }
     .progetto:nth-child(even) { border-right: none; }
     .progetto:hover { background: var(--off); }
-    .progetto-tag { font-size: .65rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: .6rem; }
-    .progetto-title { font-size: max(2.139vw, 1.2rem); font-weight: 500; letter-spacing: -.02em; margin-bottom: .4rem; }
-    .progetto-desc { font-size: max(1.203vw, .88rem); font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.6); }
+    .progetto-img { aspect-ratio: 16/9; background: var(--lgray); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .progetto-img span { font-size: .62rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: rgba(26,25,24,.3); }
+    .progetto-body { padding: 1.5rem 2rem 2rem; }
+    .progetto-tag { font-size: .62rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: .5rem; }
+    .progetto-title { font-size: max(1.8vw, 1.1rem); font-weight: 500; letter-spacing: -.02em; margin-bottom: .4rem; }
+    .progetto-desc { font-size: max(1.1vw, .85rem); font-weight: 300; line-height: 1.6; color: rgba(26,25,24,.6); }
 
-    /* ── SETTORI ─────────────────────────────────────────────── */
-    .settori { border-top: 1px solid var(--lgray); position: relative; overflow: hidden; }
-    .settori::before {
-      content: '';
-      position: absolute; width: 500px; height: 500px; border-radius: 50%;
-      background: var(--p); filter: blur(120px); opacity: .4;
-      top: -80px; right: -60px; pointer-events: none;
-    }
-    .settori-head {
-      padding: 4rem 2.5rem 3rem; border-bottom: 1px solid var(--lgray);
-      position: relative; z-index: 1;
-      display: flex; justify-content: space-between; align-items: baseline;
-    }
-    .settori-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; }
-    .count { font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); }
-    .settore-row {
-      display: flex; align-items: center;
-      padding: 1.2rem 2.5rem; border-bottom: 1px solid var(--lgray);
-      transition: background .2s, padding-left .25s;
-      position: relative; z-index: 1;
-    }
-    .settore-row:hover { background: var(--off); padding-left: 3.2rem; }
-    .s-n { font-size: .65rem; font-weight: 500; letter-spacing: .08em; color: var(--gray); min-width: 3.5rem; }
-    .s-name { font-size: max(2.139vw, 1.1rem); font-weight: 500; letter-spacing: -.02em; flex: 1; }
-    .s-arr { font-size: .9rem; color: var(--gray); opacity: 0; transition: opacity .2s; }
-    .settore-row:hover .s-arr { opacity: 1; }
+    /* BLOCCO 7 — ATELIER */
+    .atelier { background: #e0ddd8; padding: 6rem 2.5rem; border-bottom: 1px solid #ccc; }
+    .atelier-head { margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 3rem; }
+    .atelier-head-text p { font-size: max(2vw, 1.1rem); font-weight: 300; line-height: 1.6; max-width: 640px; margin-top: .8rem; color: rgba(26,25,24,.7); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 180px; gap: .6rem; margin-top: 2rem; }
+    .gi { position: relative; overflow: hidden; border-radius: 2px; background: rgba(0,0,0,.12); cursor: pointer; display: flex; align-items: flex-end; padding: 1rem; transition: background .2s; }
+    .gi:hover { background: rgba(0,0,0,.22); }
+    .gi-label { font-size: .62rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: rgba(0,0,0,.3); transition: color .2s; }
+    .gi:hover .gi-label { color: rgba(0,0,0,.65); }
+    .gi.c5 { grid-column: span 5; } .gi.c4 { grid-column: span 4; }
+    .gi.c3 { grid-column: span 3; } .gi.c6 { grid-column: span 6; }
+    .gi.r2 { grid-row: span 2; }
 
-    /* ── CLIENTI ─────────────────────────────────────────────── */
-    .clienti {
-      border-top: 1px solid var(--lgray);
-      padding: 4rem 2.5rem;
-      background: var(--off);
-    }
-    .clienti-head { margin-bottom: 3rem; }
-    .clienti-head h2 { font-size: max(6.417vw, 2.5rem); font-weight: 500; letter-spacing: -.04em; margin-bottom: .8rem; }
-    .clienti-head p { font-size: max(1.203vw, .9rem); font-weight: 300; line-height: 1.7; color: rgba(26,25,24,.6); max-width: 600px; }
-    .loghi-grid {
-      display: grid; grid-template-columns: repeat(6, 1fr);
-      gap: 1px; background: var(--lgray); margin-top: 1rem;
-    }
-    .logo-placeholder {
-      background: var(--off); aspect-ratio: 2/1;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .7rem; font-weight: 500; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--gray);
-      transition: background .2s;
-    }
-    .logo-placeholder:hover { background: var(--white); }
+    /* BLOCCO 8 — SETTORI STICKY */
+    .settori-scroll { border-top: 1px solid var(--lgray); }
+    .settori-scroll-head { padding: 4rem 2.5rem; border-bottom: 1px solid var(--lgray); }
+    .settori-scroll-head h2 { font-size: max(6.4vw, 2.5rem); font-weight: 600; letter-spacing: -.04em; }
+    .settore-sticky { height: 100vh; position: sticky; top: 0; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--lgray); }
+    .settore-sticky:nth-child(odd)  { background: var(--white); }
+    .settore-sticky:nth-child(even) { background: var(--off); }
+    .settore-sticky-inner { text-align: center; }
+    .settore-sticky .s-num { font-size: .68rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 1.2rem; }
+    .settore-sticky .s-name { font-size: max(7vw, 2.2rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; }
 
-    /* ── CTA FINALE ──────────────────────────────────────────── */
-    .cta-final {
-      border-top: 1px solid var(--lgray);
-      display: grid; grid-template-columns: 1fr 1fr;
-      position: relative; overflow: hidden;
-    }
-    .cta-final::after {
-      content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%;
-      background: var(--lb); filter: blur(120px); opacity: .35;
-      bottom: -100px; right: -80px; pointer-events: none;
-    }
-    .cta-left { padding: 5rem 2.5rem; border-right: 1px solid var(--lgray); position: relative; z-index: 1; }
-    .cta-left h2 { font-size: max(11.143vw, 3.5rem); font-weight: 500; letter-spacing: -.05em; line-height: .88; }
-    .cta-left h2 em { font-style: italic; font-weight: 400; }
-    .cta-right { padding: 5rem 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem; position: relative; z-index: 1; }
-    .cta-email { font-size: max(2.807vw, 1.3rem); font-weight: 300; text-decoration: none; color: var(--black); transition: opacity .2s; }
-    .cta-email:hover { opacity: .5; }
-    .btn-fill {
-      display: inline-flex; align-items: center; gap: .5rem; align-self: flex-start;
-      padding: .65rem 1.4rem; background: var(--black); color: var(--white);
-      font-family: inherit; font-size: .75rem; font-weight: 500;
-      letter-spacing: .05em; text-transform: uppercase;
-      text-decoration: none; border-radius: 100px; transition: opacity .2s;
-    }
-    .btn-fill:hover { opacity: .8; }
+    /* CTA FINALE */
+    .cta-fullscreen { min-height: 100vh; background: var(--black); color: var(--white); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2.5rem; position: relative; overflow: hidden; }
+    .cta-fullscreen::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,100,3,.18) 0%, transparent 50%, rgba(17,0,167,.22) 100%); pointer-events: none; }
+    .cta-fullscreen h2 { font-size: max(8vw, 3rem); font-weight: 600; letter-spacing: -.04em; line-height: 1; margin-bottom: 2.5rem; position: relative; z-index: 1; }
+    .cta-fullscreen h2 em { font-style: italic; font-weight: 300; }
+    .cta-fullscreen .cta-email { font-size: max(2vw, 1.1rem); font-weight: 300; color: rgba(255,255,255,.45); text-decoration: none; display: block; margin-bottom: 2.5rem; transition: color .2s; position: relative; z-index: 1; }
+    .cta-fullscreen .cta-email:hover { color: var(--white); }
+    .btn-white-fill { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 2rem; background: var(--white); color: var(--black); font-family: inherit; font-size: .8rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; border-radius: 100px; transition: opacity .2s; position: relative; z-index: 1; }
+    .btn-white-fill:hover { opacity: .85; }
 
-    /* ── FOOTER ──────────────────────────────────────────────── */
+    /* FOOTER */
     footer { background: var(--black); color: var(--white); padding: 3.5rem 2.5rem 2.5rem; border-top: 1px solid #222; }
     .footer-inner { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: start; margin-bottom: 3rem; }
-    .footer-logo img { height: 36px; width: auto; display: block; margin-bottom: 1rem; }
-    .footer-tagline { font-size: max(1.203vw, .85rem); font-weight: 300; color: rgba(255,255,255,.4); line-height: 1.6; max-width: 300px; }
+    .footer-logo img { height: 32px; width: auto; display: block; margin-bottom: 1rem; filter: brightness(0) invert(1); }
+    .footer-tagline { font-size: max(1.2vw, .85rem); font-weight: 300; color: rgba(255,255,255,.4); line-height: 1.6; max-width: 300px; }
     .footer-r { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; }
     .footer-r a { font-size: .8rem; color: rgba(255,255,255,.4); text-decoration: none; font-weight: 300; line-height: 2; transition: color .2s; }
     .footer-r a:hover { color: var(--white); }
     .footer-bottom { display: flex; justify-content: space-between; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.1); font-size: .65rem; color: rgba(255,255,255,.2); }
 
-    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    /* RESPONSIVE */
     @media (max-width: 768px) {
-      .hero { padding: 3rem 1.5rem 2.5rem; }
-      .hero-bottom, .statement, .come-grid, .progetti-grid, .cta-final { grid-template-columns: 1fr; }
-      .hero-nav, .btn-fixed { display: none; }
-      .statement-left { border-right: none; border-bottom: 1px solid var(--lgray); }
-      .cta-left { border-right: none; border-bottom: 1px solid var(--lgray); }
-      .domanda { grid-template-columns: 1fr; gap: 1.5rem; }
-      .manifesto-list { grid-template-columns: 1fr 1fr; }
-      .manifesto-item:nth-child(2n) { border-right: none; }
-      .loghi-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero, .intro-text, .servizi-head, .progetti-head, .atelier, .settori-scroll-head { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .slide { grid-template-columns: 1fr; gap: 1.5rem; padding: 3rem 1.5rem; }
+      .manifesto { grid-template-columns: 1fr; }
+      .manifesto-right { display: none; }
+      .servizi-grid, .progetti-grid { grid-template-columns: 1fr; }
+      .servizio-row { border-right: none; }
+      .progetto { border-right: none; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gi { grid-column: span 1 !important; grid-row: span 1 !important; }
       .footer-inner { grid-template-columns: 1fr; }
       .footer-r { align-items: flex-start; }
       .footer-bottom { flex-direction: column; gap: .3rem; }
+      .atelier-head { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -367,230 +218,231 @@
     </nav>
   </header>
 
-  <!-- ── HERO SCURO ─────────────────────────────────────────────── -->
+  <!-- HERO -->
   <section class="hero" id="top">
     <div class="hero-gradient"></div>
-
-    <a href="#" class="hero-logo">
-      <img src="logo-white.png" alt="Goodcom">
-    </a>
-
+    <a href="#" class="hero-logo"><img src="logo-white.png" alt="Goodcom"></a>
     <div class="hero-bottom">
-      <div>
-        <p class="hero-tagline">
-          In GoodCom siamo esperti nella ricerca di soluzioni strategiche e nella narrazione di storie di sostenibilità. Usiamo la comunicazione per orientare i brand verso il futuro.
-        </p>
-        <a href="#contatti" class="hero-cta">Scopri di più →</a>
-      </div>
+      <p class="hero-tagline">In GoodCom siamo esperti nella ricerca di soluzioni strategiche e nella narrazione di storie di sostenibilità. Usiamo la comunicazione per orientare i brand verso il futuro.</p>
+      <a href="#contatti" class="hero-cta">Scopri di più →</a>
     </div>
   </section>
 
-  <!-- ── 3 DOMANDE ─────────────────────────────────────────────── -->
-  <section class="domande">
-    <div class="domanda">
-      <div>
-        <span class="domanda-n">01</span>
-        <h2 class="domanda-q">La sostenibilità è un tema strategico per il tuo brand?</h2>
-        <p class="domanda-a">La risposta a questa domanda è il cuore della narrazione strategica più creativa, originale e strutturata che possiamo costruire e declinare insieme.</p>
+  <!-- BLOCCO 1: SLIDER -->
+  <section class="slider">
+    <div class="slides-wrap" id="slidesWrap">
+
+      <div class="slide">
+        <div>
+          <span class="slide-n">01</span>
+          <h2 class="slide-q">La sostenibilità è un tema strategico per il tuo brand? <em style="font-style:italic;font-weight:300">Se sì, Perché?</em></h2>
+          <p class="slide-a">La risposta a queste domande è il cuore della narrazione strategica più creativa, originale e strutturata che possiamo costruire e declinare insieme.</p>
+        </div>
+        <a href="#contatti" class="btn-outline">Contattaci →</a>
       </div>
-      <a href="#contatti" class="btn-outline">Contattaci →</a>
+
+      <div class="slide">
+        <div>
+          <span class="slide-n">02</span>
+          <h2 class="slide-q">Sei un brand orientato alla sostenibilità ma non sai come valorizzare correttamente questo approccio?</h2>
+          <p class="slide-a">Proviamo a trovare insieme una risposta a questa domanda con l'obiettivo di valorizzare con buon senso e creatività il tuo impegno.</p>
+        </div>
+        <a href="#contatti" class="btn-outline">Contattaci →</a>
+      </div>
+
+      <div class="slide">
+        <div>
+          <span class="slide-n">03</span>
+          <h2 class="slide-q">Vuoi realizzare un progetto creativo che comunichi concretamente i tuoi valori ESG?</h2>
+          <p class="slide-a">Ti aiutiamo a valorizzare il tuo impatto positivo con progetti di comunicazione values-based, rivolti a diversi tipi di stakeholder.</p>
+        </div>
+        <a href="#contatti" class="btn-outline">Contattaci →</a>
+      </div>
+
     </div>
-    <div class="domanda">
-      <div>
-        <span class="domanda-n">02</span>
-        <h2 class="domanda-q">Sei un brand orientato alla sostenibilità ma non sai come valorizzare questo approccio?</h2>
-        <p class="domanda-a">Proviamo a trovare insieme una risposta a questa domanda con l'obiettivo di valorizzare con buon senso e creatività il tuo impegno.</p>
+    <div class="slider-footer">
+      <div class="slider-dots">
+        <button class="dot active" data-idx="0"></button>
+        <button class="dot" data-idx="1"></button>
+        <button class="dot" data-idx="2"></button>
       </div>
-      <a href="#contatti" class="btn-outline">Contattaci →</a>
-    </div>
-    <div class="domanda">
-      <div>
-        <span class="domanda-n">03</span>
-        <h2 class="domanda-q">Vuoi realizzare un progetto creativo che comunichi i tuoi valori ESG?</h2>
-        <p class="domanda-a">Ti aiutiamo a valorizzare il tuo impatto positivo con progetti di comunicazione values-based, rivolti a diversi tipi di stakeholder.</p>
-      </div>
-      <a href="#contatti" class="btn-outline">Contattaci →</a>
+      <span class="slider-progress" id="sliderProgress">01 / 03</span>
     </div>
   </section>
 
-  <!-- ── BANDA SCORREVOLE 1 (grande, scuro) ────────────────────── -->
+  <!-- BLOCCO 2: FRASE + LOGHI -->
+  <section class="intro">
+    <div class="intro-text">
+      <p>In GoodCom siamo esperti nella ricerca di soluzioni strategiche e nella narrazione di storie di sostenibilità.<br>Usiamo la comunicazione per orientare i brand verso il futuro.</p>
+    </div>
+    <div class="loghi-row">
+      <div class="logo-client"><span>Cliente 01</span></div>
+      <div class="logo-client"><span>Cliente 02</span></div>
+      <div class="logo-client"><span>Cliente 03</span></div>
+      <div class="logo-client"><span>Cliente 04</span></div>
+      <div class="logo-client"><span>Cliente 05</span></div>
+      <div class="logo-client"><span>Cliente 06</span></div>
+    </div>
+  </section>
+
+  <!-- BLOCCO 3: FASCIA SCORREVOLE -->
   <div class="iscroll iscroll-dark">
     <div class="iscroll-track fwd">
-      <span class="iscroll-item-lg">Sostenibile</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Strategica</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Alternativa</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Efficace</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Autentica</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Sostenibile</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Strategica</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Alternativa</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Efficace</span><span class="iscroll-sep-lg">·</span>
-      <span class="iscroll-item-lg">Autentica</span><span class="iscroll-sep-lg">·</span>
+      <span class="iscroll-item">Comunicazione</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Sostenibile</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Strategica</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Alternativa</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Efficace</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Accessibile</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Rigenerativa</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Viva</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Autentica</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Creativa</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Comunicazione</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Sostenibile</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Strategica</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Alternativa</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Efficace</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Accessibile</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Rigenerativa</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Viva</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Autentica</span><span class="iscroll-sep"> — </span>
+      <span class="iscroll-item">Creativa</span><span class="iscroll-sep"> — </span>
     </div>
   </div>
 
-  <!-- ── COME LAVORIAMO ─────────────────────────────────────────── -->
-  <section class="come" id="metodo">
-    <div class="come-head">
-      <h2>Il nostro modo di lavorare</h2>
-      <a href="#contatti" class="btn-outline">Approfondisci →</a>
+  <!-- BLOCCO 4: CI OCCUPIAMO DI -->
+  <section class="servizi" id="metodo">
+    <div class="servizi-head">
+      <h2>Ci occupiamo di</h2>
     </div>
-    <div class="come-grid">
-      <div class="come-col">
-        <h3>Integrazione</h3>
-        <p>Integriamo diversi ambiti di competenza per offrire una visione completa e soluzioni coerenti con gli obiettivi del cliente.</p>
-      </div>
-      <div class="come-col">
-        <h3>Ottimizzazione</h3>
-        <p>Ottimizziamo costi e tempi, valutiamo le azioni relative ai processi e alle disclosure fornendo le soluzioni più vantaggiose.</p>
-      </div>
-      <div class="come-col">
-        <h3>Valorizzazione</h3>
-        <p>Abbiamo tutti gli strumenti per valorizzare i risultati rispetto alle diverse finalità: campagne, progetti di attivazione, eventi.</p>
-      </div>
-      <div class="come-col">
-        <h3>Long-term</h3>
-        <p>Forniamo strumenti che funzionano a lungo termine, costruendo valore duraturo per il brand e i suoi stakeholder.</p>
-      </div>
-    </div>
-    <div class="come-process">
-      <span class="process-step">Assessment</span>
-      <span class="process-arrow">›</span>
-      <span class="process-step">Narrazione Strategica</span>
-      <span class="process-arrow">›</span>
-      <span class="process-step">Coinvolgimento</span>
-      <span class="process-arrow">›</span>
-      <span class="process-step">Attivazione</span>
+    <div class="servizi-grid">
+      <div class="servizio-row"><span class="srv-n">01</span><span class="srv-name">Creatività Strategica</span></div>
+      <div class="servizio-row"><span class="srv-n">02</span><span class="srv-name">Crescita Umanizzata</span></div>
+      <div class="servizio-row"><span class="srv-n">03</span><span class="srv-name">Immaginazione Alternativa</span></div>
+      <div class="servizio-row"><span class="srv-n">04</span><span class="srv-name">Design Efficace</span></div>
+      <div class="servizio-row"><span class="srv-n">05</span><span class="srv-name">Significato Accessibile</span></div>
+      <div class="servizio-row"><span class="srv-n">06</span><span class="srv-name">Valori Intangibili</span></div>
+      <div class="servizio-row"><span class="srv-n">07</span><span class="srv-name">Bellezza Rigenerativa</span></div>
+      <div class="servizio-row"><span class="srv-n">08</span><span class="srv-name">Esperienza Viva</span></div>
+      <div class="servizio-row"><span class="srv-n">09</span><span class="srv-name">Relazione Autentica</span></div>
+      <div class="servizio-row"><span class="srv-n">10</span><span class="srv-name">Impatti Creativi</span></div>
     </div>
   </section>
 
-  <!-- ── BANDA SCORREVOLE 2 (media, chiaro, direzione inversa) ─── -->
-  <div class="iscroll iscroll-light">
-    <div class="iscroll-track bwd">
-      <span class="iscroll-item-sm">Creatività Strategica</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Crescita Umanizzata</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Immaginazione Alternativa</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Design Efficace</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Significato Accessibile</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Valori Intangibili</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Bellezza Rigenerativa</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Relazione Autentica</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Creatività Strategica</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Crescita Umanizzata</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Immaginazione Alternativa</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Design Efficace</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Significato Accessibile</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Valori Intangibili</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Bellezza Rigenerativa</span><span class="iscroll-sep-sm">·</span>
-      <span class="iscroll-item-sm">Relazione Autentica</span><span class="iscroll-sep-sm">·</span>
+  <!-- BLOCCO 5: MANIFESTO -->
+  <section class="manifesto" id="manifesto">
+    <div class="manifesto-left">
+      <div class="manifesto-head">
+        <h2>Il nostro manifesto</h2>
+        <p>La nostra visione in 7 momenti</p>
+      </div>
+      <div class="manifesto-list" id="manifesto-list">
+        <div class="mng-item active" data-idx="0"><span class="mng-n">01</span><span class="mng-title">Crescita umanizzata</span></div>
+        <div class="mng-item" data-idx="1"><span class="mng-n">02</span><span class="mng-title">Microinnovazione</span></div>
+        <div class="mng-item" data-idx="2"><span class="mng-n">03</span><span class="mng-title">Semplificazione della complessità</span></div>
+        <div class="mng-item" data-idx="3"><span class="mng-n">04</span><span class="mng-title">Economia civile</span></div>
+        <div class="mng-item" data-idx="4"><span class="mng-n">05</span><span class="mng-title">Impatto</span></div>
+        <div class="mng-item" data-idx="5"><span class="mng-n">06</span><span class="mng-title">Pensiero Critico per l'AI</span></div>
+        <div class="mng-item" data-idx="6"><span class="mng-n">07</span><span class="mng-title">Bellezza</span></div>
+      </div>
+      <div class="manifesto-foot">
+        <a href="#" class="btn-fill">About →</a>
+      </div>
     </div>
-  </div>
-
-  <!-- ── MANIFESTO ──────────────────────────────────────────────── -->
-  <section class="manifesto">
-    <div class="manifesto-head">
-      <h2>Il nostro manifesto</h2>
-      <a href="#" class="btn-white">Scoprilo →</a>
-    </div>
-    <div class="manifesto-list">
-      <div class="manifesto-item"><span class="m-n">01</span><h3 class="m-title">Crescita umanizzata</h3></div>
-      <div class="manifesto-item"><span class="m-n">02</span><h3 class="m-title">Microinnovazione</h3></div>
-      <div class="manifesto-item"><span class="m-n">03</span><h3 class="m-title">Semplificazione della complessità</h3></div>
-      <div class="manifesto-item"><span class="m-n">04</span><h3 class="m-title">Economia civile</h3></div>
-      <div class="manifesto-item"><span class="m-n">05</span><h3 class="m-title">Impatto</h3></div>
-      <div class="manifesto-item"><span class="m-n">06</span><h3 class="m-title">Pensiero Critico per l'AI</h3></div>
-      <div class="manifesto-item"><span class="m-n">07</span><h3 class="m-title">Bellezza</h3></div>
+    <div class="manifesto-right" id="manifesto-right">
+      <div class="mng-panel active" data-panel="0"><div class="mng-panel-num">01</div><div class="mng-panel-label">Crescita umanizzata</div></div>
+      <div class="mng-panel" data-panel="1"><div class="mng-panel-num">02</div><div class="mng-panel-label">Microinnovazione</div></div>
+      <div class="mng-panel" data-panel="2"><div class="mng-panel-num">03</div><div class="mng-panel-label">Semplificazione della complessità</div></div>
+      <div class="mng-panel" data-panel="3"><div class="mng-panel-num">04</div><div class="mng-panel-label">Economia civile</div></div>
+      <div class="mng-panel" data-panel="4"><div class="mng-panel-num">05</div><div class="mng-panel-label">Impatto</div></div>
+      <div class="mng-panel" data-panel="5"><div class="mng-panel-num">06</div><div class="mng-panel-label">Pensiero Critico per l'AI</div></div>
+      <div class="mng-panel" data-panel="6"><div class="mng-panel-num">07</div><div class="mng-panel-label">Bellezza</div></div>
     </div>
   </section>
 
-  <!-- ── PROGETTI ───────────────────────────────────────────────── -->
+  <!-- BLOCCO 6: PROGETTI -->
   <section class="progetti" id="progetti">
     <div class="progetti-head">
-      <h2>Da cosa nasce cosa.<br>I nostri progetti.</h2>
-      <a href="#" class="btn-outline">Tutti i lavori →</a>
+      <span class="overline">I nostri progetti</span>
+      <h2>Da cosa nasce cosa<br>nasce cosa.</h2>
+      <p class="subtext">Facciamo un tipo di comunicazione che integra competenze e genera cambiamento. Ecco i nostri progetti:</p>
     </div>
     <div class="progetti-grid">
-      <div class="progetto">
-        <span class="progetto-tag">Trasparenza · Green Claim</span>
-        <h3 class="progetto-title">Empowering Consumers</h3>
-        <p class="progetto-desc">Un audit per la trasparenza dei Green Claim.</p>
-      </div>
-      <div class="progetto">
-        <span class="progetto-tag">Innovazione</span>
-        <h3 class="progetto-title">Microinnovazione</h3>
-        <p class="progetto-desc">Pensare in grande e portarlo nel piccolo.</p>
-      </div>
-      <div class="progetto">
-        <span class="progetto-tag">Organizzazione</span>
-        <h3 class="progetto-title">Flower</h3>
-        <p class="progetto-desc">Attivare nuove energie nella tua organizzazione.</p>
-      </div>
-      <div class="progetto">
-        <span class="progetto-tag">Circolarità · Eventi</span>
-        <h3 class="progetto-title">Second Life</h3>
-        <p class="progetto-desc">Rigenerazione di materiali fieristici ed eventi.</p>
-      </div>
-      <div class="progetto">
-        <span class="progetto-tag">ESG · Report</span>
-        <h3 class="progetto-title">Impatto e Report</h3>
-        <p class="progetto-desc">Comunicare efficacemente la rendicontazione ESG.</p>
-      </div>
-      <div class="progetto">
-        <span class="progetto-tag">Accessibilità</span>
-        <h3 class="progetto-title">Open</h3>
-        <p class="progetto-desc">Abbattere le barriere anche nella comunicazione.</p>
-      </div>
-      <div class="progetto">
-        <span class="progetto-tag">Horeca · ESG</span>
-        <h3 class="progetto-title">Shostainable</h3>
-        <p class="progetto-desc">Un progetto ESG per il settore HORECA.</p>
-      </div>
+      <a href="#" class="progetto">
+        <div class="progetto-img"><span>Immagine progetto</span></div>
+        <div class="progetto-body"><span class="progetto-tag">Trasparenza · Green Claim</span><h3 class="progetto-title">Empowering Consumers</h3><p class="progetto-desc">Un audit per la trasparenza dei Green Claim.</p></div>
+      </a>
+      <a href="#" class="progetto">
+        <div class="progetto-img"><span>Immagine progetto</span></div>
+        <div class="progetto-body"><span class="progetto-tag">Innovazione</span><h3 class="progetto-title">Microinnovazione</h3><p class="progetto-desc">Pensare in grande e portarlo nel piccolo.</p></div>
+      </a>
+      <a href="#" class="progetto">
+        <div class="progetto-img"><span>Immagine progetto</span></div>
+        <div class="progetto-body"><span class="progetto-tag">Organizzazione</span><h3 class="progetto-title">Flower</h3><p class="progetto-desc">Attivare nuove energie nella tua organizzazione.</p></div>
+      </a>
+      <a href="#" class="progetto">
+        <div class="progetto-img"><span>Immagine progetto</span></div>
+        <div class="progetto-body"><span class="progetto-tag">Circolarità · Eventi</span><h3 class="progetto-title">Second Life</h3><p class="progetto-desc">Rigenerazione di materiali fieristici ed eventi.</p></div>
+      </a>
+      <a href="#" class="progetto">
+        <div class="progetto-img"><span>Immagine progetto</span></div>
+        <div class="progetto-body"><span class="progetto-tag">ESG · Report</span><h3 class="progetto-title">Impatto e Report</h3><p class="progetto-desc">Comunicare efficacemente la rendicontazione ESG.</p></div>
+      </a>
+      <a href="#" class="progetto">
+        <div class="progetto-img"><span>Immagine progetto</span></div>
+        <div class="progetto-body"><span class="progetto-tag">Accessibilità</span><h3 class="progetto-title">Open</h3><p class="progetto-desc">Abbattere le barriere anche nella comunicazione.</p></div>
+      </a>
+      <a href="#" class="progetto">
+        <div class="progetto-img"><span>Immagine progetto</span></div>
+        <div class="progetto-body"><span class="progetto-tag">Horeca · ESG</span><h3 class="progetto-title">Shostainable</h3><p class="progetto-desc">Un progetto ESG per il settore HORECA.</p></div>
+      </a>
     </div>
   </section>
 
-  <!-- ── SETTORI ────────────────────────────────────────────────── -->
-  <section class="settori" id="settori">
-    <div class="settori-head">
-      <h2>Settori di esperienza</h2>
-      <span class="count">07 settori</span>
+  <!-- BLOCCO 7: ATELIER -->
+  <section class="atelier" id="atelier">
+    <div class="atelier-head">
+      <div class="atelier-head-text">
+        <span class="section-label">Atelier — Lavori selezionati</span>
+        <p>Creiamo progetti di comunicazione values-based rivolti a diversi tipi di stakeholder: pubblico, collaboratori, investitori e media.</p>
+      </div>
+      <a href="#" class="btn-outline">Tutti i lavori →</a>
     </div>
-    <div class="settore-row"><span class="s-n">01</span><span class="s-name">Economia Circolare</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">02</span><span class="s-name">Terzo Settore Non Profit</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">03</span><span class="s-name">Innovazione Sociale</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">04</span><span class="s-name">Consorzi e Reti d'Impresa</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">05</span><span class="s-name">Ingegneria e Industria</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">06</span><span class="s-name">Turismo e Horeca</span><span class="s-arr">→</span></div>
-    <div class="settore-row"><span class="s-n">07</span><span class="s-name">Filiera Moda &amp; Calzaturiero</span><span class="s-arr">→</span></div>
-  </section>
-
-  <!-- ── CLIENTI ────────────────────────────────────────────────── -->
-  <section class="clienti">
-    <div class="clienti-head">
-      <h2>I nostri clienti</h2>
-      <p>I nostri clienti apprezzano la nostra competenza in materia di sostenibilità unita a idee creative. Riusciamo sempre a coniugare la logica della strategia con la magia dello storytelling.</p>
-    </div>
-    <div class="loghi-grid">
-      <div class="logo-placeholder">Cliente 01</div>
-      <div class="logo-placeholder">Cliente 02</div>
-      <div class="logo-placeholder">Cliente 03</div>
-      <div class="logo-placeholder">Cliente 04</div>
-      <div class="logo-placeholder">Cliente 05</div>
-      <div class="logo-placeholder">Cliente 06</div>
+    <div class="gallery-grid">
+      <div class="gi c5 r2"><span class="gi-label">Campagna 01</span></div>
+      <div class="gi c4"><span class="gi-label">Evento 02</span></div>
+      <div class="gi c3"><span class="gi-label">03</span></div>
+      <div class="gi c4"><span class="gi-label">Progetto 04</span></div>
+      <div class="gi c3"><span class="gi-label">05</span></div>
+      <div class="gi c6"><span class="gi-label">Attivazione 06</span></div>
+      <div class="gi c3"><span class="gi-label">07</span></div>
+      <div class="gi c3"><span class="gi-label">08</span></div>
     </div>
   </section>
 
-  <!-- ── CTA FINALE ─────────────────────────────────────────────── -->
-  <section class="cta-final" id="contatti">
-    <div class="cta-left">
-      <h2>Siamo a una<br>e-mail di<br><em>distanza.</em></h2>
+  <!-- BLOCCO 8: SETTORI STICKY -->
+  <section class="settori-scroll" id="settori">
+    <div class="settori-scroll-head">
+      <h2>Settori in cui abbiamo più esperienza</h2>
     </div>
-    <div class="cta-right">
-      <a href="mailto:info@goodcom.it" class="cta-email">info@goodcom.it</a>
-      <a href="mailto:info@goodcom.it" class="btn-fill">Nuovo progetto →</a>
-    </div>
+    <div class="settore-sticky"><div class="settore-sticky-inner"><span class="s-num">01</span><div class="s-name">Economia Circolare</div></div></div>
+    <div class="settore-sticky"><div class="settore-sticky-inner"><span class="s-num">02</span><div class="s-name">Terzo Settore Non Profit</div></div></div>
+    <div class="settore-sticky"><div class="settore-sticky-inner"><span class="s-num">03</span><div class="s-name">Innovazione Sociale</div></div></div>
+    <div class="settore-sticky"><div class="settore-sticky-inner"><span class="s-num">04</span><div class="s-name">Consorzi e Reti d'Impresa</div></div></div>
+    <div class="settore-sticky"><div class="settore-sticky-inner"><span class="s-num">05</span><div class="s-name">Ingegneria e Industria</div></div></div>
+    <div class="settore-sticky"><div class="settore-sticky-inner"><span class="s-num">06</span><div class="s-name">Turismo e Horeca</div></div></div>
+    <div class="settore-sticky"><div class="settore-sticky-inner"><span class="s-num">07</span><div class="s-name">Filiera Moda &amp; Calzaturiero</div></div></div>
   </section>
 
-  <!-- ── FOOTER ─────────────────────────────────────────────────── -->
+  <!-- FINALE: CTA -->
+  <section class="cta-fullscreen" id="contatti">
+    <h2>Siamo a un'email<br>di <em>distanza.</em></h2>
+    <a href="mailto:info@goodcom.it" class="cta-email">info@goodcom.it</a>
+    <a href="mailto:info@goodcom.it" class="btn-white-fill">Nuovo progetto →</a>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
       <div>
@@ -613,23 +465,49 @@
   </footer>
 
   <script>
+    /* CURSORE */
     const dot=document.getElementById('cur-dot'), ring=document.getElementById('cur-ring');
     let mx=0,my=0,rx=0,ry=0;
     document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
     (function raf(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
-    document.querySelectorAll('a,.domanda,.come-col,.progetto,.manifesto-item,.settore-row,.logo-placeholder').forEach(el=>{
+    document.querySelectorAll('a,button,.mng-item,.progetto,.gi,.logo-client,.servizio-row,.settore-sticky').forEach(el=>{
       el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
       el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
     });
-    document.querySelectorAll('.hero,.iscroll-dark,footer').forEach(el=>{
+    document.querySelectorAll('.hero,.iscroll-dark,.cta-fullscreen,footer').forEach(el=>{
       el.addEventListener('mouseenter',()=>document.body.classList.add('cd'));
       el.addEventListener('mouseleave',()=>document.body.classList.remove('cd'));
     });
-    /* Header: trasparente sull'hero, solid dopo */
-    const siteHeader = document.getElementById('site-header');
+
+    /* HEADER */
+    const siteHeader=document.getElementById('site-header');
     new IntersectionObserver(([e])=>{
-      siteHeader.classList.toggle('scrolled', !e.isIntersecting);
+      siteHeader.classList.toggle('scrolled',!e.isIntersecting);
     },{threshold:0.05}).observe(document.getElementById('top'));
+
+    /* SLIDER */
+    const wrap=document.getElementById('slidesWrap');
+    const dots=document.querySelectorAll('.dot');
+    const prog=document.getElementById('sliderProgress');
+    let cur=0, tot=dots.length, timer;
+    function goTo(i){
+      cur=(i+tot)%tot;
+      wrap.style.transform=`translateX(-${cur*100}%)`;
+      dots.forEach((d,j)=>d.classList.toggle('active',j===cur));
+      prog.textContent=String(cur+1).padStart(2,'0')+' / '+String(tot).padStart(2,'0');
+    }
+    function play(){ timer=setInterval(()=>goTo(cur+1),6000); }
+    dots.forEach(d=>d.addEventListener('click',()=>{ clearInterval(timer); goTo(+d.dataset.idx); play(); }));
+    play();
+
+    /* MANIFESTO HOVER */
+    const mngItems=document.querySelectorAll('.mng-item');
+    const mngPanels=document.querySelectorAll('.mng-panel');
+    function activateMng(i){
+      mngItems.forEach((it,j)=>it.classList.toggle('active',j===i));
+      mngPanels.forEach((p,j)=>p.classList.toggle('active',j===i));
+    }
+    mngItems.forEach((item,i)=>item.addEventListener('mouseenter',()=>activateMng(i)));
   </script>
 
 </body>
